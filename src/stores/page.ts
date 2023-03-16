@@ -11,6 +11,12 @@ export const usePageStore = defineStore("page", {
                 timestamp: now.valueOf(),
                 format: moment(now).format('YYYY-MM-DD HH:mm:ss'),
                 now: now
+            },
+            number: {
+                decimal: "",
+                octal: "",
+                hexadecimal: "",
+                binary: ""
             }
         }
     },
@@ -21,6 +27,12 @@ export const usePageStore = defineStore("page", {
             this.date.timestamp = date.valueOf()
             this.date.format = moment(date).format('YYYY-MM-DD HH:mm:ss')
             this.date.now = date
+        },
+        numberChange(number: number) {
+            this.number.decimal = number.toString() || '0'
+            this.number.octal = number.toString(8) || '0'
+            this.number.hexadecimal = number.toString(16).toUpperCase() || '0'
+            this.number.binary = number.toString(2) || '0'
         }
     },
 })
