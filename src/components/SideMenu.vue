@@ -14,30 +14,15 @@ function onSearchKeyChange() {
 </script>
 
 <template>
-  <el-aside
-    class="dev-toys-aside"
-    :class="settings.showAside ? '' : 'dev-toys-aside-hide'"
-  >
+  <el-aside class="dev-toys-aside" :class="settings.showAside ? '' : 'dev-toys-aside-hide'">
     <el-scrollbar>
-      <el-input
-        v-model="search.searchKey"
-        @input="onSearchKeyChange"
-        size="small"
-        placeholder="搜索"
-        :prefix-icon="Search"
-      />
-      <el-menu
-        :default-openeds="menuActive"
-        :default-active="currentRoute.meta.key"
-      >
+      <el-input v-model="search.searchKey" clearable @input="onSearchKeyChange" size="small" placeholder="搜索"
+        :prefix-icon="Search" />
+      <el-menu :default-openeds="menuActive" :default-active="currentRoute.meta.key">
         <template v-for="menu in menus" :key="menu.key">
           <el-sub-menu v-if="menu.children" :index="menu.key">
             <template #title> {{ menu.name }} </template>
-            <el-menu-item
-              v-for="item in menu.children"
-              :key="item.key"
-              :index="item.key"
-            >
+            <el-menu-item v-for="item in menu.children" :key="item.key" :index="item.key">
               <router-link :to="'/' + item.key">{{ item.name }}</router-link>
             </el-menu-item>
           </el-sub-menu>
@@ -54,28 +39,33 @@ function onSearchKeyChange() {
   width: 200px !important;
   transition: width 0.5s;
 
-  & > .el-scrollbar {
+  &>.el-scrollbar {
     margin-top: 40px;
     height: calc(100% - 40px);
   }
+
   &.dev-toys-aside-hide {
     width: 0px !important;
   }
+
   .el-input {
     margin: 5px 10px;
     width: calc(100% - 20px);
   }
+
   .el-menu {
     border: 0;
   }
+
   .el-menu-item {
     height: 34px;
-    color: white;
+    // color: white;
     border-radius: 4px;
     margin: 0 5px;
   }
+
   .el-menu-item.is-active {
-    background-color: #2c66b5;
+    background-color: var(--el-menu-hover-bg-color);
   }
 }
 </style>
@@ -88,10 +78,19 @@ function onSearchKeyChange() {
     color: var(--el-text-color-secondary);
     height: 28px;
   }
+
   a {
     width: 100%;
-    color: unset !important;
+    color: black !important;
     text-decoration: unset;
+  }
+}
+
+html.dark {
+  .dev-toys-aside {
+    a {
+      color: white !important;
+    }
   }
 }
 </style>

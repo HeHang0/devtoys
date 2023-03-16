@@ -30,13 +30,13 @@ function onTimestampChange() {
       <el-button type="primary" plain @click="toNow">Now</el-button>
     </el-form-item>
     <el-form-item label="Unix 时间戳">
-      <el-input v-model="page.date.unix" @input="onUnixChange"/>
+      <el-input v-model="page.date.unix" type="number" @input="onUnixChange"/>
     </el-form-item>
     <el-form-item label="ISO 8601">
       <el-input v-model="page.date.iso" />
     </el-form-item>
     <el-form-item label="Timestamp">
-      <el-input v-model="page.date.timestamp" @input="onTimestampChange"/>
+      <el-input v-model="page.date.timestamp" type="number" @input="onTimestampChange"/>
     </el-form-item>
   </el-form>
 </template>

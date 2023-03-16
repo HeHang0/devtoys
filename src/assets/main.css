@@ -1,5 +1,15 @@
 @import './base.css';
 
+html>body {
+  background-color: var(--el-color-white);
+  color: var(--el-color-black);
+}
+
+html.dark>body {
+  background-color: var(--el-color-black);
+  color: var(--el-color-white);
+}
+
 /* #app {
   max-width: 1280px;
   margin: 0 auto;

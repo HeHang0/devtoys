@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { useSettingsStore } from "@/stores/settings";
 import { useRouter } from "vue-router";
-import { Operation } from "@element-plus/icons-vue";
+import { Operation, Sunny, Moon } from "@element-plus/icons-vue";
+import { useDark, useToggle } from "@vueuse/core";
+import { useSettingsStore } from "@/stores/settings";
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 const settings = useSettingsStore();
 const { currentRoute } = useRouter();
 </script>
 <template>
   <el-header
     class="dev-toys-header"
-    :class="settings.showAside ? '' : 'dev-toys-header-padding80'"
+    :class="settings.showAside ? '' : 'dev-toys-header-padding'"
   >
     <img src="/logo.png" class="dev-toys-header-logo"/>
     <el-button
@@ -16,6 +19,11 @@ const { currentRoute } = useRouter();
       class="dev-toys-header-fold"
       :icon="Operation"
       @click="settings.showAside = !settings.showAside"
+    />
+    <el-button
+      size="small"
+      class="dev-toys-header-fold" style="left: 80px"
+      :icon="isDark ? Sunny : Moon" @click="toggleDark()"
     />
     {{ currentRoute.name }}
   </el-header>
@@ -29,8 +37,8 @@ const { currentRoute } = useRouter();
   align-content: center;
   justify-content: flex-start;
   align-items: center;
-  &.dev-toys-header-padding80 {
-    padding-left: 100px;
+  &.dev-toys-header-padding {
+    padding-left: 140px;
   }
   .dev-toys-header-logo {
     width: 30px;

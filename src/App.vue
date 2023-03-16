@@ -2,11 +2,6 @@
 import { RouterLink, RouterView, useRouter } from "vue-router";
 import SideMenu from "./components/SideMenu.vue";
 import Header from "./components/Header.vue";
-import { useDark, useToggle } from "@vueuse/core";
-const isDark = useDark();
-isDark.value = false
-const toggleDark = useToggle(isDark);
-toggleDark();
 const { currentRoute } = useRouter();
 </script>
 
