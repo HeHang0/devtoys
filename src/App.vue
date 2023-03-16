@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from "vue-router";
+import { RouterView, useRouter } from "vue-router";
 import SideMenu from "./components/SideMenu.vue";
 import Header from "./components/Header.vue";
+import { useLanguageStore } from "@/stores/language";
 const { currentRoute } = useRouter();
+const language = useLanguageStore();
 </script>
 
 <template>
+  <el-config-provider :locale="language.locale">
   <el-container class="dev-toys-layout">
     <title>{{ currentRoute.name }} - DevToys</title>
     <SideMenu />
@@ -19,6 +22,7 @@ const { currentRoute } = useRouter();
       </el-main>
     </el-container>
   </el-container>
+  </el-config-provider>
 </template>
 
 <style scoped>
