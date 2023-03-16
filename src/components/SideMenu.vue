@@ -4,12 +4,14 @@ import { Search } from "@element-plus/icons-vue";
 import { menus } from "../stores/menu";
 import { useSettingsStore } from "../stores/settings";
 import { useSearchStore } from "../stores/search";
+import { useLanguageStore } from "../stores/language";
 const menuActive = menus.map((m) => m.key);
 const { currentRoute, replace } = useRouter();
 const settings = useSettingsStore();
 const search = useSearchStore();
+const { t } = useLanguageStore();
 function onSearchKeyChange() {
-  search.onSearchKeyChange(currentRoute, replace)
+  search.onSearchKeyChange(currentRoute, replace, t)
 }
 </script>
 
@@ -21,13 +23,13 @@ function onSearchKeyChange() {
       <el-menu :default-openeds="menuActive" :default-active="currentRoute.meta.key">
         <template v-for="menu in menus" :key="menu.key">
           <el-sub-menu v-if="menu.children" :index="menu.key">
-            <template #title> {{ menu.name }} </template>
+            <template #title> {{ t(menu.name) }} </template>
             <el-menu-item v-for="item in menu.children" :key="item.key" :index="item.key">
-              <router-link :to="'/' + item.key">{{ item.name }}</router-link>
+              <router-link :to="'/' + item.key">{{ t(item.name) }}</router-link>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item v-else :index="menu.key">
-            <router-link :to="'/' + menu.key">{{ menu.name }}</router-link>
+            <router-link :to="'/' + menu.key">{{ t(menu.name) }}</router-link>
           </el-menu-item>
         </template>
       </el-menu>

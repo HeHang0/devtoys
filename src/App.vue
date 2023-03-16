@@ -8,20 +8,20 @@ const language = useLanguageStore();
 </script>
 
 <template>
-  <el-config-provider :locale="language.locale">
-  <el-container class="dev-toys-layout">
-    <title>{{ currentRoute.name }} - DevToys</title>
-    <SideMenu />
+  <el-config-provider :locale="language.elementLocale">
+    <el-container class="dev-toys-layout">
+      <title>{{ language.t(currentRoute.name) }} - DevToys</title>
+      <SideMenu />
 
-    <el-container direction="vertical">
-      <Header />
-      <el-main>
-        <el-scrollbar>
-          <RouterView />
-        </el-scrollbar>
-      </el-main>
+      <el-container direction="vertical">
+        <Header />
+        <el-main>
+          <el-scrollbar>
+            <RouterView />
+          </el-scrollbar>
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
   </el-config-provider>
 </template>
 

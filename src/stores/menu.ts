@@ -1,165 +1,224 @@
 interface Menu {
     key: string
     name: string
+    longName?: string
+    desc?: string
     children?: Menu[]
     words?: string
 }
 const menus: Menu[] = [
     {
         key: "",
-        name: "首页",
+        name: "category.all",
+        longName: "tool.all.title"
     },
     {
         key: "convert",
-        name: "转换类",
+        name: "category.converters",
         children: [
             {
                 key: "json2yaml",
-                name: "JSON <> Yaml",
+                name: "tool.jsonyaml.mintitle",
+                longName: "tool.jsonyaml.title",
+                desc: "tool.jsonyaml.description"
             },
             {
                 key: "number",
-                name: "数字类型转换",
+                name: "tool.numbase.mintitle",
+                longName: "tool.numbase.title",
+                desc: "tool.numbase.description"
             },
             {
                 key: "date",
-                name: "日期",
+                name: "tool.date.mintitle",
+                longName: "tool.date.title",
+                desc: "tool.date.description"
             },
         ],
     },
     {
         key: "codec",
-        name: "编码解码类",
+        name: "category.encoders_decoders",
         children: [
             {
                 key: "html",
-                name: "HTML",
+                name: "tool.html.mintitle",
+                longName: "tool.html.title",
+                desc: "tool.html.description"
             },
             {
                 key: "url",
-                name: "URL",
+                name: "tool.url.mintitle",
+                longName: "tool.url.title",
+                desc: "tool.url.description"
             },
             {
                 key: "base64",
-                name: "Base64",
+                name: "tool.base64.mintitle",
+                longName: "tool.base64.title",
+                desc: "tool.base64.description"
             },
             {
                 key: "jwt",
-                name: "Jwt",
+                name: "tool.jwt.mintitle",
+                longName: "tool.jwt.title",
+                desc: "tool.jwt.description"
             },
         ],
     },
     {
         key: "format",
-        name: "格式类",
+        name: "category.formatters",
         children: [
             {
                 key: "json",
-                name: "JSON",
+                name: "tool.jsonformat.mintitle",
+                longName: "tool.jsonformat.title",
+                desc: "tool.jsonformat.description"
             },
             {
                 key: "xml",
-                name: "XML",
+                name: "tool.xmlformat.mintitle",
+                longName: "tool.xmlformat.title",
+                desc: "tool.xmlformat.description"
             },
             {
                 key: "sql",
-                name: "SQL Formatter",
+                name: "tool.sqlformat.mintitle",
+                longName: "tool.sqlformat.title",
+                desc: "tool.sqlformat.description"
             },
         ],
     },
     {
         key: "generate",
-        name: "生成类",
+        name: "category.generators",
         children: [
             {
                 key: "hash",
-                name: "Hash",
+                name: "tool.hashgen.mintitle",
+                longName: "tool.hashgen.title",
+                desc: "tool.hashgen.description"
             },
             {
                 key: "uuid",
-                name: "UUID",
+                name: "tool.uuidgen.mintitle",
+                longName: "tool.uuidgen.title",
+                desc: "tool.uuidgen.description"
             },
             {
-                key: "dummytext",
-                name: "哑元文本",
+                key: "ligen",
+                name: "tool.ligen.mintitle",
+                longName: "tool.ligen.title",
+                desc: "tool.ligen.description"
             },
             {
-                key: "check",
-                name: "校验测试器",
+                key: "checksum",
+                name: "tool.checksum.mintitle",
+                longName: "tool.checksum.title",
+                desc: "tool.checksum.description"
             },
             {
                 key: "qrcode",
-                name: "二维码生成",
+                name: "QR Code",
+                longName: "QR Code Generator",
+                desc: "Create a QR code from text"
             },
         ],
     },
     {
         key: "text",
-        name: "文本类",
+        name: "category.text",
         children: [
             {
                 key: "capitalization",
-                name: "检查 & 大小写转换器",
+                name: "tool.textinspect.mintitle",
+                longName: "tool.textinspect.title",
+                desc: "tool.textinspect.description"
             },
             {
                 key: "regex",
-                name: "正则表达式",
+                name: "tool.regex.mintitle",
+                longName: "tool.regex.title",
+                desc: "tool.regex.description"
             },
             {
                 key: "textdiff",
-                name: "文本对比",
+                name: "Text Diff",
+                longName: "Text Diff",
+                desc: "Compare two Text and display Diff"
             },
             {
                 key: "hyphen",
-                name: "连字符去除",
+                name: "tool.hyphenremove.mintitle",
+                longName: "tool.hyphenremove.title",
+                desc: "tool.hyphenremove.description"
             },
         ],
     },
     {
         key: "image",
-        name: "图像类",
+        name: "category.graphic",
         children: [
             {
-                key: "png",
-                name: "PNG / JPEG 压缩器",
+                key: "imageoptim",
+                name: "tool.imageoptim.mintitle",
+                longName: "tool.imageoptim.title",
+                desc: "tool.imageoptim.description"
             },
             {
                 key: "pdf",
-                name: "pdf生成器",
+                name: "tool.pdfgen.mintitle",
+                longName: "tool.pdfgen.title",
+                desc: "tool.pdfgen.description"
             },
             {
-                key: "format-conversion",
-                name: "格式转换",
+                key: "imageconvert",
+                name: "tool.imageconvert.mintitle",
+                longName: "tool.imageconvert.title",
+                desc: "tool.imageconvert.description"
             },
             {
                 key: "icon",
-                name: "ICON生成",
+                name: "Icon Generate",
+                longName: "Icon Generate",
+                desc: "Create a Icon from image"
             },
             {
                 key: "rqrcode",
-                name: "二维码读取",
+                name: "tool.rqrcode.mintitle",
+                longName: "tool.rqrcode.title",
+                desc: "tool.rqrcode.description"
             },
         ],
     },
     {
         key: "media",
-        name: "媒体类",
+        name: "category.media",
         children: [
             {
                 key: "color",
-                name: "颜色选择",
+                name: "Color Picker",
+                longName: "Color Picker ",
+                desc: "Picker the color and copy components"
             },
             {
                 key: "audio",
-                name: "音频转换",
+                name: "Audio Converter",
+                longName: "Audio Converter ",
+                desc: "Convert audio from one format to another"
             },
             {
                 key: "gif",
-                name: "Gif转换",
+                name: "Gif Converter",
+                longName: "Gif Converter ",
+                desc: "Convert a movie to an animated GIF file"
             },
             {
                 key: "setting",
-                name: "设置",
+                name: "Settings",
+                longName: "Settings",
+                desc: "Setting of application"
             },
         ],
     },
@@ -171,6 +230,8 @@ menus.map((m) => {
       allMenus.push({
         name: mc.name,
         key: mc.key,
+        longName: mc.longName,
+        desc: mc.desc,
         words: mc.name.toLowerCase() + m.key
       });
     });

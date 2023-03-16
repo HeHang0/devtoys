@@ -4,7 +4,7 @@ import { Operation, Sunny, Moon } from "@element-plus/icons-vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { useSettingsStore } from "@/stores/settings";
 import { Language, useLanguageStore } from "@/stores/language";
-import IconLanguage from '@/components/icons/IconLanguage.vue'
+import IconLanguage from "@/components/icons/IconLanguage.vue";
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 const settings = useSettingsStore();
@@ -12,12 +12,24 @@ const language = useLanguageStore();
 const { currentRoute } = useRouter();
 </script>
 <template>
-  <el-header class="dev-toys-header" :class="settings.showAside ? '' : 'dev-toys-header-padding'">
+  <el-header
+    class="dev-toys-header"
+    :class="settings.showAside ? '' : 'dev-toys-header-padding'"
+  >
     <img src="/logo.png" class="dev-toys-header-logo" />
-    <el-button size="small" class="dev-toys-header-fold" :icon="Operation"
-      @click="settings.showAside = !settings.showAside" />
-    <el-button size="small" class="dev-toys-header-fold" style="left: 76px" :icon="isDark ? Sunny : Moon"
-      @click="toggleDark()" />
+    <el-button
+      size="small"
+      class="dev-toys-header-fold"
+      :icon="Operation"
+      @click="settings.showAside = !settings.showAside"
+    />
+    <el-button
+      size="small"
+      class="dev-toys-header-fold"
+      style="left: 76px"
+      :icon="isDark ? Sunny : Moon"
+      @click="toggleDark()"
+    />
     <el-dropdown>
       <el-button size="small" class="dev-toys-header-fold" style="left: 126px">
         <i>
@@ -26,12 +38,16 @@ const { currentRoute } = useRouter();
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="language.changeLanguage(Language.ZhCN)">简体中文</el-dropdown-item>
-          <el-dropdown-item @click="language.changeLanguage(Language.EnUS)">English</el-dropdown-item>
+          <el-dropdown-item @click="language.changeLanguage(Language.ZhCN)"
+            >简体中文</el-dropdown-item
+          >
+          <el-dropdown-item @click="language.changeLanguage(Language.EnUS)"
+            >English</el-dropdown-item
+          >
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    {{ currentRoute.name }}
+    {{ language.t(currentRoute.name || "") }}
   </el-header>
 </template>
 <style lang="less" scoped>

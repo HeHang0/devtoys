@@ -12,7 +12,7 @@ export const useSearchStore = defineStore("search", {
         }
     },
     actions: {
-        onSearchKeyChange(currentRoute: Ref<RouteLocationNormalizedLoaded>, replace: any) {
+        onSearchKeyChange(currentRoute: Ref<RouteLocationNormalizedLoaded>, replace: any, t: any) {
             const currentPath = currentRoute.value.path
             if (currentPath != "/") {
                 routerPath = currentRoute.value
@@ -22,7 +22,7 @@ export const useSearchStore = defineStore("search", {
             if (this.searchKey) {
                 timeout = setTimeout(() => {
                     this.menus = allMenus.filter(
-                        m => m.words && m.words.includes(this.searchKey)
+                        m => `${t(m.name)}${t(m.longName)}${t(m.desc)}`.includes(this.searchKey)
                     );
                 }, 100)
             } else {
