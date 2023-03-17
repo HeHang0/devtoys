@@ -3,7 +3,6 @@ import jsyaml from "js-yaml";
 
 export const formatCode = (language: string, code: string): string => {
     if(!code) return code;
-    console.log("触发格式化")
     switch (language) {
         case "json":
             return JSON.stringify(JSON.parse(code), null, 4);

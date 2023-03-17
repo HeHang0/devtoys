@@ -4,8 +4,7 @@
   
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import jsyaml from "js-yaml";
-import { ref, onMounted, watch, getCurrentInstance, defineProps } from "vue";
+import { ref, onMounted, watch, getCurrentInstance } from "vue";
 import { formatCode } from "@/utils/formatter";
 
 interface Props {
@@ -22,6 +21,7 @@ const editorRef = ref<HTMLDivElement>();
 const { emit } = getCurrentInstance() as any;
 
 let editor: monaco.editor.IStandaloneCodeEditor;
+let lastPosition: monaco.Position | null = null
 
 onMounted(() => {
     editor = monaco.editor.create(editorRef.value!, {
@@ -31,6 +31,8 @@ onMounted(() => {
     });
 
     editor.onDidChangeModelContent(() => {
+        let pos = editor.getPosition();
+        if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
         emit("change", editor.getValue());
         emit("update:value", editor.getValue());
     });
@@ -63,9 +65,8 @@ watch(
     () => props.value,
     (newValue) => {
         if (editor && newValue != editor.getValue()) {
-            console.log("变了", props.language, newValue.length, editor.getValue().length)
             editor.setValue(newValue);
-            // editor.getAction("editor.action.formatDocument")?.run()
+            lastPosition && editor.setPosition(lastPosition);
         }
     }
 );

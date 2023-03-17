@@ -56,12 +56,16 @@ export const usePageStore = defineStore("page", {
             this.cron.result = result.join('\n')
         },
         jsonChange(value: string) {
-            this.json2yaml.json = value;
-            this.json2yaml.yaml = value ? formatCode('yaml', jsyaml.dump(JSON.parse(value))) : '';
+            try {
+                this.json2yaml.json = value;
+                this.json2yaml.yaml = value ? formatCode('yaml', jsyaml.dump(JSON.parse(value))) : '';
+            } catch { }
         },
         yamlChange(value: string) {
-            this.json2yaml.yaml = value;
-            this.json2yaml.json = value ? formatCode('json', JSON.stringify(jsyaml.load(value))) : '';
+            try {
+                this.json2yaml.yaml = value;
+                this.json2yaml.json = value ? formatCode('json', JSON.stringify(jsyaml.load(value))) : '';
+            } catch { }
         }
     },
 })
