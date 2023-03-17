@@ -41,7 +41,7 @@ export const language: Record<string, string> = {
     Default: "Default",
 
     // - Category -
-    "category.home": "Home",
+    "category.all": "Home",
     "category.converters": "Converters",
     "category.encoders_decoders": "Encoders / Decoders",
     "category.formatters": "Formatters",
@@ -51,9 +51,9 @@ export const language: Record<string, string> = {
     Media: "Media",
 
     // - Tool -
-    "tool.home.title": "Home",
-    "tool.home.mintitle": "Home",
-    "tool.home.description": "Search all tools here.",
+    "tool.all.title": "All Tools",
+    "tool.all.mintitle": "All Tools",
+    "tool.all.description": "Search all tools here.",
 
     "tool.jsonyaml.title": "JSON <> Yaml Converter",
     "tool.jsonyaml.mintitle": "JSON <> Yaml",
@@ -108,6 +108,10 @@ export const language: Record<string, string> = {
     "2 Spaces": "2 Spaces",
     "4 Spaces": "4 Spaces",
     "1 Tab": "1 Tab",
+
+    "tool.sqlformat.title": "SQL Formatter",
+    "tool.sqlformat.mintitle": "SQL",
+    "tool.sqlformat.description": "Indent or minify SQL data",
 
     "tool.xmlformat.title": "XML Formatter",
     "tool.xmlformat.mintitle": "XML",
@@ -218,6 +222,10 @@ export const language: Record<string, string> = {
     "Color Hex": "Color Hex",
     "Color Copy": "Color Copy",
     "Color Copy Type": "Type",
+
+    "tool.rqrcode.title": "QR Code Reader",
+    "tool.rqrcode.mintitle": "QR Code Reader",
+    "tool.rqrcode.description": "Read QR Code from image or device camera",
 
     "Gif Converter": "Gif Converter",
     "Convert a movie to an animated GIF file":

@@ -23,13 +23,13 @@ function onSearchKeyChange() {
       <el-menu :default-openeds="menuActive" :default-active="currentRoute.meta.key">
         <template v-for="menu in menus" :key="menu.key">
           <el-sub-menu v-if="menu.children" :index="menu.key">
-            <template #title> {{ t(menu.name) }} </template>
+            <template #title> <span :title="t(menu.name)">{{ t(menu.name) }}</span> </template>
             <el-menu-item v-for="item in menu.children" :key="item.key" :index="item.key">
-              <router-link :to="'/' + item.key">{{ t(item.name) }}</router-link>
+              <router-link :to="'/' + item.key"><span :title="t(item.name)">{{ t(item.name) }}</span></router-link>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item v-else :index="menu.key">
-            <router-link :to="'/' + menu.key">{{ t(menu.name) }}</router-link>
+            <router-link :to="'/' + menu.key"><span :title="t(menu.name)">{{ t(menu.name) }}</span></router-link>
           </el-menu-item>
         </template>
       </el-menu>
@@ -85,6 +85,10 @@ function onSearchKeyChange() {
     width: 100%;
     color: black !important;
     text-decoration: unset;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
