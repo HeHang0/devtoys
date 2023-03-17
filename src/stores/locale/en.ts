@@ -68,6 +68,10 @@ export const language: Record<string, string> = {
     Octal: "Octal",
     Binary: "Binary",
 
+    "tool.cron.title": "Cron Expression Parser",
+    "tool.cron.mintitle": "Cron Parser",
+    "tool.cron.description": "Parse Cron Expression to get scheduled dates",
+
     "tool.date.title": "Date Converter",
     "tool.date.mintitle": "Date",
     "tool.date.description": "Converts date from one format to another",

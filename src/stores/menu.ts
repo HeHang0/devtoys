@@ -34,6 +34,12 @@ const menus: Menu[] = [
                 longName: "tool.date.title",
                 desc: "tool.date.description"
             },
+            {
+                key: "cron",
+                name: "tool.cron.mintitle",
+                longName: "tool.cron.title",
+                desc: "tool.cron.description"
+            }
         ],
     },
     {

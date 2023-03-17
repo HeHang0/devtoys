@@ -56,6 +56,15 @@ export const language: Record<string, string> = {
     Octal: "八进制",
     Binary: "二进制",
 
+    "tool.cron.title": "Cron 表达式解析器",
+    "tool.cron.mintitle": "Cron 解析器",
+    "tool.cron.description": "解析Cron表达式以获取预定日期",
+    "Output Formatter": "输出格式",
+    "Cron Mode Contain Second(6 paragraphs)": "Cron 模式包括秒数（6段）",
+    "Number of Next Scheduled Dates": "下一个预定日期数量",
+    "Next Scheduled Dates": "下一个预定日期",
+    "Cron Expression to parse": "要解析的Cron表达式",
+
     "tool.date.title": "日期转换器",
     "tool.date.mintitle": "日期",
     "tool.date.description": "将日期从一种格式转换为另一种格式",
