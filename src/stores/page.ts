@@ -1,6 +1,8 @@
 import { defineStore } from "pinia"
 import moment from 'moment'
+import jsyaml from "js-yaml";
 import { parseExpression } from 'cron-parser'
+import { formatCode } from "@/utils/formatter";
 export const usePageStore = defineStore("page", {
     state: () => {
         const now = new Date()
@@ -24,6 +26,10 @@ export const usePageStore = defineStore("page", {
                 format: 'yyyy-MM-DD dddd HH:mm:ss',
                 expression: '* * * * * *',
                 result: ''
+            },
+            json2yaml: {
+                json: '',
+                yaml: ''
             }
         }
     },
@@ -48,6 +54,14 @@ export const usePageStore = defineStore("page", {
                 result.push(moment(res.next().getTime()).format(this.cron.format))
             }
             this.cron.result = result.join('\n')
+        },
+        jsonChange(value: string) {
+            this.json2yaml.json = value;
+            this.json2yaml.yaml = value ? formatCode('yaml', jsyaml.dump(JSON.parse(value))) : '';
+        },
+        yamlChange(value: string) {
+            this.json2yaml.yaml = value;
+            this.json2yaml.json = value ? formatCode('json', JSON.stringify(jsyaml.load(value))) : '';
         }
     },
 })
