@@ -5,6 +5,7 @@ interface Menu {
     desc?: string
     children?: Menu[]
     words?: string
+    page?: string
 }
 const menus: Menu[] = [
     {
@@ -80,19 +81,22 @@ const menus: Menu[] = [
                 key: "json",
                 name: "tool.jsonformat.mintitle",
                 longName: "tool.jsonformat.title",
-                desc: "tool.jsonformat.description"
+                desc: "tool.jsonformat.description",
+                page: "formatter"
             },
             {
                 key: "xml",
                 name: "tool.xmlformat.mintitle",
                 longName: "tool.xmlformat.title",
-                desc: "tool.xmlformat.description"
+                desc: "tool.xmlformat.description",
+                page: "formatter"
             },
             {
                 key: "sql",
                 name: "tool.sqlformat.mintitle",
                 longName: "tool.sqlformat.title",
-                desc: "tool.sqlformat.description"
+                desc: "tool.sqlformat.description",
+                page: "formatter"
             },
         ],
     },

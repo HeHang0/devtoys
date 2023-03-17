@@ -15,7 +15,7 @@ const language = useLanguageStore();
 
       <el-container direction="vertical">
         <Header />
-        <el-main>
+        <el-main class="dev-toys-main">
           <el-scrollbar>
             <RouterView />
           </el-scrollbar>
@@ -25,9 +25,22 @@ const language = useLanguageStore();
   </el-config-provider>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .dev-toys-layout {
   width: 100vw;
   height: 100vh;
+  background-color: var(--el-bg-color-page);
+  .el-main {
+    border-radius: 4px 0 0 0;
+    background-color: var(--el-fill-color-extra-light);
+    margin-left: 5px;
+  }
+}
+</style>
+
+<style lang="less">
+.dev-toys-main > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
+  position: relative;
+  min-height: 100%;
 }
 </style>

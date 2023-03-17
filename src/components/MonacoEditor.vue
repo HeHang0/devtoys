@@ -1,5 +1,5 @@
 <template>
-    <div ref="editorRef" class="dev-toys-monaco-editor"></div>
+    <div ref="editorRef" v-loading="loading" class="dev-toys-monaco-editor"></div>
 </template>
   
 <script setup lang="ts">
@@ -9,14 +9,15 @@ import { formatCode } from "@/utils/formatter";
 
 interface Props {
     value: string;
-    language: string;
+    language?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     value: '',
-    language: 'json'
+    language: 'text'
 })
 const editorRef = ref<HTMLDivElement>();
+const loading = ref(true);
 
 const { emit } = getCurrentInstance() as any;
 
@@ -29,11 +30,10 @@ onMounted(() => {
         wordWrap: "on",
         automaticLayout: true
     });
-
     editor.onDidChangeModelContent(() => {
         let pos = editor.getPosition();
         if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
-        emit("change", editor.getValue());
+        emit("changeValue", editor.getValue());
         emit("update:value", editor.getValue());
     });
 
@@ -54,26 +54,43 @@ onMounted(() => {
                         text: formatted,
                     };
                     editor.executeEdits("my-source", [edit]);
-                    emit("change", editor.getValue());
+                    emit("changeValue", editor.getValue());
                 }
             }
         },
     });
+    loading.value = false;
 });
 
 watch(
     () => props.value,
     (newValue) => {
-        if (editor && newValue != editor.getValue()) {
+        if(!editor) return;
+        if (newValue != editor.getValue()) {
             editor.setValue(newValue);
             lastPosition && editor.setPosition(lastPosition);
         }
     }
 );
+
+watch(
+    () => props.language,
+    (newValue) => {
+        if(!editor) return;
+        let model = editor.getModel()
+        console.log("当前语言", model?.getLanguageId(), newValue)
+        if (model && newValue != model.getLanguageId()) {
+            monaco.editor.setModelLanguage(model, newValue)
+        }
+    }
+);
 </script>
-<style scoped>
+<style lang="less">
 .dev-toys-monaco-editor {
     width: 100%;
     height: 100%;
+    .monaco-editor, .overflow-guard {
+        border-radius: 4px;;
+    }
 }
 </style>

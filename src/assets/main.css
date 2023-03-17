@@ -1,12 +1,12 @@
 @import './base.css';
 
 html>body {
-  background-color: var(--el-color-white);
+  /* background-color: var(--el-color-white); */
   color: var(--el-color-black);
 }
 
 html.dark>body {
-  background-color: var(--el-color-black);
+  /* background-color: var(--el-color-black); */
   color: var(--el-color-white);
 }
 

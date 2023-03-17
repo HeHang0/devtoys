@@ -8,9 +8,9 @@ export const language: Record<string, string> = {
     File: "文件",
     Text: "文本",
     Copy: "复制",
-    Paste: "黏贴",
+    Paste: "粘贴",
     "Copied!": "复制!",
-    "Pasted!": "黏贴!",
+    "Pasted!": "粘贴!",
     Open: "打开",
     Export: "导出",
     Import: "导入",
@@ -46,6 +46,8 @@ export const language: Record<string, string> = {
     "tool.jsonyaml.title": "JSON <> Yaml 转换器",
     "tool.jsonyaml.mintitle": "JSON <> Yaml",
     "tool.jsonyaml.description": "将json与yaml相互转换",
+
+    "Read from file": "从文件读取",
 
     "tool.numbase.title": "数字类型转换器",
     "tool.numbase.mintitle": "数字类型转换",
@@ -162,6 +164,9 @@ export const language: Record<string, string> = {
 
     "Text Diff": "文本对比",
     "Compare two Text and display Diff": "对比展示两个文本不同处",
+    "New Text": "旧文本",
+    "Old Text": "新文本",
+    "Difference": "差异",
 
     "tool.hyphenremove.title": "连字符号去除器",
     "tool.hyphenremove.mintitle": "连字符号",

@@ -9,7 +9,7 @@ menus.map(m => {
                 path: "/" + mc.key,
                 name: mc.name,
                 meta: { key: mc.key },
-                component: () => import(`../views/${mc.key}.vue`),
+                component: () => import(`../views/${mc.page || mc.key}.vue`),
             })
         })
     } else {

@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { Operation, Sunny, Moon } from "@element-plus/icons-vue";
-import { useDark, useToggle } from "@vueuse/core";
 import { useSettingsStore } from "@/stores/settings";
 import { Language, useLanguageStore } from "@/stores/language";
 import IconLanguage from "@/components/icons/IconLanguage.vue";
-const isDark = useDark();
-const toggleDark = useToggle(isDark);
 const settings = useSettingsStore();
 const language = useLanguageStore();
 const { currentRoute } = useRouter();
@@ -27,8 +24,8 @@ const { currentRoute } = useRouter();
       size="small"
       class="dev-toys-header-fold"
       style="left: 76px"
-      :icon="isDark ? Sunny : Moon"
-      @click="toggleDark()"
+      :icon="settings.isDark ? Sunny : Moon"
+      @click="settings.toggleDark"
     />
     <el-dropdown>
       <el-button size="small" class="dev-toys-header-fold" style="left: 126px">

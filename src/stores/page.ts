@@ -30,6 +30,13 @@ export const usePageStore = defineStore("page", {
             json2yaml: {
                 json: '',
                 yaml: ''
+            },
+            textdiff: {
+                originalValue: '',
+                modifiedValue: ''
+            },
+            formatter: {
+                text: ''
             }
         }
     },
@@ -66,6 +73,15 @@ export const usePageStore = defineStore("page", {
                 this.json2yaml.yaml = value;
                 this.json2yaml.json = value ? formatCode('json', JSON.stringify(jsyaml.load(value))) : '';
             } catch { }
+        },
+        originalValueChange(value: string) {
+            this.textdiff.originalValue = value;
+        },
+        modifiedValueChange(value: string) {
+            this.textdiff.modifiedValue = value;
+        },
+        formatterTextChange(value: string) {
+            this.formatter.text = value;
         }
     },
 })

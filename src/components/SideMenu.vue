@@ -11,25 +11,51 @@ const settings = useSettingsStore();
 const search = useSearchStore();
 const { t } = useLanguageStore();
 function onSearchKeyChange() {
-  search.onSearchKeyChange(currentRoute, replace, t)
+  search.onSearchKeyChange(currentRoute, replace, t);
 }
 </script>
 
 <template>
-  <el-aside class="dev-toys-aside" :class="settings.showAside ? '' : 'dev-toys-aside-hide'">
+  <el-aside
+    class="dev-toys-aside"
+    :class="settings.showAside ? '' : 'dev-toys-aside-hide'"
+  >
     <el-scrollbar>
-      <el-input v-model="search.searchKey" clearable @input="onSearchKeyChange" size="small" placeholder="搜索"
-        :prefix-icon="Search" />
-      <el-menu :default-openeds="menuActive" :default-active="currentRoute.meta.key">
+      <el-input
+        v-model="search.searchKey"
+        clearable
+        @input="onSearchKeyChange"
+        size="small"
+        placeholder="搜索"
+        :prefix-icon="Search"
+      />
+      <el-menu
+        :default-openeds="menuActive"
+        :default-active="currentRoute.meta.key"
+      >
         <template v-for="menu in menus" :key="menu.key">
           <el-sub-menu v-if="menu.children" :index="menu.key">
-            <template #title> <span :title="t(menu.name)">{{ t(menu.name) }}</span> </template>
-            <el-menu-item v-for="item in menu.children" :key="item.key" :index="item.key">
-              <router-link :to="'/' + item.key"><span :title="t(item.name)">{{ t(item.name) }}</span></router-link>
+            <template #title>
+              <span :title="t(menu.name)">{{ t(menu.name) }}</span>
+            </template>
+            <el-menu-item
+              v-for="item in menu.children"
+              :key="item.key"
+              :index="item.key"
+            >
+              <router-link :to="'/' + item.key"
+                ><span :title="t(item.name)">{{
+                  t(item.name)
+                }}</span></router-link
+              >
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item v-else :index="menu.key">
-            <router-link :to="'/' + menu.key"><span :title="t(menu.name)">{{ t(menu.name) }}</span></router-link>
+            <router-link :to="'/' + menu.key"
+              ><span :title="t(menu.name)">{{
+                t(menu.name)
+              }}</span></router-link
+            >
           </el-menu-item>
         </template>
       </el-menu>
@@ -41,7 +67,7 @@ function onSearchKeyChange() {
   width: 200px !important;
   transition: width 0.5s;
 
-  &>.el-scrollbar {
+  & > .el-scrollbar {
     margin-top: 40px;
     height: calc(100% - 40px);
   }
@@ -79,6 +105,10 @@ function onSearchKeyChange() {
     font-size: 12px;
     color: var(--el-text-color-secondary);
     height: 28px;
+  }
+
+  .el-menu {
+    background-color: transparent;
   }
 
   a {

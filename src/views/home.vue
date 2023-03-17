@@ -28,8 +28,10 @@ const language = useLanguageStore()
   .el-card {
     width: 150px;
     margin: 0 10px 10px 0;
-    border: 0;
+    border: 1px solid var(--el-border-color);
     height: 220px;
+    background-color: var(--el-bg-color);
+    box-shadow: none;
     .dev-toys-home-icon {
       width: 80px;
       height: 80px;
