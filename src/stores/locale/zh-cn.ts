@@ -36,20 +36,20 @@ export const language: Record<string, string> = {
     "category.generators": "生成类",
     "category.text": "文本类",
     "category.graphic": "图像类",
-    "category.media": "图像类",
+    "category.media": "媒体类",
 
     // - Tool -
     "tool.all.title": "所有工具",
     "tool.all.mintitle": "所有工具",
     "tool.all.description": "在这里搜索所有工具.",
 
-    "tool.jsonyaml.title": "JSON <> Yaml 转换器",
+    "tool.jsonyaml.title": "JSON <> Yaml 转换工具",
     "tool.jsonyaml.mintitle": "JSON <> Yaml",
     "tool.jsonyaml.description": "将json与yaml相互转换",
 
     "Read from file": "从文件读取",
 
-    "tool.numbase.title": "数字类型转换器",
+    "tool.numbase.title": "数字类型转换工具",
     "tool.numbase.mintitle": "数字类型转换",
     "tool.numbase.description": "将数字从一种类型转换为另一个类型",
     "Format Number": "格式化数字",
@@ -58,8 +58,8 @@ export const language: Record<string, string> = {
     Octal: "八进制",
     Binary: "二进制",
 
-    "tool.cron.title": "Cron 表达式解析器",
-    "tool.cron.mintitle": "Cron 解析器",
+    "tool.cron.title": "Cron 表达式解析工具",
+    "tool.cron.mintitle": "Cron 解析",
     "tool.cron.description": "解析Cron表达式以获取预定日期",
     "Output Formatter": "输出格式",
     "Cron Mode Contain Second(6 paragraphs)": "Cron 模式包括秒数（6段）",
@@ -67,7 +67,7 @@ export const language: Record<string, string> = {
     "Next Scheduled Dates": "下一个预定日期",
     "Cron Expression to parse": "要解析的Cron表达式",
 
-    "tool.date.title": "日期转换器",
+    "tool.date.title": "日期转换工具",
     "tool.date.mintitle": "日期",
     "tool.date.description": "将日期从一种格式转换为另一种格式",
     Now: "现在时间",
@@ -98,7 +98,7 @@ export const language: Record<string, string> = {
     Header: "头部",
     Payload: "负载",
 
-    "tool.jsonformat.title": "JSON 格式器",
+    "tool.jsonformat.title": "JSON 格式化工具",
     "tool.jsonformat.mintitle": "JSON",
     "tool.jsonformat.description": "缩进或压缩 json 数据",
     Indentation: "Indentation",
@@ -106,11 +106,11 @@ export const language: Record<string, string> = {
     "4 Spaces": "4 Spaces",
     "1 Tab": "1 Tab",
 
-    "tool.sqlformat.title": "SQL 格式器",
+    "tool.sqlformat.title": "SQL 格式化工具",
     "tool.sqlformat.mintitle": "SQL",
     "tool.sqlformat.description": "格式化 sql 语句",
 
-    "tool.xmlformat.title": "XML 格式器",
+    "tool.xmlformat.title": "XML 格式化工具",
     "tool.xmlformat.mintitle": "XML",
     "tool.xmlformat.description": "缩进或压缩 XML 数据",
     "HTML Document": "HTML 文档",
@@ -119,12 +119,12 @@ export const language: Record<string, string> = {
     "Auto Fix Document": "自动修复",
     "Pretty Document": "美化",
 
-    "tool.hashgen.title": "Hash 生成器",
+    "tool.hashgen.title": "Hash 生成工具",
     "tool.hashgen.mintitle": "Hash",
     "tool.hashgen.description":
         "从文本数据计算MD5, SHA1, SHA256和SHA 512哈希值",
 
-    "tool.uuidgen.title": "UUID 生成器",
+    "tool.uuidgen.title": "UUID 生成工具",
     "tool.uuidgen.mintitle": "UUID",
     "tool.uuidgen.description": "生成 UUIDs",
     "Generate UUIDs": "生成 UUIDs",
@@ -134,8 +134,8 @@ export const language: Record<string, string> = {
     Sentences: "句子",
     Paragraphs: "段落",
 
-    "tool.ligen.title": "哑元文本生成器",
-    "tool.ligen.mintitle": "哑元文本",
+    "tool.ligen.title": "乱数假文生成工具",
+    "tool.ligen.mintitle": "乱数假文",
     "tool.ligen.description": "生成Lorem Ipsum的占位符文本",
 
     "QR Code Generator": "二维码生成",
@@ -143,21 +143,21 @@ export const language: Record<string, string> = {
     "Correction Level": "Correction Level",
     "QR Code": "二维码",
 
-    "tool.checksum.title": "校验测试器",
+    "tool.checksum.title": "校验测试工具",
     "tool.checksum.mintitle": "校验测试",
     "tool.checksum.description": "生成或测试文件的校验和",
     "Output Comparer": "比较输出",
     "Hash Algorithm": "散列算法",
     "Select which algorithm you want to use": "选择要使用的算法",
 
-    "tool.textinspect.title": "文本检查 & 大小写转换器",
+    "tool.textinspect.title": "文本检查 & 大小写转换工具",
     "tool.textinspect.mintitle": "文本检查",
     "tool.textinspect.description": "分析文本并将其转换为不同的大小写",
     Charactors: "符号",
     Lines: "行数",
     Bytes: "字节数",
 
-    "tool.regex.title": "正则表达式测试器",
+    "tool.regex.title": "正则表达式测试工具",
     "tool.regex.mintitle": "正则表达式",
     "tool.regex.description": "测试正则表达式",
     "Reguler expression": "正则表达式",
@@ -168,20 +168,20 @@ export const language: Record<string, string> = {
     "Old Text": "新文本",
     "Difference": "差异",
 
-    "tool.hyphenremove.title": "连字符号去除器",
+    "tool.hyphenremove.title": "连字符号去除工具",
     "tool.hyphenremove.mintitle": "连字符号",
     "tool.hyphenremove.description": "删除从PDF文本复制的连字符",
 
-    "tool.imageoptim.title": "PNG / JPEG 压缩器",
+    "tool.imageoptim.title": "PNG / JPEG 压缩工具",
     "tool.imageoptim.mintitle": "PNG / JPEG 压缩",
-    "tool.imageoptim.description": "无损的PNG和JPEG压缩器",
+    "tool.imageoptim.description": "无损的PNG和JPEG压缩工具",
     "Optimize Level": "压缩级别",
     Low: "低",
     Medium: "中",
     High: "高",
     "Very High (Slow)": "优 (慢)",
 
-    "tool.pdfgen.title": "PDF 生成器",
+    "tool.pdfgen.title": "PDF 生成工具",
     "tool.pdfgen.mintitle": "PDF 生成",
     "tool.pdfgen.description": "从多个图像生成PDF",
     Images: "图像",
@@ -192,7 +192,7 @@ export const language: Record<string, string> = {
     "Icon Generate": "Icon生成",
     "Create a Icon from image": "将图像转换为Icon",
 
-    "tool.imageconvert.title": "Image 转换器",
+    "tool.imageconvert.title": "Image 转换工具",
     "tool.imageconvert.mintitle": "Image 转换",
     "tool.imageconvert.description": "转换或调整图像大小",
     "PNG Format": "PNG 格式",
@@ -211,16 +211,16 @@ export const language: Record<string, string> = {
     "tool.rqrcode.description": "从图片或摄像头读取二维码",
 
     "Color Picker": "颜色选择",
-    "Color Picker ": "颜色选择器",
+    "Color Picker ": "颜色选择工具",
     "Picker the color and copy components": "选择一种颜色并复制格式化的颜色",
 
     "Audio Converter": "音频转换",
-    "Audio Converter ": "音频转换器",
+    "Audio Converter ": "音频转换工具",
     "Convert audio from one format to another":
         "将音频从一种格式转换为另一种格式",
 
     "Gif Converter": "Gif 转换",
-    "Gif Converter ": "Gif 转换器",
+    "Gif Converter ": "Gif 转换工具",
     "Convert a movie to an animated GIF file": "将视频转换为动画 GIF 文件",
 
     Settings: "设置",

@@ -1,13 +1,25 @@
 @import './base.css';
 
 html>body {
-  /* background-color: var(--el-color-white); */
   color: var(--el-color-black);
 }
 
 html.dark>body {
-  /* background-color: var(--el-color-black); */
   color: var(--el-color-white);
+}
+
+@font-face {
+  /*自定义字体名*/
+  font-family: 'dev-toys';
+  /*路径*/
+  src: url('./icons/icons.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dev-toys-icon {
+  font-family: 'dev-toys';
+  font-style: normal;
 }
 
 /* #app {

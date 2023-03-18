@@ -8,7 +8,9 @@ const language = useLanguageStore()
 <template>
   <div class="dev-toys-home">
     <el-card v-for="menu in search.menus" :key="menu.key" body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-      <div class="dev-toys-home-icon"></div>
+      <div class="dev-toys-home-icon">
+        <i v-if="menu.icon" class="dev-toys-icon">{{ menu.icon }}</i>
+      </div>
       <div class="dev-toys-home-title">
         <span>{{ language.t(menu.longName || menu.name) }}</span>
       </div>
@@ -37,6 +39,12 @@ const language = useLanguageStore()
       height: 80px;
       background-color: var(--el-color-info-light-7);
       border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      i {
+        font-size: 30px;
+      }
     }
     &:hover {
       --el-card-bg-color: var(--el-color-info-light-9);
