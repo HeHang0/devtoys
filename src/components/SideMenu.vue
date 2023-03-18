@@ -5,36 +5,86 @@ import { menus } from "../stores/menu";
 import { useSettingsStore } from "../stores/settings";
 import { useSearchStore } from "../stores/search";
 import { useLanguageStore } from "../stores/language";
+import { nextTick, ref, watch } from "vue";
 const menuActive = menus.map((m) => m.key);
 const { currentRoute, replace } = useRouter();
 const settings = useSettingsStore();
 const search = useSearchStore();
 const { t } = useLanguageStore();
+const menuCollapse = ref(!settings.showAside);
+const menuRef = ref();
 function onSearchKeyChange() {
     search.onSearchKeyChange(currentRoute, replace, t);
 }
+function menuOpen(index: string) {
+    menuActive.indexOf(index) < 0 && menuActive.push(index);
+}
+function menuClose(index: string) {
+    if (!settings.showAside) return;
+    const i = menuActive.indexOf(index);
+    menuActive.indexOf(index) >= 0 && menuActive.splice(i, 1);
+}
+watch(
+    () => settings.showAside,
+    (newValue) => {
+        if (!menuRef) return;
+        if (newValue) {
+            menuCollapse.value = false;
+            nextTick(() => {
+                menuActive.map((m) => menuRef.value.open(m));
+            });
+        } else {
+            menuActive.map((m) => menuRef.value.close(m));
+            setTimeout(() => {
+                menuCollapse.value = true;
+            }, 500);
+        }
+    }
+);
 </script>
 
 <template>
     <el-aside
         class="dev-toys-aside"
         :class="settings.showAside ? '' : 'dev-toys-aside-hide'"
+        :width="settings.showAside ? '200px' : '40px'"
     >
         <el-scrollbar>
-            <el-input
-                v-model="search.searchKey"
-                clearable
-                @input="onSearchKeyChange"
-                size="small"
-                :placeholder="t('tool.all.description')"
-                :prefix-icon="Search"
-            />
+            <span class="dev-toys-aside-search">
+                <el-input
+                    v-model="search.searchKey"
+                    clearable
+                    @input="onSearchKeyChange"
+                    size="small"
+                    :placeholder="t('tool.all.description')"
+                    :prefix-icon="Search"
+                />
+                <div
+                    class="dev-toys-aside-search-helper"
+                    v-if="!settings.showAside"
+                    :title="t('Search')"
+                    @click="settings.showAside = true"
+                >
+                    <el-icon><Search /></el-icon>
+                </div>
+            </span>
             <el-menu
-                :default-openeds="menuActive"
+                ref="menuRef"
+                :collapse="menuCollapse"
+                :collapse-transition="false"
+                class="dev-toys-aside-menu"
+                :default-openeds="settings.showAside ? menuActive : []"
+                @open="menuOpen"
+                @close="menuClose"
                 :default-active="currentRoute.meta.key"
             >
                 <template v-for="menu in menus" :key="menu.key">
-                    <el-sub-menu v-if="menu.children" :index="menu.key">
+                    <el-sub-menu
+                        popper-class="dev-toys-aside-menu-popper"
+                        v-if="menu.children"
+                        :index="menu.key"
+                        :title="t(menu.name)"
+                    >
                         <template #title>
                             <i v-if="menu.icon" class="dev-toys-icon">{{
                                 menu.icon
@@ -47,6 +97,7 @@ function onSearchKeyChange() {
                             v-for="item in menu.children"
                             :key="item.key"
                             :index="item.key"
+                            :title="t(item.name)"
                         >
                             <router-link :to="'/' + item.key">
                                 <i v-if="item.icon" class="dev-toys-icon">{{
@@ -58,14 +109,16 @@ function onSearchKeyChange() {
                             </router-link>
                         </el-menu-item>
                     </el-sub-menu>
-                    <el-menu-item v-else :index="menu.key">
+                    <el-menu-item
+                        v-else
+                        :index="menu.key"
+                        :title="t(menu.name)"
+                    >
                         <router-link :to="'/' + menu.key"
                             ><i v-if="menu.icon" class="dev-toys-icon">{{
                                 menu.icon
                             }}</i
-                            ><span :title="t(menu.name)">{{
-                                t(menu.name)
-                            }}</span></router-link
+                            ><span>{{ t(menu.name) }}</span></router-link
                         >
                     </el-menu-item>
                 </template>
@@ -75,7 +128,6 @@ function onSearchKeyChange() {
 </template>
 <style lang="less" scoped>
 .dev-toys-aside {
-    width: 200px !important;
     transition: width 0.5s;
 
     & > .el-scrollbar {
@@ -83,44 +135,65 @@ function onSearchKeyChange() {
         height: calc(100% - 40px);
     }
 
-    &.dev-toys-aside-hide {
-        width: 0px !important;
-    }
-
-    .el-input {
-        margin: 5px 10px;
-        width: calc(100% - 20px);
-    }
-
-    .el-menu {
-        border: 0;
-        i {
-            margin-right: 10px;
+    &-search {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        &-helper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 30px;
+            width: 40px;
+            padding: 5px 5px 5px 13px !important;
+            margin: 2px 0;
+        }
+        &-helper:hover {
+            background-color: var(--el-menu-hover-bg-color);
         }
     }
 
-    .el-menu-item {
-        height: 34px;
-        border-radius: 4px;
+    .el-input {
+        margin: 5px 0;
+        width: 100%;
+    }
+}
+
+.dev-toys-aside-menu,
+.dev-toys-aside-menu-popper {
+    width: 100%;
+    border: 0;
+    i {
+        margin-right: 10px;
     }
 
-    .el-menu-item.is-active {
-        background-color: var(--el-menu-hover-bg-color);
+    .el-menu-item {
+        height: 30px;
+        border-radius: 4px;
+        margin: 2px 0;
+
+        &.is-active {
+            background-color: var(--el-menu-hover-bg-color);
+        }
     }
 }
 </style>
 <style lang="less">
-.dev-toys-aside {
+.dev-toys-aside-menu,
+.dev-toys-aside-menu-popper {
+    background-color: transparent;
+    .el-menu {
+        background-color: transparent;
+    }
     .el-sub-menu__title {
         padding: 7px 0 7px var(--el-menu-base-level-padding);
         line-height: normal;
         font-size: 12px;
         color: var(--el-text-color-secondary);
         height: 28px;
-    }
-
-    .el-menu {
-        background-color: transparent;
+        border-radius: 4px;
     }
 
     a {
@@ -133,6 +206,52 @@ function onSearchKeyChange() {
         overflow: hidden;
         text-overflow: ellipsis;
         align-items: center;
+    }
+}
+.dev-toys-aside {
+    margin-left: 5px;
+
+    &-hide {
+        .el-menu-item {
+            padding: 5px;
+            padding-left: 13px !important;
+            transition: padding 0.5s;
+            a {
+                i {
+                    margin-right: 0;
+            transition: margin 0.5s;
+                }
+            }
+            span {
+                transition: opacity 0.5s;
+                opacity: 0;
+            }
+        }
+        .el-sub-menu {
+            i.el-sub-menu__icon-arrow {
+                transition: opacity 0.5s;
+                opacity: 0;
+            }
+            .el-sub-menu__title {
+                padding: 5px 5px 5px 14px !important;
+                transition: padding 0.5s;
+        height: 24px;
+        margin: 2px 0;
+            }
+            span {
+                transition: opacity 0.5s;
+                opacity: 0;
+            }
+            &.is-active {
+              .el-sub-menu__title {
+            background-color: var(--el-menu-hover-bg-color);
+              }
+            }
+        }
+        .el-input {
+            transition: opacity 0.5s;
+            opacity: 0;
+        }
     }
 }
 </style>

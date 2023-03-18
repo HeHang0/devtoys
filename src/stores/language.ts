@@ -1,25 +1,29 @@
 import { defineStore } from "pinia"
+import { storage, StorageKey } from "@/utils/storage"
+import moment from 'moment'
+import 'moment/dist/locale/zh-cn'
 import elementZhCn from "element-plus/dist/locale/zh-cn.mjs"
 import elementEn from "element-plus/dist/locale/en.mjs"
 import { language as zhCn } from "./locale/zh-cn"
 import { language as en } from "./locale/en"
-import moment from 'moment'
-import 'moment/dist/locale/zh-cn'
-moment.locale('zh-cn')
+
 export enum Language {
     ZhCN = "zh",
     EnUS = "en",
 }
+const localLanguage = storage.getValue(StorageKey.Language, Language.ZhCN);
+moment.locale(localLanguage == Language.EnUS ? 'en' : 'zh-cn');
 
 export const useLanguageStore = defineStore("language", {
     state: () => {
         return {
-            elementLocale: elementZhCn,
-            locale: Language.ZhCN,
+            elementLocale: localLanguage == Language.EnUS ? elementEn : elementZhCn,
+            locale: localLanguage == Language.EnUS ? Language.EnUS : Language.ZhCN,
         }
     },
     actions: {
         changeLanguage(language: Language) {
+            storage.setValue(StorageKey.Language, language);
             switch (language) {
                 case Language.EnUS:
                     this.elementLocale = elementZhCn

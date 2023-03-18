@@ -41,7 +41,7 @@ export const language: Record<string, string> = {
     // - Tool -
     "tool.all.title": "所有工具",
     "tool.all.mintitle": "所有工具",
-    "tool.all.description": "在这里搜索所有工具.",
+    "tool.all.description": "在这里搜索所有工具",
 
     "tool.jsonyaml.title": "JSON <> Yaml 转换工具",
     "tool.jsonyaml.mintitle": "JSON <> Yaml",
@@ -122,7 +122,7 @@ export const language: Record<string, string> = {
     "tool.hashgen.title": "Hash 生成工具",
     "tool.hashgen.mintitle": "Hash",
     "tool.hashgen.description":
-        "从文本数据计算MD5, SHA1, SHA256和SHA 512哈希值",
+        "从文本数据计算多种哈希值",//MD5, SHA1, SHA256和SHA 512
 
     "tool.uuidgen.title": "UUID 生成工具",
     "tool.uuidgen.mintitle": "UUID",

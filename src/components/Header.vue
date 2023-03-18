@@ -7,6 +7,9 @@ import IconLanguage from "@/components/icons/IconLanguage.vue";
 const settings = useSettingsStore();
 const language = useLanguageStore();
 const { currentRoute } = useRouter();
+function setAsideShow() {
+  settings.setAsideShow(!settings.showAside);
+}
 </script>
 <template>
   <el-header
@@ -18,7 +21,7 @@ const { currentRoute } = useRouter();
       size="small"
       class="dev-toys-header-fold"
       :icon="Operation"
-      @click="settings.showAside = !settings.showAside"
+      @click="setAsideShow"
     />
     <el-button
       size="small"
@@ -51,7 +54,7 @@ const { currentRoute } = useRouter();
 .dev-toys-header {
   transition: padding 0.5s;
   --el-header-height: 40px;
-  //   color: white;
+  --el-header-padding: 0 5px;
   display: flex;
   align-content: center;
   justify-content: flex-start;
@@ -65,7 +68,7 @@ const { currentRoute } = useRouter();
     width: 30px;
     height: 30px;
     position: fixed;
-    left: 8px;
+    left: 10px;
     top: 8px;
   }
 
