@@ -263,7 +263,7 @@ const menus: Menu[] = [
         ],
     },
     {
-        key: "setting",
+        key: "settings",
         name: "Settings",
         longName: "Settings",
         desc: "Setting of application",

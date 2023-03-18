@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useSearchStore } from "../stores/search";
-import { useLanguageStore } from "../stores/language";
-const search = useSearchStore()
-const language = useLanguageStore()
+import { useRouter } from "vue-router";
+import { useSearchStore } from "@/stores/search";
+import { useLanguageStore } from "@/stores/language";
+const search = useSearchStore();
+const language = useLanguageStore();
 </script>
 
 <template>

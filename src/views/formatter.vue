@@ -28,36 +28,6 @@ const language = 'json'
 <template>
   <div class="dev-toys-formatter">
     <div class="dev-toys-formatter-editor">
-      <Title>
-        <!-- <template #title>  </template> -->
-        <el-upload
-          style="display: inline"
-          :show-file-list="false"
-          :before-upload="readFile"
-        >
-          <el-button
-            plain
-            :icon="Document"
-            size="small"
-            :title="t('Read from file')"
-          />
-        </el-upload>
-        <el-button
-          plain
-          :icon="CopyDocument"
-          @click="copyText"
-          size="small"
-          :title="t('Copy')"
-          style="margin-left: 12px"
-        />
-        <el-button
-          plain
-          :icon="List"
-          @click="pasteText"
-          size="small"
-          :title="t('Paste')"
-        />
-      </Title>
       <MonacoEditor
         :value="page.formatter.text"
         :language="`${currentRoute.meta.key}` || 'json'"
@@ -78,7 +48,7 @@ const language = 'json'
 
   &-editor {
     width: 100%;
-    height: calc(100% - 30px);
+    height: 100%;
   }
 }
 </style>

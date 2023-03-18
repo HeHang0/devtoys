@@ -11,7 +11,7 @@ export enum Language {
     ZhCN = "zh",
     EnUS = "en",
 }
-const localLanguage = storage.getValue(StorageKey.Language, Language.ZhCN);
+const localLanguage = storage.getValue<Language>(StorageKey.Language, Language.ZhCN);
 moment.locale(localLanguage == Language.EnUS ? 'en' : 'zh-cn');
 
 export const useLanguageStore = defineStore("language", {

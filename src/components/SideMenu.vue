@@ -5,7 +5,7 @@ import { menus } from "../stores/menu";
 import { useSettingsStore } from "../stores/settings";
 import { useSearchStore } from "../stores/search";
 import { useLanguageStore } from "../stores/language";
-import { nextTick, ref, watch } from "vue";
+import { nextTick, onMounted, ref, watch } from "vue";
 const menuActive = menus.map((m) => m.key);
 const { currentRoute, replace } = useRouter();
 const settings = useSettingsStore();
@@ -103,7 +103,7 @@ watch(
                                 <i v-if="item.icon" class="dev-toys-icon">{{
                                     item.icon
                                 }}</i>
-                                <span :title="t(item.name)">
+                                <span :id="item.key" :title="t(item.name)">
                                     {{ t(item.name) }}
                                 </span>
                             </router-link>
@@ -118,7 +118,9 @@ watch(
                             ><i v-if="menu.icon" class="dev-toys-icon">{{
                                 menu.icon
                             }}</i
-                            ><span>{{ t(menu.name) }}</span></router-link
+                            ><span :id="menu.key">{{
+                                t(menu.name)
+                            }}</span></router-link
                         >
                     </el-menu-item>
                 </template>
@@ -219,7 +221,7 @@ watch(
             a {
                 i {
                     margin-right: 0;
-            transition: margin 0.5s;
+                    transition: margin 0.5s;
                 }
             }
             span {
@@ -235,17 +237,17 @@ watch(
             .el-sub-menu__title {
                 padding: 5px 5px 5px 14px !important;
                 transition: padding 0.5s;
-        height: 24px;
-        margin: 2px 0;
+                height: 24px;
+                margin: 2px 0;
             }
             span {
                 transition: opacity 0.5s;
                 opacity: 0;
             }
             &.is-active {
-              .el-sub-menu__title {
-            background-color: var(--el-menu-hover-bg-color);
-              }
+                .el-sub-menu__title {
+                    background-color: var(--el-menu-hover-bg-color);
+                }
             }
         }
         .el-input {

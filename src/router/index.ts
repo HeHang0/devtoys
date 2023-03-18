@@ -14,10 +14,10 @@ menus.map(m => {
         })
     } else {
         routers.push({
-            path: "/",
+            path: "/" + m.key,
             name: m.name,
-            meta: { key: '' },
-            component: HomeView,
+            meta: { key: m.key },
+            component: m.key ? () => import(`../views/${m.page || m.key}.vue`) : HomeView,
         })
     }
 })
