@@ -26,7 +26,7 @@ function onSearchKeyChange() {
         clearable
         @input="onSearchKeyChange"
         size="small"
-        placeholder="搜索"
+        :placeholder="t('tool.all.description')"
         :prefix-icon="Search"
       />
       <el-menu

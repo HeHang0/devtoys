@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import MonacoEditor from "@/components/MonacoEditor.vue";
-import Title from "@/components/Title.vue";
-import { CopyDocument, List, Document } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 import { readTextFile } from "@/utils/utils";
@@ -47,78 +45,20 @@ function readYamlFile(uploadFile: any) {
 <template>
   <div class="dev-toys-json2yaml">
     <div class="dev-toys-json2yaml-editor">
-      <Title>
-        <template #title> JSON </template>
-        <el-upload
-          style="display: inline"
-          :show-file-list="false"
-          :before-upload="readJsonFile"
-        >
-          <el-button
-            plain
-            :icon="Document"
-            size="small"
-            :title="t('Read from file')"
-          />
-        </el-upload>
-        <el-button
-          plain
-          :icon="CopyDocument"
-          @click="copyJson"
-          size="small"
-          :title="t('Copy')"
-          style="margin-left: 12px"
-        />
-        <el-button
-          plain
-          :icon="List"
-          @click="pasteJson"
-          size="small"
-          :title="t('Paste')"
-        />
-      </Title>
       <MonacoEditor
         :value="page.json2yaml.json"
         language="json"
-        @changeValue="jsonChange"
-      />
+        @changeValue="jsonChange">
+        <template #title> JSON </template>
+      </MonacoEditor>
     </div>
     <div class="dev-toys-json2yaml-editor">
-      <Title>
-        <template #title> YAML </template>
-        <el-upload
-          style="display: inline"
-          :show-file-list="false"
-          :before-upload="readYamlFile"
-        >
-          <el-button
-            plain
-            :icon="Document"
-            size="small"
-            :title="t('Read from file')"
-          />
-        </el-upload>
-        <el-button
-          plain
-          :icon="CopyDocument"
-          @click="copyYaml"
-          size="small"
-          :title="t('Copy')"
-          style="margin-left: 12px"
-        />
-        <el-button
-          plain
-          :icon="List"
-          @click="pasteYaml"
-          size="small"
-          :title="t('Paste')"
-        />
-      </Title>
       <MonacoEditor
         :value="page.json2yaml.yaml"
         language="yaml"
-        @changeValue="yamlChange"
-      />
+        @changeValue="yamlChange">
+        <template #title> YAML </template>
+      </MonacoEditor>
     </div>
   </div>
 </template>
@@ -135,7 +75,7 @@ function readYamlFile(uploadFile: any) {
 
   &-editor {
     width: calc(50% - 5px);
-    height: calc(100% - 30px);
+    height: 100%;
   }
 }
 </style>
