@@ -1,10 +1,22 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from "vue-router";
+import {
+  RouterView,
+  useRouter,
+  type RouteLocationNormalized,
+} from "vue-router";
 import SideMenu from "./components/SideMenu.vue";
 import Header from "./components/Header.vue";
 import { useLanguageStore } from "@/stores/language";
-const { currentRoute } = useRouter();
+import { ref } from "vue";
+const { currentRoute, beforeEach, beforeResolve } = useRouter();
 const language = useLanguageStore();
+const loading = ref(false);
+beforeEach(() => {
+  loading.value = true;
+});
+beforeResolve(() => {
+  loading.value = false;
+});
 </script>
 
 <template>
@@ -15,7 +27,7 @@ const language = useLanguageStore();
 
       <el-container direction="vertical">
         <Header />
-        <el-main class="dev-toys-main">
+        <el-main class="dev-toys-main" v-loading="loading">
           <el-scrollbar>
             <RouterView />
           </el-scrollbar>
