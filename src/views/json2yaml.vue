@@ -21,24 +21,24 @@ const copyYaml = () => navigator.clipboard.writeText(page.json2yaml.yaml);
 const pasteJson = () =>
   navigator.clipboard
     .readText()
-    .then((r) => (page.json2yaml.json = r))
+    .then((r) => page.jsonChange(r))
     .catch(() => {});
 const pasteYaml = () =>
   navigator.clipboard
     .readText()
-    .then((r) => (page.json2yaml.yaml = r))
+    .then((r) => page.yamlChange(r))
     .catch(() => {});
 
 function readJsonFile(uploadFile: any) {
   readTextFile(uploadFile)
-    .then((r) => (page.json2yaml.json = r))
+    .then((r) => page.jsonChange(r))
     .catch(ElMessage.warning);
   return false;
 }
 
 function readYamlFile(uploadFile: any) {
   readTextFile(uploadFile)
-    .then((r) => (page.json2yaml.yaml = r))
+    .then((r) => page.yamlChange(r))
     .catch(ElMessage.warning);
   return false;
 }

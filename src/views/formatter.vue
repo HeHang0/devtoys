@@ -12,12 +12,12 @@ const copyText = () => navigator.clipboard.writeText(page.formatter.text);
 const pasteText = () =>
   navigator.clipboard
     .readText()
-    .then((r) => (page.formatter.text = r))
+    .then((r) => page.formatterTextChange(r, currentRoute.value.meta.key as string))
     .catch(() => {});
 
 function readFile(uploadFile: any) {
   readTextFile(uploadFile)
-    .then((r) => (page.formatter.text = r))
+    .then((r) => page.formatterTextChange(r, currentRoute.value.meta.key as string))
     .catch(ElMessage.warning);
   return false;
 }
@@ -59,7 +59,7 @@ const language = 'json'
         />
       </Title>
       <MonacoEditor
-        :value="page.json2yaml.json"
+        :value="page.formatter.text"
         :language="`${currentRoute.meta.key}` || 'json'"
       />
     </div>

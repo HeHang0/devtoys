@@ -80,8 +80,8 @@ export const usePageStore = defineStore("page", {
         modifiedValueChange(value: string) {
             this.textdiff.modifiedValue = value;
         },
-        formatterTextChange(value: string) {
-            this.formatter.text = value;
+        formatterTextChange(value: string, language: string) {
+            this.formatter.text = formatCode(language, value);
         }
     },
 })

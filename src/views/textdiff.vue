@@ -24,24 +24,24 @@ const copyModifiedValue = () =>
 const pasteOriginalValue = () =>
   navigator.clipboard
     .readText()
-    .then((r) => (page.textdiff.originalValue = r))
+    .then((r) => page.originalValueChange(r))
     .catch(() => {});
 const pasteModifiedValue = () =>
   navigator.clipboard
     .readText()
-    .then((r) => (page.textdiff.modifiedValue = r))
+    .then((r) => page.modifiedValueChange(r))
     .catch(() => {});
 
 function readOriginalFile(uploadFile: any) {
   readTextFile(uploadFile)
-    .then((r) => (page.textdiff.originalValue = r))
+    .then((r) => page.originalValueChange(r))
     .catch(ElMessage.warning);
   return false;
 }
 
 function readModifiedFile(uploadFile: any) {
   readTextFile(uploadFile)
-    .then((r) => (page.textdiff.modifiedValue = r))
+    .then((r) => page.modifiedValueChange(r))
     .catch(ElMessage.warning);
   return false;
 }
