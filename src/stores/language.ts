@@ -8,41 +8,44 @@ import { language as zhCn } from "./locale/zh-cn"
 import { language as en } from "./locale/en"
 
 export enum Language {
-    ZhCN = "zh",
+    Auto = "auto",
+    ZhCN = "zh-cn",
     EnUS = "en",
 }
-const localLanguage = storage.getValue<Language>(StorageKey.Language, Language.ZhCN);
-moment.locale(localLanguage == Language.EnUS ? 'en' : 'zh-cn');
+let locale = storage.getValue<Language>(StorageKey.Language, Language.Auto);
+const handleLanguageChange = (event: Event | Language) => {
+    if(typeof event !== 'string' && locale !== Language.Auto) return;
+    var browserLanguage: string = (navigator.language || (navigator as any).userLanguage).toLocaleLowerCase();
+    let language = typeof event === 'string' ? event : browserLanguage;
+    if(language === Language.Auto) language = browserLanguage;
+    if(language.includes("zh")) language = Language.ZhCN
+    else if(language.includes("en")) language = Language.EnUS
+    moment.locale(language == Language.ZhCN ? 'zh-cn' : 'en');
+    return language
+}
+window.addEventListener('languagechange', handleLanguageChange);
+let localLanguage = handleLanguageChange(locale)
 
 export const useLanguageStore = defineStore("language", {
     state: () => {
         return {
-            elementLocale: localLanguage == Language.EnUS ? elementEn : elementZhCn,
-            locale: localLanguage == Language.EnUS ? Language.EnUS : Language.ZhCN,
+            elementLocale: localLanguage == Language.ZhCN ? elementZhCn : elementEn,
+            locale: locale
         }
     },
     actions: {
         changeLanguage(language: Language) {
             storage.setValue(StorageKey.Language, language);
-            switch (language) {
-                case Language.EnUS:
-                    this.elementLocale = elementZhCn
-                    this.locale = Language.EnUS
-                    moment.locale('en')
-                    break
-
-                default:
-                    this.elementLocale = elementEn
-                    this.locale = Language.ZhCN
-                    moment.locale('zh-cn')
-                    break
-            }
+            this.locale = language
+            locale = language;
+            localLanguage = handleLanguageChange(locale)
+            this.elementLocale = localLanguage == Language.ZhCN ? elementZhCn : elementEn
         },
     },
     getters: {
         t: state => (key: string) => {
             if (!key) return ""
-            if (state.locale == Language.ZhCN && zhCn[key]) {
+            if ((state.locale == Language.Auto ? localLanguage : state.locale) == Language.ZhCN && zhCn[key]) {
                 return zhCn[key]
             }
             if (en[key]) return en[key]

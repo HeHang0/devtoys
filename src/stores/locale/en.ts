@@ -41,7 +41,7 @@ export const language: Record<string, string> = {
     Default: "Default",
 
     // - Category -
-    "category.all": "Home",
+    "category.all": "All Tools",
     "category.converters": "Converters",
     "category.encoders_decoders": "Encoders / Decoders",
     "category.formatters": "Formatters",
@@ -53,7 +53,7 @@ export const language: Record<string, string> = {
     // - Tool -
     "tool.all.title": "All Tools",
     "tool.all.mintitle": "All Tools",
-    "tool.all.description": "Search all tools here.",
+    "tool.all.description": "Search all tools here",
 
     "tool.jsonyaml.title": "JSON <> Yaml Converter",
     "tool.jsonyaml.mintitle": "JSON <> Yaml",

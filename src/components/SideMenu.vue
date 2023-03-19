@@ -13,6 +13,7 @@ const search = useSearchStore();
 const { t } = useLanguageStore();
 const menuCollapse = ref(!settings.showAside);
 const menuRef = ref();
+const searchInputRef = ref();
 function onSearchKeyChange() {
     search.onSearchKeyChange(currentRoute, replace, t);
 }
@@ -23,6 +24,10 @@ function menuClose(index: string) {
     if (!settings.showAside) return;
     const i = menuActive.indexOf(index);
     menuActive.indexOf(index) >= 0 && menuActive.splice(i, 1);
+}
+function expandAside() {
+    settings.showAside = true;
+    searchInputRef.value.focus()
 }
 watch(
     () => settings.showAside,
@@ -52,6 +57,7 @@ watch(
         <el-scrollbar>
             <span class="dev-toys-aside-search">
                 <el-input
+                    ref="searchInputRef"
                     v-model="search.searchKey"
                     clearable
                     @input="onSearchKeyChange"
@@ -63,7 +69,7 @@ watch(
                     class="dev-toys-aside-search-helper"
                     v-if="!settings.showAside"
                     :title="t('Search')"
-                    @click="settings.showAside = true"
+                    @click="expandAside"
                 >
                     <el-icon><Search /></el-icon>
                 </div>
@@ -213,35 +219,56 @@ watch(
 .dev-toys-aside {
     margin-left: 5px;
 
+
+    .el-menu-item {
+        transition: padding 0.5s;
+        a {
+            i {
+                transition: margin 0.5s;
+            }
+        }
+        span {
+            transition: opacity 0.5s;
+        }
+    }
+    .el-sub-menu {
+        i.el-sub-menu__icon-arrow {
+            transition: opacity 0.5s;
+        }
+        .el-sub-menu__title {
+            transition: padding 0.5s;
+        }
+        span {
+            transition: opacity 0.5s;
+        }
+    }
+    .el-input {
+        transition: opacity 0.5s;
+    }
+
     &-hide {
         .el-menu-item {
             padding: 5px;
             padding-left: 13px !important;
-            transition: padding 0.5s;
             a {
                 i {
                     margin-right: 0;
-                    transition: margin 0.5s;
                 }
             }
             span {
-                transition: opacity 0.5s;
                 opacity: 0;
             }
         }
         .el-sub-menu {
             i.el-sub-menu__icon-arrow {
-                transition: opacity 0.5s;
                 opacity: 0;
             }
             .el-sub-menu__title {
                 padding: 5px 5px 5px 14px !important;
-                transition: padding 0.5s;
                 height: 24px;
                 margin: 2px 0;
             }
             span {
-                transition: opacity 0.5s;
                 opacity: 0;
             }
             &.is-active {
@@ -251,7 +278,6 @@ watch(
             }
         }
         .el-input {
-            transition: opacity 0.5s;
             opacity: 0;
         }
     }

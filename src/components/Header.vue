@@ -14,39 +14,11 @@ function setAsideShow() {
 <template>
   <el-header
     class="dev-toys-header"
-    :class="settings.showAside ? '' : 'dev-toys-header-padding'"
   >
-    <img src="/logo.png" class="dev-toys-header-logo" />
-    <el-button
-      size="small"
-      class="dev-toys-header-fold"
-      :icon="Operation"
-      @click="setAsideShow"
-    />
-    <el-button
-      size="small"
-      class="dev-toys-header-fold"
-      style="left: 76px"
-      :icon="settings.isDark ? Sunny : Moon"
-      @click="settings.toggleDark"
-    />
-    <el-dropdown>
-      <el-button size="small" class="dev-toys-header-fold" style="left: 126px">
-        <i>
-          <IconLanguage />
-        </i>
-      </el-button>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="language.changeLanguage(Language.ZhCN)"
-            >简体中文</el-dropdown-item
-          >
-          <el-dropdown-item @click="language.changeLanguage(Language.EnUS)"
-            >English</el-dropdown-item
-          >
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    <div class="dev-toys-header-logo" :class="settings.showAside ? '' : 'dev-toys-header-collapse'">
+      <img src="/logo.png" @click="setAsideShow" />
+      <span>DevToys</span>
+    </div>
     {{ language.t(currentRoute.name || "") }}
   </el-header>
 </template>
@@ -60,31 +32,29 @@ function setAsideShow() {
   justify-content: flex-start;
   align-items: center;
 
-  &.dev-toys-header-padding {
-    padding-left: 180px;
-  }
-
   .dev-toys-header-logo {
-    width: 30px;
-    height: 30px;
+    // width: 30px;
+    display: flex;
+    align-items: center;
+    height: 40px;
     position: fixed;
     left: 10px;
-    top: 8px;
+    top: 0;
+    cursor: pointer;
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    span {
+      margin-left: 10px;
+      transition: opacity 0.5s;
+      opacity: 1;
+    }
   }
-
-  .dev-toys-header-fold {
-    width: 30px;
-    height: 22px;
-    position: fixed;
-    left: 50px;
-    top: 11px;
-  }
-}
-</style>
-
-<style>
-.dev-toys-header-fold i {
-  width: 12px;
-  height: 12px;
+  .dev-toys-header-logo.dev-toys-header-collapse {
+      span {
+        opacity: 0;
+      }
+    }
 }
 </style>

@@ -15,7 +15,6 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@vueuse/core": "^9.13.0",
     "cron-parser": "^4.8.1",
     "element-plus": "^2.3.0",
     "js-yaml": "^4.1.0",

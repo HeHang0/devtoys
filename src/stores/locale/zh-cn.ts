@@ -27,6 +27,7 @@ export const language: Record<string, string> = {
     Information: "信息",
     Clear: "清空",
     Delete: "删除",
+    "Default": "默认",
 
     // - Category -
     "category.all": "所有工具",
@@ -225,4 +226,14 @@ export const language: Record<string, string> = {
 
     Settings: "设置",
     "Setting of application": "应用设置",
+    "App Theme": "切换主题",
+    "Choose your preferred theme to change the look and feel of the interface.": "选择您喜欢的主题来改变界面外观",
+    "Dark Mode": "深色模式",
+    "Light Mode": "浅色模式",
+    "Auto Mode": "跟随系统",
+    "Language": "语言",
+    "Choose the language you want to use.": "选择您希望使用的语言",
+    "Font": "字体",
+    "App Font": "应用字体",
+    "Choose the font you want to use.": "选择您希望使用的字体"
 }

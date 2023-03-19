@@ -2,7 +2,9 @@ export enum StorageKey {
     Language = "language",
     ShowAside = "show-aside",
     RememberRouter = "remember-router",
-    LastRouter = "last-router"
+    LastRouter = "last-router",
+    AppTheme = "app-theme",
+    FontFamily = "font-family"
 }
 
 function setValue<T>(key: string, value: T) {
