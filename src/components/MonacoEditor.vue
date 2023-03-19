@@ -12,6 +12,7 @@ interface Props {
   diffValue?: string;
   language?: string;
   difference?: boolean;
+  readonly?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   diffValue: "",
   difference: false,
   language: "text",
+  readonly: false
 });
 const editorRef = ref<HTMLDivElement>();
 const loading = ref(true);
@@ -35,6 +37,7 @@ onMounted(() => {
       readOnly: true,
       wordWrap: "on",
       automaticLayout: true,
+      suggestOnTriggerCharacters: false
     });
     const originalModel = monaco.editor.createModel(
       props.value,
@@ -54,6 +57,9 @@ onMounted(() => {
       ...props,
       wordWrap: "on",
       automaticLayout: true,
+      suggestOnTriggerCharacters: false,
+      quickSuggestions: false,
+      readOnly: props.readonly
     });
     editor.onDidChangeModelContent(() => {
       let pos = editor.getPosition();
@@ -179,6 +185,7 @@ monaco.languages.registerDocumentFormattingEditProvider("*", {
         <slot name="operate"></slot>
       </template>
       <template v-else>
+        <slot name="more-operate"></slot>
         <el-upload
           style="display: inline"
           :show-file-list="false"

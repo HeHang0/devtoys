@@ -1,8 +1,9 @@
 import { defineStore } from "pinia"
 import moment from 'moment'
 import jsyaml from "js-yaml";
+import he from "he";
 import { parseExpression } from 'cron-parser'
-import { formatCode } from "@/utils/formatter";
+import { decodeBase64, encodeBase64, formatCode } from "@/utils/formatter";
 export const usePageStore = defineStore("page", {
     state: () => {
         const now = new Date()
@@ -37,6 +38,24 @@ export const usePageStore = defineStore("page", {
             },
             formatter: {
                 text: ''
+            },
+            html: {
+                html: '',
+                text: ''
+            },
+            url: {
+                url: '',
+                text: '',
+                encodeComponent: false
+            },
+            base64: {
+                decoded: '',
+                encoded: ''
+            },
+            jwt: {
+                jwt: '',
+                header: '',
+                payload: ''
             }
         }
     },
@@ -82,6 +101,44 @@ export const usePageStore = defineStore("page", {
         },
         formatterTextChange(value: string, language: string) {
             this.formatter.text = formatCode(language, value);
+        },
+        htmlChange(value: string) {
+            this.html.html = value;
+            this.html.text = he.encode(value);
+        },
+        textChange(value: string) {
+            this.html.text = value;
+            this.html.html = he.decode(value);
+        },
+        urlChange(value: string) {
+            this.url.url = value;
+            this.url.text = this.url.encodeComponent ? encodeURIComponent(value) : encodeURI(value)
+            console.log("jjjj", this.url.url, this.url.text)
+        },
+        urlTextChange(value: string) {
+            if(value == this.url.text) return
+            this.url.text = value;
+            this.url.url = this.url.encodeComponent ? decodeURIComponent(value) : decodeURI(value)
+        },
+        base64DecodedChange(value: string) {
+            this.base64.decoded = value;
+            this.base64.encoded = encodeBase64(value);
+        },
+        base64EncodedChange(value: string) {
+            this.base64.encoded = value;
+            this.base64.decoded = decodeBase64(value);
+        },
+        jwtChange(value: string) {
+            if(!value) value = ''
+            this.jwt.jwt = value;
+            const jwtArray = value.split('.')
+            try {
+                this.jwt.header = formatCode('json', decodeBase64(jwtArray[0]))
+                this.jwt.payload = formatCode('json', decodeBase64(jwtArray[1]))
+            } catch {
+                this.jwt.header = ''
+                this.jwt.payload = ''
+            }
         }
     },
 })
