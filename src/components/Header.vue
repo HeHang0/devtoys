@@ -19,7 +19,7 @@ function setAsideShow() {
       <img src="/logo.png" @click="setAsideShow" />
       <span>DevToys</span>
     </div>
-    {{ language.t(currentRoute.name || "") }}
+    {{ language.t(`${currentRoute.meta.longName || currentRoute.name || ''}`) }}
   </el-header>
 </template>
 <style lang="less" scoped>

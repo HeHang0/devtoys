@@ -2,8 +2,12 @@ import { defineStore } from "pinia"
 import moment from 'moment'
 import jsyaml from "js-yaml";
 import he from "he";
+import crypto from "crypto-js";
 import { parseExpression } from 'cron-parser'
 import { decodeBase64, encodeBase64, formatCode } from "@/utils/formatter";
+import { storage, StorageKey } from "@/utils/storage";
+import { ChecksumAlgorithm, checksumFile, guid2 } from "@/utils/utils";
+import { generateArticle } from "@/utils/ligen";
 export const usePageStore = defineStore("page", {
     state: () => {
         const now = new Date()
@@ -22,7 +26,6 @@ export const usePageStore = defineStore("page", {
                 binary: ""
             },
             cron: {
-                containSecond: true,
                 count: 5,
                 format: 'yyyy-MM-DD dddd HH:mm:ss',
                 expression: '* * * * * *',
@@ -46,7 +49,7 @@ export const usePageStore = defineStore("page", {
             url: {
                 url: '',
                 text: '',
-                encodeComponent: false
+                encodeComponent: storage.getValue(StorageKey.UrlEncodeComponent, false),
             },
             base64: {
                 decoded: '',
@@ -56,6 +59,32 @@ export const usePageStore = defineStore("page", {
                 jwt: '',
                 header: '',
                 payload: ''
+            },
+            hash: {
+                upper: storage.getValue(StorageKey.HashUpperCase, false),
+                text: '',
+                md5: '',
+                sha1: '',
+                sha256: '',
+                sha512: ''
+            },
+            uuid: {
+                hyphen: storage.getValue(StorageKey.UuidHyphen, true),
+                upper: storage.getValue(StorageKey.UuidUpperCase, false),
+                count: storage.getValue(StorageKey.UuidCount, 5),
+                text: ''
+            },
+            ligen: {
+                topic: storage.getValue(StorageKey.LigenTopic, '一个开发者工具箱📦'),
+                article: ''
+            },
+            checksum: {
+                upper: storage.getValue(StorageKey.CheckSumUpperCase, false),
+                algorithm: storage.getValue(StorageKey.CheckSumAlgorithm, ChecksumAlgorithm.Md5),
+            },
+            qrcode: {
+                level: storage.getValue(StorageKey.QRCodeLevel, "M"),
+                text: ''
             }
         }
     },
@@ -113,7 +142,7 @@ export const usePageStore = defineStore("page", {
         urlChange(value: string) {
             this.url.url = value;
             this.url.text = this.url.encodeComponent ? encodeURIComponent(value) : encodeURI(value)
-            console.log("jjjj", this.url.url, this.url.text)
+            storage.setValue(StorageKey.UrlEncodeComponent, this.url.encodeComponent)
         },
         urlTextChange(value: string) {
             if(value == this.url.text) return
@@ -139,6 +168,47 @@ export const usePageStore = defineStore("page", {
                 this.jwt.header = ''
                 this.jwt.payload = ''
             }
+        },
+        hashUpperChange() {
+            const toCase = this.hash.upper ? "toUpperCase" : "toLowerCase"
+            storage.setValue(StorageKey.HashUpperCase, this.hash.upper)
+            this.hash.md5 = this.hash.md5[toCase]()
+            this.hash.sha1 = this.hash.sha1[toCase]()
+            this.hash.sha256 = this.hash.sha256[toCase]()
+            this.hash.sha512 = this.hash.sha512[toCase]()
+        },
+        hashTextChange(value: string) {
+            this.hash.text = value
+            const toCase = this.hash.upper ? "toUpperCase" : "toLowerCase"
+            this.hash.md5 = crypto.MD5(value).toString()[toCase]();
+            this.hash.sha1 = crypto.SHA1(value).toString()[toCase]();
+            this.hash.sha256 = crypto.SHA256(value).toString()[toCase]();
+            this.hash.sha512 = crypto.SHA512(value).toString()[toCase]();
+        },
+        generateUuid() {
+            storage.setValue(StorageKey.UuidHyphen, this.uuid.hyphen)
+            storage.setValue(StorageKey.UuidUpperCase, this.uuid.upper)
+            storage.setValue(StorageKey.UuidCount, this.uuid.count)
+            let text = !this.uuid.text || this.uuid.text.endsWith("\n")  ? "" : "\n";
+            for (let i = 0; i < this.uuid.count; i++) {
+                text += guid2(this.uuid.hyphen, this.uuid.upper)
+                text += "\n"
+            }
+            this.uuid.text += text
+        },
+        generateLigen() {
+            storage.setValue(StorageKey.LigenTopic, this.ligen.topic)
+            this.ligen.article = generateArticle(this.ligen.topic)
+        },
+        checksumFile(file: File) {
+            storage.setValue(StorageKey.CheckSumAlgorithm, this.checksum.algorithm)
+            return checksumFile(file, this.checksum.algorithm)
+        },
+        checksumUpperChange() {
+            storage.setValue(StorageKey.CheckSumUpperCase, this.checksum.upper)
+        },
+        qrcodeLevelChange(value: string, ele: HTMLElement) {
+            storage.setValue(StorageKey.QRCodeLevel, this.qrcode.level)
         }
     },
 })

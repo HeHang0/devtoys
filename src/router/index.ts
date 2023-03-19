@@ -8,7 +8,7 @@ menus.map(m => {
             routers.push({
                 path: "/" + mc.key,
                 name: mc.name,
-                meta: { key: mc.key },
+                meta: { key: mc.key, longName: mc.longName },
                 component: () => import(`../views/${mc.page || mc.key}.vue`),
             })
         })
@@ -16,7 +16,7 @@ menus.map(m => {
         routers.push({
             path: "/" + m.key,
             name: m.name,
-            meta: { key: m.key },
+            meta: { key: m.key, longName: m.longName },
             component: m.key ? () => import(`../views/${m.page || m.key}.vue`) : HomeView,
         })
     }

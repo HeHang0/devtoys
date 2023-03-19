@@ -19,7 +19,7 @@ export const language: Record<string, string> = {
     "No selection": "无选择",
     "Drop Files Here": "将文件拖入此处",
     "Untitled Tool": "未命名工具",
-    Uppercase: "大写",
+    UpperCase: "大写",
     Hyphens: "连字",
     Type: "种类",
     Length: "长度",
@@ -28,6 +28,8 @@ export const language: Record<string, string> = {
     Clear: "清空",
     Delete: "删除",
     "Default": "默认",
+    or: "或",
+    "Click to Upload": "点击上传",
 
     // - Category -
     "category.all": "所有工具",
@@ -123,28 +125,30 @@ export const language: Record<string, string> = {
     "Auto Fix Document": "自动修复",
     "Pretty Document": "美化",
 
-    "tool.hashgen.title": "Hash 生成工具",
-    "tool.hashgen.mintitle": "Hash",
+    "tool.hashgen.title": "Hash 哈希值生成工具",
+    "tool.hashgen.mintitle": "哈希",
     "tool.hashgen.description":
         "从文本数据计算多种哈希值",//MD5, SHA1, SHA256和SHA 512
 
     "tool.uuidgen.title": "UUID 生成工具",
     "tool.uuidgen.mintitle": "UUID",
-    "tool.uuidgen.description": "生成 UUIDs",
-    "Generate UUIDs": "生成 UUIDs",
+    "tool.uuidgen.description": "生成 UUID",
+    "Generate UUIDs": "生成 UUID",
     "Type of generating Lorem Ipsum": "生成种类",
     "Length of generating Lorem Ipsum": "生成数量",
     Words: "单词",
     Sentences: "句子",
     Paragraphs: "段落",
+    "Generate article": "生成文章",
+    "Article": "文章",
 
-    "tool.ligen.title": "乱数假文生成工具",
+    "tool.ligen.title": "乱数假文Lorem Ipsum生成工具",
     "tool.ligen.mintitle": "乱数假文",
     "tool.ligen.description": "生成Lorem Ipsum的占位符文本",
 
     "QR Code Generator": "二维码生成",
     "Create a QR code from text": "使用文本创建二维码",
-    "Correction Level": "Correction Level",
+    "Correction Level": "结构复杂性",
     "QR Code": "二维码",
 
     "tool.checksum.title": "校验测试工具",

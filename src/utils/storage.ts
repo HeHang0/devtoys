@@ -5,7 +5,16 @@ export enum StorageKey {
     LastRouter = "last-router",
     AppTheme = "app-theme",
     FontFamily = "font-family",
-    FavoriteRouters = "favorite-routers"
+    FavoriteRouters = "favorite-routers",
+    UrlEncodeComponent = "url-encode-component",
+    HashUpperCase = "hash-upper-case",
+    UuidHyphen = "uuid-hyphen",
+    UuidUpperCase = "uuid-upper-case",
+    UuidCount = "uuid-count",
+    LigenTopic = "ligen-topic",
+    CheckSumUpperCase = "checksum-upper-case",
+    CheckSumAlgorithm = "checksum-algorithm",
+    QRCodeLevel = "qrcode-level"
 }
 
 function setValue<T>(key: string, value: T) {
