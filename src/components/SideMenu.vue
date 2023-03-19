@@ -115,20 +115,34 @@ watch(
                             </router-link>
                         </el-menu-item>
                     </el-sub-menu>
-                    <el-menu-item
-                        v-else
-                        :index="menu.key"
-                        :title="t(menu.name)"
-                    >
-                        <router-link :to="'/' + menu.key"
-                            ><i v-if="menu.icon" class="dev-toys-icon">{{
-                                menu.icon
-                            }}</i
-                            ><span :id="menu.key">{{
-                                t(menu.name)
-                            }}</span></router-link
+                    <template v-else>
+                        <el-menu-item
+                            :index="menu.key"
+                            :title="t(menu.name)"
                         >
-                    </el-menu-item>
+                            <router-link :to="'/' + menu.key"
+                                ><i v-if="menu.icon" class="dev-toys-icon">{{
+                                    menu.icon
+                                }}</i
+                                ><span :id="menu.key">{{
+                                    t(menu.name)
+                                }}</span></router-link
+                            >
+                        </el-menu-item>
+                        <template v-if="!menu.key">
+                            <el-menu-item
+                            v-for="favItem in settings.favoriteRouters" :key="favItem.key"
+                            :index="favItem.key"
+                        >
+                            <router-link :to="'/' + favItem.key"
+                                ><i v-if="favItem.icon" class="dev-toys-icon">{{
+                                    favItem.icon
+                                }}</i
+                                ><span :id="favItem.key">{{ t(favItem.name)}}</span></router-link
+                            >
+                        </el-menu-item>
+                        </template>
+                    </template>
                 </template>
             </el-menu>
         </el-scrollbar>

@@ -3,6 +3,7 @@ import * as monaco from "monaco-editor";
 import { storage, StorageKey } from '@/utils/storage';
 import type { RouteLocationRaw } from 'vue-router';
 import { setFontFamily } from '@/utils/utils';
+import { allMenus } from './menu';
 export enum AppTheme {
   Auto = "auto",
   Dark = "dark",
@@ -25,6 +26,8 @@ handleThemeChange(isDark())
 
 const fontFamily: string[] = storage.getValue(StorageKey.FontFamily, ["Courier", "cursive"])
 
+const handleFavorities = (routers: string[]) =>  Array.isArray(routers) ? allMenus.filter(m => routers.includes(m.key)) : []
+
 export const useSettingsStore = defineStore("settings", {
   state: () => {
     return {
@@ -32,7 +35,8 @@ export const useSettingsStore = defineStore("settings", {
       rememberRouter: Boolean(storage.getValue(StorageKey.RememberRouter, true)),
       lastRouter: storage.getValue(StorageKey.LastRouter, ''),
       appTheme: appTheme,
-      fontFamily: setFontFamily(fontFamily)
+      fontFamily: setFontFamily(fontFamily),
+      favoriteRouters: handleFavorities(storage.getValue<string[]>(StorageKey.FavoriteRouters, [])),
     };
   },
   actions: {
@@ -58,6 +62,26 @@ export const useSettingsStore = defineStore("settings", {
       this.fontFamily = setFontFamily(font)
       storage.setValue(StorageKey.FontFamily, this.fontFamily)
       return this.fontFamily
+    },
+    addFavoriteRouter(routePath: string) {
+      const i = this.favoriteRouters.findIndex(m => m.key == routePath)
+      if(i >= 0) return
+      const menu = allMenus.find(m => m.key == routePath)
+      if(!menu) return
+      this.favoriteRouters.push(menu)
+      storage.setValue(StorageKey.FavoriteRouters, this.favoriteRouters.map(m => m.key))
+    },
+    removeFavoriteRouter(routePath: string) {
+      const i = this.favoriteRouters.findIndex(m => m.key == routePath)
+      if(i >= 0) {
+        this.favoriteRouters.splice(i, 1)
+        storage.setValue(StorageKey.FavoriteRouters, this.favoriteRouters.map(m => m.key))
+      }
     }
+  },
+  getters: {
+    favExists: state => (key: string) => {
+      return state.favoriteRouters.findIndex(m => m.key == key) >= 0
+    },
   }
 });

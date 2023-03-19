@@ -43,6 +43,9 @@ export const language: Record<string, string> = {
     "tool.all.title": "所有工具",
     "tool.all.mintitle": "所有工具",
     "tool.all.description": "在这里搜索所有工具",
+    "Open in new tab": "在新标签页打开",
+    "Add to favorites": "添加到收藏夹",
+    "Remove from favorites": "从收藏夹移除",
 
     "tool.jsonyaml.title": "JSON <> Yaml 转换工具",
     "tool.jsonyaml.mintitle": "JSON <> Yaml",

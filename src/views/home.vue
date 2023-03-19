@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { Cellphone, Star } from "@element-plus/icons-vue"
 import { useSearchStore } from "@/stores/search";
 import { useLanguageStore } from "@/stores/language";
+import { useSettingsStore } from "@/stores/settings";
 const search = useSearchStore();
 const language = useLanguageStore();
+const settings = useSettingsStore();
+function openNewTab(key: string) {
+  console.log("打开的是", key)
+  window.open("/"+key)
+}
 </script>
 
 <template>
   <div class="dev-toys-home">
-    <el-card v-for="menu in search.menus" :key="menu.key" body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+    <el-card v-for="menu in search.menus" :key="menu.key" body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%">
       <div class="dev-toys-home-icon">
         <i v-if="menu.icon" class="dev-toys-icon">{{ menu.icon }}</i>
       </div>
@@ -17,6 +24,18 @@ const language = useLanguageStore();
       </div>
       <div class="dev-toys-home-desc">
         <span>{{ language.t(menu.desc || '') }}</span>
+      </div>
+      <div class="dev-toys-home-operate">
+        <el-button plain size="small" :title="language.t('Open in new tab')" @click="openNewTab(menu.key)">
+          <el-icon><Cellphone /></el-icon>
+        </el-button>
+        <el-button v-if="settings.favExists(menu.key)" plain size="small" :title="language.t('Remove from favorites')" @click="settings.removeFavoriteRouter(menu.key)">
+          <el-icon class="cancel"><Star /></el-icon>
+        </el-button>
+        <el-button v-else plain size="small" :title="language.t('Add to favorites')" @click="settings.addFavoriteRouter(menu.key)">
+          <el-icon><Star /></el-icon>
+        </el-button>
+        
       </div>
     </el-card>
   </div>
@@ -32,7 +51,7 @@ const language = useLanguageStore();
     width: 150px;
     margin: 0 10px 10px 0;
     border: 1px solid var(--el-border-color);
-    height: 220px;
+    height: 250px;
     background-color: var(--el-bg-color);
     box-shadow: none;
     .dev-toys-home-icon {
@@ -59,6 +78,33 @@ const language = useLanguageStore();
       margin-top: 5px;
       font-size: var(--el-font-size-extra-small);
       color: var(--el-text-color-regular);
+      flex: 1
+    }
+    .dev-toys-home-operate {
+      margin-top: 10px;
+      opacity: 0;
+      button {
+        width: 24px;
+        i {
+          position: relative;
+        }
+        i.cancel::after {
+          content: ' ';
+          position: absolute;
+          left: 2px;
+          top: 2px;
+          height: 1px;
+          width: 100%;
+            border-bottom: 1px solid;
+            transform-origin: left top;
+            transform: rotate(45deg);
+        }
+      }
+    }
+    &:hover {
+      .dev-toys-home-operate {
+        opacity: 1;
+      }
     }
   }
 }
