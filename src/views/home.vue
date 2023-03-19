@@ -1,43 +1,67 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { Cellphone, Star } from "@element-plus/icons-vue"
+import { Cellphone, Star } from "@element-plus/icons-vue";
 import { useSearchStore } from "@/stores/search";
 import { useLanguageStore } from "@/stores/language";
 import { useSettingsStore } from "@/stores/settings";
 const search = useSearchStore();
 const language = useLanguageStore();
 const settings = useSettingsStore();
-function openNewTab(key: string) {
-  console.log("打开的是", key)
-  window.open("/"+key)
+function openNewTab(key: string, event: Event) {
+  event.preventDefault()
+  settings.setLastRouter("/"+key);
+  window.open(location.pathname);
 }
 </script>
 
 <template>
   <div class="dev-toys-home">
-    <el-card v-for="menu in search.menus" :key="menu.key" body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%">
-      <div class="dev-toys-home-icon">
-        <i v-if="menu.icon" class="dev-toys-icon">{{ menu.icon }}</i>
-      </div>
-      <div class="dev-toys-home-title">
-        <span>{{ language.t(menu.longName || menu.name) }}</span>
-      </div>
-      <div class="dev-toys-home-desc">
-        <span>{{ language.t(menu.desc || '') }}</span>
-      </div>
-      <div class="dev-toys-home-operate">
-        <el-button plain size="small" :title="language.t('Open in new tab')" @click="openNewTab(menu.key)">
-          <el-icon><Cellphone /></el-icon>
-        </el-button>
-        <el-button v-if="settings.favExists(menu.key)" plain size="small" :title="language.t('Remove from favorites')" @click="settings.removeFavoriteRouter(menu.key)">
-          <el-icon class="cancel"><Star /></el-icon>
-        </el-button>
-        <el-button v-else plain size="small" :title="language.t('Add to favorites')" @click="settings.addFavoriteRouter(menu.key)">
-          <el-icon><Star /></el-icon>
-        </el-button>
-        
-      </div>
-    </el-card>
+    <router-link
+      v-for="menu in search.menus"
+      :key="menu.key"
+      :to="'/' + menu.key"
+    >
+      <el-card
+        body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%"
+      >
+        <div class="dev-toys-home-icon">
+          <i v-if="menu.icon" class="dev-toys-icon">{{ menu.icon }}</i>
+        </div>
+        <div class="dev-toys-home-title">
+          <span>{{ language.t(menu.longName || menu.name) }}</span>
+        </div>
+        <div class="dev-toys-home-desc">
+          <span>{{ language.t(menu.desc || "") }}</span>
+        </div>
+        <div class="dev-toys-home-operate">
+          <el-button
+            plain
+            size="small"
+            :title="language.t('Open in new tab')"
+            @click="openNewTab(menu.key, $event)"
+          >
+            <el-icon><Cellphone /></el-icon>
+          </el-button>
+          <el-button
+            v-if="settings.favExists(menu.key)"
+            plain
+            size="small"
+            :title="language.t('Remove from favorites')"
+            @click="settings.removeFavoriteRouter(menu.key)"
+          >
+            <el-icon class="cancel"><Star /></el-icon>
+          </el-button>
+          <el-button
+            v-else
+            plain
+            size="small"
+            :title="language.t('Add to favorites')"
+            @click="settings.addFavoriteRouter(menu.key)"
+          >
+            <el-icon><Star /></el-icon>
+          </el-button>
+        </div>
+      </el-card>
+    </router-link>
   </div>
 </template>
 
@@ -47,6 +71,11 @@ function openNewTab(key: string) {
   flex-wrap: wrap;
   padding: 10px 0 0 10px;
   justify-content: space-between;
+
+a {
+    color: var(--el-text-color-primary);
+    text-decoration: unset;
+}
   .el-card {
     width: 150px;
     margin: 0 10px 10px 0;
@@ -78,7 +107,7 @@ function openNewTab(key: string) {
       margin-top: 5px;
       font-size: var(--el-font-size-extra-small);
       color: var(--el-text-color-regular);
-      flex: 1
+      flex: 1;
     }
     .dev-toys-home-operate {
       margin-top: 10px;
@@ -89,15 +118,15 @@ function openNewTab(key: string) {
           position: relative;
         }
         i.cancel::after {
-          content: ' ';
+          content: " ";
           position: absolute;
           left: 2px;
           top: 2px;
           height: 1px;
           width: 100%;
-            border-bottom: 1px solid;
-            transform-origin: left top;
-            transform: rotate(45deg);
+          border-bottom: 1px solid;
+          transform-origin: left top;
+          transform: rotate(45deg);
         }
       }
     }

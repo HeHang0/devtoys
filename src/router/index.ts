@@ -23,7 +23,7 @@ menus.map(m => {
 })
 routers.push({ path: "/catchAll(.*)", redirect: "/" })
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory("devtoys"),
     routes: routers,
 })
 
