@@ -13,6 +13,7 @@
 .dev-toys-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 30px;
   div {
     display: flex;

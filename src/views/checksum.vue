@@ -76,14 +76,13 @@ function upperCaseChange() {
       <el-form-item :label="t('File')" class="dev-toys-checksum-form-upload">
         <el-upload
           drag
-          multiple
           :show-file-list="false"
           :before-upload="readFile"
         >
           <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
           <div class="el-upload__text">
             {{ t("Drop Files Here") }} {{ t("or") }}
-            <em>{{ t("Click to Upload") }}</em>
+            <em>{{ t("Click to Open") }}</em>
           </div>
         </el-upload>
       </el-form-item>

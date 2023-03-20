@@ -99,15 +99,5 @@ function exportPicture() {
   &-form {
     margin-top: 20px;
   }
-  .dev-toys-title {
-    margin: 20px 0 0 0;
-  }
-}
-</style>
-<style lang="less">
-.dev-toys-qrcode {
-  .el-form-item__content {
-    flex-wrap: nowrap;
-  }
 }
 </style>

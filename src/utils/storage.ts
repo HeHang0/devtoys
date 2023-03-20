@@ -14,7 +14,8 @@ export enum StorageKey {
     LigenTopic = "ligen-topic",
     CheckSumUpperCase = "checksum-upper-case",
     CheckSumAlgorithm = "checksum-algorithm",
-    QRCodeLevel = "qrcode-level"
+    QRCodeLevel = "qrcode-level",
+    QRCodeReaderType = "qrcode-reader-type"
 }
 
 function setValue<T>(key: string, value: T) {

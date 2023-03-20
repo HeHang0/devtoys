@@ -8,6 +8,13 @@ import { decodeBase64, encodeBase64, formatCode } from "@/utils/formatter";
 import { storage, StorageKey } from "@/utils/storage";
 import { ChecksumAlgorithm, checksumFile, guid2 } from "@/utils/utils";
 import { generateArticle } from "@/utils/ligen";
+
+export enum QRCodeReaderType {
+    File = "file",
+    Camera = "camera",
+    Clipboard = "clipboard"
+}
+
 export const usePageStore = defineStore("page", {
     state: () => {
         const now = new Date()
@@ -85,6 +92,10 @@ export const usePageStore = defineStore("page", {
             qrcode: {
                 level: storage.getValue(StorageKey.QRCodeLevel, "M"),
                 text: ''
+            },
+            rqrcode: {
+                text: '',
+                readerType: storage.getValue(StorageKey.QRCodeReaderType, QRCodeReaderType.File)
             }
         }
     },
@@ -207,8 +218,11 @@ export const usePageStore = defineStore("page", {
         checksumUpperChange() {
             storage.setValue(StorageKey.CheckSumUpperCase, this.checksum.upper)
         },
-        qrcodeLevelChange(value: string, ele: HTMLElement) {
+        qrcodeLevelChange() {
             storage.setValue(StorageKey.QRCodeLevel, this.qrcode.level)
+        },
+        qrcodeReaderTypeChange() {
+            storage.setValue(StorageKey.QRCodeReaderType, this.rqrcode.readerType)
         }
     },
 })

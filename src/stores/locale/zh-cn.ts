@@ -18,6 +18,7 @@ export const language: Record<string, string> = {
     Output: "输出",
     "No selection": "无选择",
     "Drop Files Here": "将文件拖入此处",
+    "Paste Files Here": "将文件粘贴到此处",
     "Untitled Tool": "未命名工具",
     UpperCase: "大写",
     Hyphens: "连字",
@@ -27,9 +28,12 @@ export const language: Record<string, string> = {
     Information: "信息",
     Clear: "清空",
     Delete: "删除",
+    Camera: "相机",
+    Clipboard: "剪贴板",
     "Default": "默认",
     or: "或",
-    "Click to Upload": "点击上传",
+    "Click to Open": "点击打开",
+    "Failed to call camera": "调用摄像头失败",
 
     // - Category -
     "category.all": "所有工具",

@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import * as monaco from "monaco-editor";
 import { storage, StorageKey } from '@/utils/storage';
 import type { RouteLocationRaw } from 'vue-router';
 import { setFontFamily } from '@/utils/utils';
@@ -16,7 +15,8 @@ const handleThemeChange = (event: MediaQueryListEvent|boolean) => {
   const isDark = typeof event === 'boolean' ? event : event.matches
   const html = document.querySelector("html")
   if(html) html.className = isDark ? 'dark' : ''
-  monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
+  const monaco = (() => import("monaco-editor"))()
+  monaco.then(r => r.editor.setTheme(isDark ? 'vs-dark' : 'vs'))
 };
 
 // 监听主题变化事件

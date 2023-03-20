@@ -3,19 +3,14 @@ import { RouterView, useRouter } from "vue-router";
 import SideMenu from "./components/SideMenu.vue";
 import Header from "./components/Header.vue";
 import { useLanguageStore } from "@/stores/language";
-import { ref } from "vue";
 import { useSettingsStore } from "./stores/settings";
-const { currentRoute, beforeEach, afterEach, replace } = useRouter();
+import { allMenus } from "./stores/menu";
+const { currentRoute, afterEach, replace } = useRouter();
 const language = useLanguageStore();
 const settings = useSettingsStore();
-const loading = ref(false);
-beforeEach(() => {
-  loading.value = true;
-});
 let onceRouter = false;
 afterEach(() => {
   settings.setLastRouter(currentRoute.value.path);
-  loading.value = false;
   if (currentRoute.value.meta.key) {
     const ele = document.getElementById(currentRoute.value.meta.key as string);
     ele && ele.scrollIntoView({ block: "nearest" });
@@ -23,13 +18,14 @@ afterEach(() => {
 
   if (
     !onceRouter &&
-    currentRoute.value.path == "/" &&
     settings.rememberRouter &&
-    settings.lastRouter
+    settings.lastRouter &&
+    currentRoute.value.path == "/" &&
+    allMenus.find(m => "/" + m.key == settings.lastRouter)
   ) {
     replace(settings.lastRouter);
+    onceRouter = true;
   }
-  onceRouter = true;
 });
 </script>
 
@@ -41,7 +37,7 @@ afterEach(() => {
 
       <el-container direction="vertical">
         <Header />
-        <el-main class="dev-toys-main" v-loading="loading">
+        <el-main class="dev-toys-main">
           <el-scrollbar>
             <RouterView />
           </el-scrollbar>
