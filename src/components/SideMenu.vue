@@ -50,12 +50,12 @@ watch(
 
 <template>
     <el-aside
-        class="dev-toys-aside"
-        :class="settings.showAside ? '' : 'dev-toys-aside-hide'"
+        class="devtoys-aside"
+        :class="settings.showAside ? '' : 'devtoys-aside-hide'"
         :width="settings.showAside ? '200px' : '40px'"
     >
         <el-scrollbar>
-            <span class="dev-toys-aside-search">
+            <span class="devtoys-aside-search">
                 <el-input
                     ref="searchInputRef"
                     v-model="search.searchKey"
@@ -66,7 +66,7 @@ watch(
                     :prefix-icon="Search"
                 />
                 <div
-                    class="dev-toys-aside-search-helper"
+                    class="devtoys-aside-search-helper"
                     v-if="!settings.showAside"
                     :title="t('Search')"
                     @click="expandAside"
@@ -78,7 +78,7 @@ watch(
                 ref="menuRef"
                 :collapse="menuCollapse"
                 :collapse-transition="false"
-                class="dev-toys-aside-menu"
+                class="devtoys-aside-menu"
                 :default-openeds="settings.showAside ? menuActive : []"
                 @open="menuOpen"
                 @close="menuClose"
@@ -86,13 +86,13 @@ watch(
             >
                 <template v-for="menu in menus" :key="menu.key">
                     <el-sub-menu
-                        popper-class="dev-toys-aside-menu-popper"
+                        popper-class="devtoys-aside-menu-popper"
                         v-if="menu.children"
                         :index="menu.key"
                         :title="t(menu.name)"
                     >
                         <template #title>
-                            <i v-if="menu.icon" class="dev-toys-icon">{{
+                            <i v-if="menu.icon" class="devtoys-icon">{{
                                 menu.icon
                             }}</i>
                             <span :title="t(menu.name)">{{
@@ -106,7 +106,7 @@ watch(
                             :title="t(item.name)"
                         >
                             <router-link :to="'/' + item.key">
-                                <i v-if="item.icon" class="dev-toys-icon">{{
+                                <i v-if="item.icon" class="devtoys-icon">{{
                                     item.icon
                                 }}</i>
                                 <span :id="item.key" :title="t(item.name)">
@@ -121,7 +121,7 @@ watch(
                             :title="t(menu.name)"
                         >
                             <router-link :to="'/' + menu.key"
-                                ><i v-if="menu.icon" class="dev-toys-icon">{{
+                                ><i v-if="menu.icon" class="devtoys-icon">{{
                                     menu.icon
                                 }}</i
                                 ><span :id="menu.key">{{
@@ -135,7 +135,7 @@ watch(
                             :index="favItem.key"
                         >
                             <router-link :to="'/' + favItem.key"
-                                ><i v-if="favItem.icon" class="dev-toys-icon">{{
+                                ><i v-if="favItem.icon" class="devtoys-icon">{{
                                     favItem.icon
                                 }}</i
                                 ><span :id="favItem.key">{{ t(favItem.name)}}</span></router-link
@@ -149,7 +149,7 @@ watch(
     </el-aside>
 </template>
 <style lang="less" scoped>
-.dev-toys-aside {
+.devtoys-aside {
     transition: width 0.5s;
 
     & > .el-scrollbar {
@@ -183,8 +183,8 @@ watch(
     }
 }
 
-.dev-toys-aside-menu,
-.dev-toys-aside-menu-popper {
+.devtoys-aside-menu,
+.devtoys-aside-menu-popper {
     width: 100%;
     border: 0;
     i {
@@ -203,8 +203,8 @@ watch(
 }
 </style>
 <style lang="less">
-.dev-toys-aside-menu,
-.dev-toys-aside-menu-popper {
+.devtoys-aside-menu,
+.devtoys-aside-menu-popper {
     background-color: transparent;
     .el-menu {
         background-color: transparent;
@@ -230,7 +230,7 @@ watch(
         align-items: center;
     }
 }
-.dev-toys-aside {
+.devtoys-aside {
     margin-left: 5px;
 
 

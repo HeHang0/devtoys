@@ -13,10 +13,10 @@ function countInput() {
 </script>
 
 <template>
-  <div class="dev-toys-uuid">
+  <div class="devtoys-uuid">
     <SettingCard :title="t('Hyphens')">
       <template #icon>
-        <span class="dev-toys-icon">
+        <span class="devtoys-icon">
           &#x132;
         </span>
       </template>
@@ -24,20 +24,20 @@ function countInput() {
     </SettingCard>
     <SettingCard :title="t('UpperCase')">
       <template #icon>
-        <span class="dev-toys-icon">
+        <span class="devtoys-icon">
           &#x132;
         </span>
       </template>
       <el-switch size="small" v-model="page.uuid.upper"/>
     </SettingCard>
-    <div class="dev-toys-uuid-generate">
+    <div class="devtoys-uuid-generate">
       <el-button type="primary" @click="page.generateUuid">
         {{ t('Generate UUIDs') }}
       </el-button>
       <span>x</span>
       <el-input v-model="page.uuid.count" type="number" @input="countInput"/>
     </div>
-    <div class="dev-toys-uuid-editor">
+    <div class="devtoys-uuid-editor">
       <Editor
         :value="page.uuid.text"
         :readonly="true"
@@ -66,7 +66,7 @@ function countInput() {
 </template>
 
 <style lang="less" scoped>
-.dev-toys-uuid {
+.devtoys-uuid {
   position: absolute;
   left: 0;
   top: 0;

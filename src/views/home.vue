@@ -14,7 +14,7 @@ function openNewTab(key: string, event: Event) {
 </script>
 
 <template>
-  <div class="dev-toys-home">
+  <div class="devtoys-home">
     <router-link
       v-for="menu in search.menus"
       :key="menu.key"
@@ -23,16 +23,16 @@ function openNewTab(key: string, event: Event) {
       <el-card
         body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%"
       >
-        <div class="dev-toys-home-icon">
-          <i v-if="menu.icon" class="dev-toys-icon">{{ menu.icon }}</i>
+        <div class="devtoys-home-icon">
+          <i v-if="menu.icon" class="devtoys-icon">{{ menu.icon }}</i>
         </div>
-        <div class="dev-toys-home-title">
+        <div class="devtoys-home-title">
           <span>{{ language.t(menu.longName || menu.name) }}</span>
         </div>
-        <div class="dev-toys-home-desc">
+        <div class="devtoys-home-desc">
           <span>{{ language.t(menu.desc || "") }}</span>
         </div>
-        <div class="dev-toys-home-operate">
+        <div class="devtoys-home-operate">
           <el-button
             plain
             size="small"
@@ -66,7 +66,7 @@ function openNewTab(key: string, event: Event) {
 </template>
 
 <style lang="less" scoped>
-.dev-toys-home {
+.devtoys-home {
   display: flex;
   flex-wrap: wrap;
   padding: 10px 0 0 10px;
@@ -83,7 +83,7 @@ a {
     height: 250px;
     background-color: var(--el-bg-color);
     box-shadow: none;
-    .dev-toys-home-icon {
+    .devtoys-home-icon {
       width: 80px;
       height: 80px;
       background-color: var(--el-color-info-light-7);
@@ -98,18 +98,18 @@ a {
     &:hover {
       --el-card-bg-color: var(--el-color-info-light-9);
     }
-    .dev-toys-home-title {
+    .devtoys-home-title {
       margin-top: 10px;
       font-size: var(--el-font-size-small);
       color: var(--el-text-color-primary);
     }
-    .dev-toys-home-desc {
+    .devtoys-home-desc {
       margin-top: 5px;
       font-size: var(--el-font-size-extra-small);
       color: var(--el-text-color-regular);
       flex: 1;
     }
-    .dev-toys-home-operate {
+    .devtoys-home-operate {
       margin-top: 10px;
       opacity: 0;
       button {
@@ -131,7 +131,7 @@ a {
       }
     }
     &:hover {
-      .dev-toys-home-operate {
+      .devtoys-home-operate {
         opacity: 1;
       }
     }

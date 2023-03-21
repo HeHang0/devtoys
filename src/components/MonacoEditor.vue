@@ -172,16 +172,16 @@ monaco.languages.registerDocumentFormattingEditProvider("*", {
 });
 </script>
 <template>
-  <div class="dev-toys-monaco-editor">
+  <div class="devtoys-monaco-editor">
     <div
       ref="editorRef"
       v-loading="loading"
-      class="dev-toys-monaco-editor-body"
+      class="devtoys-monaco-editor-body"
     ></div>
   </div>
 </template>
 <style lang="less">
-.dev-toys-monaco-editor {
+.devtoys-monaco-editor {
   width: 100%;
   height: 100%;
   &-body {

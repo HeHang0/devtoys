@@ -1,5 +1,5 @@
 <template>
-  <div class="dev-toys-title">
+  <div class="devtoys-title">
     <div>
       <slot name="title"></slot>
     </div>
@@ -10,7 +10,7 @@
 </template>
   
   <style lang="less" scoped>
-.dev-toys-title {
+.devtoys-title {
   display: flex;
   justify-content: space-between;
   align-items: center;

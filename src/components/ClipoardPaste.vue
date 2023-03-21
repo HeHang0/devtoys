@@ -35,13 +35,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="dev-toys-file-paste">
+  <div class="devtoys-file-paste">
     <slot></slot>
   </div>
 </template>
 
 <style lang="less" scoped>
-.dev-toys-file-paste {
+.devtoys-file-paste {
   width: 100%;
   height: 100%;
   display: flex;
@@ -50,7 +50,7 @@ onUnmounted(() => {
   align-items: center;
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;
-  .dev-toys-icon--paste {
+  .devtoys-icon--paste {
     font-size: 67px;
     color: var(--el-text-color-placeholder);
     margin-bottom: 16px;
@@ -59,14 +59,14 @@ onUnmounted(() => {
 }
 </style>
 <style lang="less">
-.dev-toys-file-paste {
-  .dev-toys-icon--paste {
+.devtoys-file-paste {
+  .devtoys-icon--paste {
     font-size: 67px;
     color: var(--el-text-color-placeholder);
     margin-bottom: 16px;
     line-height: 50px;
   }
-  .dev-toys-paste__text {
+  .devtoys-paste__text {
     color: var(--el-text-color-regular);
     font-size: 14px;
   }

@@ -10,15 +10,15 @@ html.dark>body {
 
 @font-face {
   /*自定义字体名*/
-  font-family: 'dev-toys';
+  font-family: 'devtoys';
   /*路径*/
   src: url('./icons/icons.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
-.dev-toys-icon {
-  font-family: 'dev-toys';
+.devtoys-icon {
+  font-family: 'devtoys';
   font-style: normal;
 }
 

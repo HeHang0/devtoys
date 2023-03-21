@@ -21,7 +21,7 @@ function clearFontFamily() {
 </script>
 
 <template>
-  <div class="dev-toys-settings">
+  <div class="devtoys-settings">
     <SettingCard :title="t('App Theme')" :desc="t('Choose your preferred theme to change the look and feel of the interface.')">
       <template #icon>
         <Operation />
@@ -44,7 +44,7 @@ function clearFontFamily() {
     </SettingCard>
     <SettingCard :title="t('Font')" :desc="t('Choose the font you want to use.')">
       <template #icon>
-        <span class="dev-toys-icon">
+        <span class="devtoys-icon">
           &#x132;
         </span>
       </template>
@@ -55,7 +55,7 @@ function clearFontFamily() {
     </SettingCard>
     <SettingCard :title="t('Text Editor')" :desc="t('Choose the text editor you want to use.')">
       <template #icon>
-        <span class="dev-toys-icon">
+        <span class="devtoys-icon">
           &#x0122;
         </span>
       </template>

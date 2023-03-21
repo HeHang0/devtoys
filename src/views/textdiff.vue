@@ -7,21 +7,21 @@ const { t } = useLanguageStore();
 </script>
 
 <template>
-  <div class="dev-toys-text-diff">
-    <div class="dev-toys-text-diff-editor">
+  <div class="devtoys-text-diff">
+    <div class="devtoys-text-diff-editor">
       <Editor
         v-model:value="page.textdiff.originalValue">
         <template #title> {{ t("Old Text") }} </template>
       </Editor>
     </div>
-    <div class="dev-toys-text-diff-editor">
+    <div class="devtoys-text-diff-editor">
       <Editor
         v-model:value="page.textdiff.modifiedValue">
         <template #title> {{ t("New Text") }} </template>
       </Editor>
     </div>
 
-    <div class="dev-toys-text-diff-body">
+    <div class="devtoys-text-diff-body">
       <Editor
         :difference="true"
         :value="page.textdiff.originalValue"
@@ -34,7 +34,7 @@ const { t } = useLanguageStore();
 </template>
 
 <style lang="less" scoped>
-.dev-toys-text-diff {
+.devtoys-text-diff {
   position: absolute;
   left: 0;
   top: 0;

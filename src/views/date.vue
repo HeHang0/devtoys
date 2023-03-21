@@ -18,7 +18,7 @@ function onTimestampChange() {
 </script>
 
 <template>
-  <el-form label-position="top" label-width="100px" style="max-width: 460px" class="dev-toys-date">
+  <el-form label-position="top" label-width="100px" style="max-width: 460px" class="devtoys-date">
     <el-form-item :label="t('Date')">
       <!-- <el-input v-model="page.date.format" readonly style="flex: 1;margin-right: 10px"/> -->
       <el-date-picker v-model="page.date.format" type="datetime" style="flex: 1;margin-right: 10px"
@@ -38,11 +38,11 @@ function onTimestampChange() {
 </template>
 
 <style>
-.dev-toys-date .el-input__wrapper {
+.devtoys-date .el-input__wrapper {
   width: 100%;
 }
 
-.dev-toys-date .el-input__suffix {
+.devtoys-date .el-input__suffix {
   display: none;
 }
 </style>

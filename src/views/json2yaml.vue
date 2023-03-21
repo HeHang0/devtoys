@@ -7,8 +7,8 @@ const { t } = useLanguageStore();
 </script>
 
 <template>
-  <div class="dev-toys-json2yaml">
-    <div class="dev-toys-json2yaml-editor">
+  <div class="devtoys-json2yaml">
+    <div class="devtoys-json2yaml-editor">
       <Editor
         :value="page.json2yaml.json"
         language="json"
@@ -16,7 +16,7 @@ const { t } = useLanguageStore();
         <template #title> JSON </template>
       </Editor>
     </div>
-    <div class="dev-toys-json2yaml-editor">
+    <div class="devtoys-json2yaml-editor">
       <Editor
         :value="page.json2yaml.yaml"
         language="yaml"
@@ -28,7 +28,7 @@ const { t } = useLanguageStore();
 </template>
 
 <style lang="less" scoped>
-.dev-toys-json2yaml {
+.devtoys-json2yaml {
   position: absolute;
   left: 0;
   top: 0;

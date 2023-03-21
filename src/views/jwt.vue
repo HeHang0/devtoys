@@ -7,8 +7,8 @@ const { t } = useLanguageStore();
 </script>
 
 <template>
-  <div class="dev-toys-jwt">
-    <div class="dev-toys-jwt-editor">
+  <div class="devtoys-jwt">
+    <div class="devtoys-jwt-editor">
       <Editor
         :value="page.jwt.jwt"
         language="text"
@@ -16,14 +16,14 @@ const { t } = useLanguageStore();
         <template #title> {{t('JWT Key')}} </template>
       </Editor>
     </div>
-    <div class="dev-toys-jwt-editor">
+    <div class="devtoys-jwt-editor">
       <Editor
         :value="page.jwt.header"
         language="json">
         <template #title> {{t('Header')}} </template>
       </Editor>
     </div>
-    <div class="dev-toys-jwt-editor">
+    <div class="devtoys-jwt-editor">
       <Editor
         :value="page.jwt.payload"
         language="json">
@@ -34,7 +34,7 @@ const { t } = useLanguageStore();
 </template>
 
 <style lang="less" scoped>
-.dev-toys-jwt {
+.devtoys-jwt {
   position: absolute;
   left: 0;
   top: 0;

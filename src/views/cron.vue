@@ -13,7 +13,7 @@ const formatterCron = (value: string) => value.replace(/[^\s\*\d]/g, '')
 </script>
 
 <template>
-    <el-form label-position="top" label-width="100px" style="max-width: 460px" class="dev-toys-date">
+    <el-form label-position="top" label-width="100px" style="max-width: 460px" class="devtoys-date">
         <!-- <el-form-item :label="t('Cron Mode Contain Second(6 paragraphs)')">
             <el-switch v-model="page.cron.containSecond" />
         </el-form-item> -->

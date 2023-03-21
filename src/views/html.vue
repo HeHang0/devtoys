@@ -7,8 +7,8 @@ const { t } = useLanguageStore();
 </script>
 
 <template>
-  <div class="dev-toys-html">
-    <div class="dev-toys-html-editor">
+  <div class="devtoys-html">
+    <div class="devtoys-html-editor">
       <Editor
         :value="page.html.html"
         language="html"
@@ -16,7 +16,7 @@ const { t } = useLanguageStore();
         <template #title> {{t('Decoded')}} </template>
       </Editor>
     </div>
-    <div class="dev-toys-html-editor">
+    <div class="devtoys-html-editor">
       <Editor
         :value="page.html.text"
         language="text"
@@ -28,7 +28,7 @@ const { t } = useLanguageStore();
 </template>
 
 <style lang="less" scoped>
-.dev-toys-html {
+.devtoys-html {
   position: absolute;
   left: 0;
   top: 0;

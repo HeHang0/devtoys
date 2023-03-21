@@ -12,8 +12,8 @@ const { currentRoute } = useRouter()
 </script>
 
 <template>
-  <div class="dev-toys-formatter">
-    <div class="dev-toys-formatter-editor">
+  <div class="devtoys-formatter">
+    <div class="devtoys-formatter-editor">
       <Editor
         v-model:value="page.formatter.text"
         :language="`${currentRoute.meta.key}` || 'json'"
@@ -23,7 +23,7 @@ const { currentRoute } = useRouter()
 </template>
 
 <style lang="less" scoped>
-.dev-toys-formatter {
+.devtoys-formatter {
   position: absolute;
   left: 0;
   top: 0;

@@ -103,7 +103,7 @@ function textSelect(e: Event) {
 }
 </script>
 <template>
-  <div class="dev-toys-editor">
+  <div class="devtoys-editor">
     <Title>
       <template #title>
         <slot name="title"></slot>
@@ -121,7 +121,7 @@ function textSelect(e: Event) {
           style="margin-right: 12px"
         >
           <el-icon>
-            <i class="dev-toys-icon">ģ</i>
+            <i class="devtoys-icon">ģ</i>
           </el-icon>
         </el-button>
         <el-upload
@@ -158,7 +158,7 @@ function textSelect(e: Event) {
         (props.editorType || settings.editorType) == EditorType.MonacoEditor ||
         props.difference
       "
-      class="dev-toys-monaco-editor-body"
+      class="devtoys-monaco-editor-body"
     >
       <MonacoEditor
         ref="monacoEditorRef"
@@ -170,7 +170,7 @@ function textSelect(e: Event) {
         @change="textChange"
       ></MonacoEditor>
     </div>
-    <div v-else class="dev-toys-editor-body el-textarea">
+    <div v-else class="devtoys-editor-body el-textarea">
       <textarea
         ref="textAreaRef"
         class="el-textarea__inner"
@@ -183,7 +183,7 @@ function textSelect(e: Event) {
   </div>
 </template>
 <style lang="less">
-.dev-toys-editor {
+.devtoys-editor {
   width: 100%;
   height: 100%;
   &-body {

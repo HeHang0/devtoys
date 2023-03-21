@@ -10,15 +10,15 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article)
 </script>
 
 <template>
-  <div class="dev-toys-ligen">
-    <div class="dev-toys-ligen-generate">
+  <div class="devtoys-ligen">
+    <div class="devtoys-ligen-generate">
       <span>主题：</span>
       <el-input v-model="page.ligen.topic"/>
       <el-button type="primary"  @click="page.generateLigen">
         {{ t('Generate article') }}
       </el-button>
     </div>
-    <div class="dev-toys-ligen-editor">
+    <div class="devtoys-ligen-editor">
       <Editor
         :value="page.ligen.article"
         language="text">
@@ -47,7 +47,7 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article)
 </template>
 
 <style lang="less" scoped>
-.dev-toys-ligen {
+.devtoys-ligen {
   position: absolute;
   left: 0;
   top: 0;

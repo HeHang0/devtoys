@@ -37,7 +37,7 @@ function exportPicture() {
 </script>
 
 <template>
-  <div class="dev-toys-qrcode">
+  <div class="devtoys-qrcode">
     <SettingCard :title="t('Correction Level')">
       <template #icon>
         <el-icon><Operation /></el-icon>
@@ -49,7 +49,7 @@ function exportPicture() {
         <el-option :label="t('Low')" value="L" />
       </el-select>
     </SettingCard>
-    <div class="dev-toys-qrcode-editor">
+    <div class="devtoys-qrcode-editor">
       <Editor
         v-model:value="page.qrcode.text"
         language="text"
@@ -71,14 +71,14 @@ function exportPicture() {
           style="margin-left: 12px"
         />
     </Title>
-    <div class="dev-toys-qrcode-image">
+    <div class="devtoys-qrcode-image">
       <img v-if="imageUrl" :src="imageUrl"/>
     </div>
   </div>
 </template>
 
 <style lang="less" scoped>
-.dev-toys-qrcode {
+.devtoys-qrcode {
   display: flex;
   // justify-content: space-between;
   flex-direction: column;

@@ -10,16 +10,16 @@ const copyText = (text: string) => navigator.clipboard.writeText(text)
 </script>
 
 <template>
-  <div class="dev-toys-hash">
+  <div class="devtoys-hash">
     <SettingCard :title="t('UpperCase')">
       <template #icon>
-        <span class="dev-toys-icon">
+        <span class="devtoys-icon">
           &#x132;
         </span>
       </template>
       <el-switch size="small" v-model="page.hash.upper" @change="page.hashUpperChange"/>
     </SettingCard>
-    <div class="dev-toys-hash-editor">
+    <div class="devtoys-hash-editor">
       <Editor
         :value="page.hash.text"
         language="text"
@@ -27,7 +27,7 @@ const copyText = (text: string) => navigator.clipboard.writeText(text)
         <template #title> {{t('Text')}} </template>
       </Editor>
     </div>
-    <el-form label-position="top" label-width="100px" class="dev-toys-hash-form">
+    <el-form label-position="top" label-width="100px" class="devtoys-hash-form">
       <el-form-item label="MD5">
         <el-input v-model="page.hash.md5" readonly />
         <el-button
@@ -73,7 +73,7 @@ const copyText = (text: string) => navigator.clipboard.writeText(text)
 </template>
 
 <style lang="less" scoped>
-.dev-toys-hash {
+.devtoys-hash {
   display: flex;
   // justify-content: space-between;
   flex-direction: column;
@@ -89,7 +89,7 @@ const copyText = (text: string) => navigator.clipboard.writeText(text)
 }
 </style>
 <style lang="less">
-.dev-toys-hash {
+.devtoys-hash {
   .el-form-item__content {
     flex-wrap: nowrap;
   }

@@ -9,23 +9,23 @@ const props = withDefaults(defineProps<Props>(), {
 });
 </script>
 <template>
-  <el-card class="dev-toys-setting-card">
+  <el-card class="devtoys-setting-card">
     <template #header>
-      <div class="dev-toys-setting-layout">
-        <div class="dev-toys-setting-card-left">
-          <el-icon class="dev-toys-setting-card-icon">
+      <div class="devtoys-setting-layout">
+        <div class="devtoys-setting-card-left">
+          <el-icon class="devtoys-setting-card-icon">
             <slot name="icon"></slot>
           </el-icon>
-          <div class="dev-toys-setting-card-text">
-            <span class="dev-toys-setting-card-title">
+          <div class="devtoys-setting-card-text">
+            <span class="devtoys-setting-card-title">
               {{ props.title }}
             </span>
-            <span v-if="props.desc" class="dev-toys-setting-card-desc">
+            <span v-if="props.desc" class="devtoys-setting-card-desc">
               {{ props.desc }}
             </span>
           </div>
         </div>
-        <span class="dev-toys-setting-card-body">
+        <span class="devtoys-setting-card-body">
           <slot></slot>
         </span>
       </div>
@@ -34,19 +34,19 @@ const props = withDefaults(defineProps<Props>(), {
 </template>
   
 <style lang="less" scoped>
-.dev-toys-setting-card {
+.devtoys-setting-card {
   width: 100%;
   box-shadow: none;
   margin-bottom: 20px;
 
-  .dev-toys-setting-layout {
+  .devtoys-setting-layout {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .dev-toys-setting-card-left {
+    .devtoys-setting-card-left {
       display: flex;
       align-items: center;
-      .dev-toys-setting-card-text {
+      .devtoys-setting-card-text {
         display: inline-flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -54,11 +54,11 @@ const props = withDefaults(defineProps<Props>(), {
         margin-left: 20px;
         font-size: var(--el-font-size-small);
       }
-      .dev-toys-setting-card-icon {
+      .devtoys-setting-card-icon {
         font-size: 25px;
         color: var(--el-text-color-secondary);
       }
-      .dev-toys-setting-card-desc {
+      .devtoys-setting-card-desc {
         color: var(--el-text-color-secondary);
         font-size: var(--el-font-size-extra-small);
       }
@@ -68,7 +68,7 @@ const props = withDefaults(defineProps<Props>(), {
 </style>
   
 <style lang="less">
-.dev-toys-setting-card {
+.devtoys-setting-card {
   .el-card__header {
     border-bottom: 0;
     padding: 10px 20px;

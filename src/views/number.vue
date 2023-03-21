@@ -31,7 +31,7 @@ const formatterBinary = (value: string) => value.replace(/[^0-1]/g, '')
 </script>
 
 <template>
-  <el-form label-position="top" label-width="100px" style="max-width: 460px" class="dev-toys-date">
+  <el-form label-position="top" label-width="100px" style="max-width: 460px" class="devtoys-date">
     <el-form-item :label="t('Decimal')">
       <el-input v-model="page.number.decimal" :formatter="formatterDecimal" @input="onDecimalChange" />
     </el-form-item>
@@ -48,11 +48,11 @@ const formatterBinary = (value: string) => value.replace(/[^0-1]/g, '')
 </template>
 
 <style>
-.dev-toys-date .el-input__wrapper {
+.devtoys-date .el-input__wrapper {
   width: 100%;
 }
 
-.dev-toys-date .el-input__suffix {
+.devtoys-date .el-input__suffix {
   display: none;
 }
 </style>

@@ -34,16 +34,16 @@ function upperCaseChange() {
 </script>
 
 <template>
-  <div class="dev-toys-checksum" v-loading="loading">
+  <div class="devtoys-checksum" v-loading="loading">
     <SettingCard :title="t('UpperCase')">
       <template #icon>
-        <span class="dev-toys-icon"> &#x132; </span>
+        <span class="devtoys-icon"> &#x132; </span>
       </template>
       <el-switch size="small" v-model="page.checksum.upper" @change="upperCaseChange"/>
     </SettingCard>
     <SettingCard :title="t('Hash Algorithm')">
       <template #icon>
-        <span class="dev-toys-icon"> &#x125; </span>
+        <span class="devtoys-icon"> &#x125; </span>
       </template>
       <el-select
         v-model="page.checksum.algorithm"
@@ -71,9 +71,9 @@ function upperCaseChange() {
     <el-form
       label-position="top"
       label-width="100px"
-      class="dev-toys-checksum-form"
+      class="devtoys-checksum-form"
     >
-      <el-form-item :label="t('File')" class="dev-toys-checksum-form-upload">
+      <el-form-item :label="t('File')" class="devtoys-checksum-form-upload">
         <el-upload
           drag
           :show-file-list="false"
@@ -101,7 +101,7 @@ function upperCaseChange() {
 </template>
 
 <style lang="less" scoped>
-.dev-toys-checksum {
+.devtoys-checksum {
   display: flex;
   // justify-content: space-between;
   flex-direction: column;
@@ -116,7 +116,7 @@ function upperCaseChange() {
 }
 </style>
 <style lang="less">
-.dev-toys-checksum {
+.devtoys-checksum {
   .el-form-item__content {
     flex-wrap: nowrap;
   }

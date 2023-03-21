@@ -44,7 +44,7 @@ export function readTextFile(file: File): Promise<string> {
 }
 
 export function setFontFamily(font: string[]) {
-    let fontStyle = document.getElementById("dev-toys-font-family")
+    let fontStyle = document.getElementById("devtoys-font-family")
     if (fontStyle) fontStyle.remove()
     if (typeof font === "string") font = [font]
     if (font) {
@@ -53,7 +53,7 @@ export function setFontFamily(font: string[]) {
     }
     if (!font || font.length <= 0) return []
     fontStyle = document.createElement("style")
-    fontStyle.id = "dev-toys-font-family"
+    fontStyle.id = "devtoys-font-family"
     fontStyle.innerHTML = `html>body, input, input::placeholder{font-family: ${font
         .map(m => (m.includes(" ") ? `"${m}"` : m))
         .join(", ")};}`

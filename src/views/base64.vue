@@ -7,8 +7,8 @@ const { t } = useLanguageStore();
 </script>
 
 <template>
-  <div class="dev-toys-base64">
-    <div class="dev-toys-base64-editor">
+  <div class="devtoys-base64">
+    <div class="devtoys-base64-editor">
       <Editor
         :value="page.base64.decoded"
         language="text"
@@ -16,7 +16,7 @@ const { t } = useLanguageStore();
         <template #title> {{t('Decoded')}} </template>
       </Editor>
     </div>
-    <div class="dev-toys-base64-editor">
+    <div class="devtoys-base64-editor">
       <Editor
         :value="page.base64.encoded"
         language="text"
@@ -28,7 +28,7 @@ const { t } = useLanguageStore();
 </template>
 
 <style lang="less" scoped>
-.dev-toys-base64 {
+.devtoys-base64 {
   position: absolute;
   left: 0;
   top: 0;

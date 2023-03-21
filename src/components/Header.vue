@@ -13,9 +13,9 @@ function setAsideShow() {
 </script>
 <template>
   <el-header
-    class="dev-toys-header"
+    class="devtoys-header"
   >
-    <div class="dev-toys-header-logo" :class="settings.showAside ? '' : 'dev-toys-header-collapse'">
+    <div class="devtoys-header-logo" :class="settings.showAside ? '' : 'devtoys-header-collapse'">
       <img src="/logo.png" @click="setAsideShow" />
       <span>DevToys</span>
     </div>
@@ -23,7 +23,7 @@ function setAsideShow() {
   </el-header>
 </template>
 <style lang="less" scoped>
-.dev-toys-header {
+.devtoys-header {
   transition: padding 0.5s;
   --el-header-height: 40px;
   --el-header-padding: 0 5px;
@@ -32,7 +32,7 @@ function setAsideShow() {
   justify-content: flex-start;
   align-items: center;
 
-  .dev-toys-header-logo {
+  .devtoys-header-logo {
     // width: 30px;
     display: flex;
     align-items: center;
@@ -51,7 +51,7 @@ function setAsideShow() {
       opacity: 1;
     }
   }
-  .dev-toys-header-logo.dev-toys-header-collapse {
+  .devtoys-header-logo.devtoys-header-collapse {
       span {
         opacity: 0;
       }

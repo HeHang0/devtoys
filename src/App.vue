@@ -15,7 +15,6 @@ afterEach(() => {
     const ele = document.getElementById(currentRoute.value.meta.key as string);
     ele && ele.scrollIntoView({ block: "nearest" });
   }
-  console.log("路由", currentRoute.value.path)
   if (
     !onceRouter &&
     settings.rememberRouter &&
@@ -31,13 +30,13 @@ afterEach(() => {
 
 <template>
   <el-config-provider :locale="language.elementLocale">
-    <el-container class="dev-toys-layout">
+    <el-container class="devtoys-layout">
       <title>{{ language.t(currentRoute.name) }} - DevToys</title>
       <SideMenu />
 
       <el-container direction="vertical">
         <Header />
-        <el-main class="dev-toys-main">
+        <el-main class="devtoys-main">
           <el-scrollbar>
             <RouterView />
           </el-scrollbar>
@@ -48,7 +47,7 @@ afterEach(() => {
 </template>
 
 <style lang="less" scoped>
-.dev-toys-layout {
+.devtoys-layout {
   width: 100vw;
   height: 100vh;
   background-color: var(--el-bg-color-page);
@@ -61,7 +60,7 @@ afterEach(() => {
 </style>
 
 <style lang="less">
-.dev-toys-main > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
+.devtoys-main > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
   position: relative;
   min-height: 100%;
 }

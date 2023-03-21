@@ -116,7 +116,7 @@ function stopVideo() {
 </script>
 
 <template>
-  <div class="dev-toys-rqrcode">
+  <div class="devtoys-rqrcode">
     <Title>
       <template #title>
         {{ t("QR Code") }}
@@ -135,15 +135,15 @@ function stopVideo() {
         }}</el-radio-button>
       </el-radio-group>
     </Title>
-    <div class="dev-toys-rqrcode-reader">
-      <div class="dev-toys-rqrcode-reader-type">
+    <div class="devtoys-rqrcode-reader">
+      <div class="devtoys-rqrcode-reader-type">
         <video v-show="page.rqrcode.readerType === QRCodeReaderType.Camera" ref="videoRef"></video>
         <template v-if="page.rqrcode.readerType === QRCodeReaderType.Camera"></template>
         <ClipoardPaste v-else-if="page.rqrcode.readerType === QRCodeReaderType.Clipboard" @change="onPaste">
-          <el-icon class="dev-toys-icon--paste">
+          <el-icon class="devtoys-icon--paste">
             <List />
           </el-icon>
-          <div class="dev-toys-paste__text">
+          <div class="devtoys-paste__text">
             {{ t("Paste Files Here") }}
           </div>
         </ClipoardPaste>
@@ -157,11 +157,11 @@ function stopVideo() {
           </div>
         </el-upload>
       </div>
-      <div class="dev-toys-rqrcode-reader-image">
+      <div class="devtoys-rqrcode-reader-image">
         <img v-if="imageUrl" :src="imageUrl" />
       </div>
     </div>
-    <div class="dev-toys-rqrcode-editor">
+    <div class="devtoys-rqrcode-editor">
       <Editor :value="page.rqrcode.text" language="text" :readonly="true">
         <template #title> {{ t("Text") }} </template>
       </Editor>
@@ -170,7 +170,7 @@ function stopVideo() {
 </template>
 
 <style lang="less" scoped>
-.dev-toys-rqrcode {
+.devtoys-rqrcode {
   display: flex;
   // justify-content: space-between;
   flex-direction: column;
@@ -227,7 +227,7 @@ function stopVideo() {
     margin-top: 20px;
   }
 
-  .dev-toys-title {
+  .devtoys-title {
     margin: 20px 0 0 0;
   }
 }

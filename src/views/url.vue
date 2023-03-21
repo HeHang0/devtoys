@@ -8,19 +8,19 @@ const { t } = useLanguageStore();
 </script>
 
 <template>
-  <div class="dev-toys-url">
-    <div class="dev-toys-url-editor">
+  <div class="devtoys-url">
+    <div class="devtoys-url-editor">
       <Editor
         :value="page.url.url"
         language="url"
         @delay-input="page.urlChange">
         <template #title> {{t('Decoded')}} </template>
         <template #more-operate>
-          <span class="dev-toys-url-switch">参数：<el-switch size="small" v-model="page.url.encodeComponent" @change="page.urlChange(page.url.url)"/></span>
+          <span class="devtoys-url-switch">参数：<el-switch size="small" v-model="page.url.encodeComponent" @change="page.urlChange(page.url.url)"/></span>
         </template>
       </Editor>
     </div>
-    <div class="dev-toys-url-editor">
+    <div class="devtoys-url-editor">
       <Editor
         :value="page.url.text"
         language="text"
@@ -32,7 +32,7 @@ const { t } = useLanguageStore();
 </template>
 
 <style lang="less" scoped>
-.dev-toys-url {
+.devtoys-url {
   position: absolute;
   left: 0;
   top: 0;
