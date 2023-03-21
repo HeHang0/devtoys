@@ -15,7 +15,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    monacoEditorPlugin({}),
+    monacoEditorPlugin({
+      languageWorkers: ["css", "html", "json", "editorWorkerService"]
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),

@@ -36,7 +36,7 @@ function getValue<T>(key: string, defaultValue?: T, type?: string): T {
         } catch { }
     }
     if((value == undefined && defaultValue) || (type && typeof result !== type)) result = defaultValue;
-    return value;
+    return result;
 }
 
 function removeKey(key: string): any {

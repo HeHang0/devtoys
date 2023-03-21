@@ -24,7 +24,7 @@ menus.map(m => {
 })
 routers.push({ path: "/catchAll(.*)", redirect: "/" })
 const router = createRouter({
-    history: createWebHistory(storage.getValue(StorageKey.RouterHistory, "")),
+    history: createWebHistory(storage.getValue(StorageKey.RouterHistory, "", "string")),
     routes: routers,
 })
 
