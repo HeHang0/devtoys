@@ -38,7 +38,7 @@ jobs:
         run: |
           yarn
           yarn build-only
-          echo '<html><head><script>let pathname=location.pathname.substring(9).split("/")[0];pathname&&localStorage.setItem("devtoys-last-router",pathname);location.href="/devtoys"</script></head></html>' > devtoys/404.html
+          echo '<html><head><script>let pathname=location.pathname.substring(9).split("/")[0];pathname&&localStorage.setItem("devtoys-last-router","/"+pathname);location.href="/devtoys"</script></head></html>' > devtoys/404.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
