@@ -15,7 +15,8 @@ export enum StorageKey {
     CheckSumUpperCase = "checksum-upper-case",
     CheckSumAlgorithm = "checksum-algorithm",
     QRCodeLevel = "qrcode-level",
-    QRCodeReaderType = "qrcode-reader-type"
+    QRCodeReaderType = "qrcode-reader-type",
+    RouterHistory = "router-history"
 }
 
 function setValue<T>(key: string, value: T) {
@@ -26,14 +27,15 @@ function setValue<T>(key: string, value: T) {
     localStorage.setItem("devtoys-" + key, result);
 }
 
-function getValue<T>(key: string, defaultValue?: T): T {
+function getValue<T>(key: string, defaultValue?: T, type?: string): T {
     const value = localStorage.getItem("devtoys-" + key) as any;
+    let result = value;
     if(value) {
         try {
-            return JSON.parse(value as string);
+            result = JSON.parse(value as string);
         } catch { }
     }
-    if(value == undefined && defaultValue) return defaultValue;
+    if((value == undefined && defaultValue) || (type && typeof result !== type)) result = defaultValue;
     return value;
 }
 

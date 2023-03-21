@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router"
 import HomeView from "../views/home.vue"
 import { menus } from "../stores/menu"
+import { storage, StorageKey } from "../utils/storage"
 const routers: RouteRecordRaw[] = []
 menus.map(m => {
     if (Array.isArray(m.children)) {
@@ -23,7 +24,7 @@ menus.map(m => {
 })
 routers.push({ path: "/catchAll(.*)", redirect: "/" })
 const router = createRouter({
-    history: createWebHistory("devtoys"),
+    history: createWebHistory(storage.getValue(StorageKey.RouterHistory, "")),
     routes: routers,
 })
 

@@ -77,5 +77,9 @@ onUnmounted(() => {
     margin-bottom: 16px;
     line-height: 50px;
   }
+  .dev-toys-paste__text {
+    color: var(--el-text-color-regular);
+    font-size: 14px;
+  }
 }
 </style>

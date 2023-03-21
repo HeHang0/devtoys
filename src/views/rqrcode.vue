@@ -10,6 +10,8 @@ import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const imageUrl = ref("");
 const videoRef: Ref<HTMLVideoElement | null> = ref(null);
+const switchVideo = ref(false);
+let mediaStream: MediaStream | null = null;
 const { t } = useLanguageStore();
 function readFile(file: File | null) {
   if (!file || !file.type.includes("image")) return false;
@@ -53,68 +55,77 @@ function onPaste(pasteType: any, result: File | string, fileType?: string) {
   }
 }
 function qrcodeReaderTypeChange(change?: any) {
-  if (typeof change !== "undefined") page.qrcodeReaderTypeChange();
-  if (page.rqrcode.readerType === QRCodeReaderType.Camera) {
-    displayVideo();
+  page.qrcodeReaderTypeChange();
+  if (page.rqrcode.readerType !== QRCodeReaderType.Camera) {
+    stopVideo();
+  }
+}
+
+function switchVideoMode() {
+  if (switchVideo.value) {
+    startVideo();
   } else {
     stopVideo();
   }
 }
-onMounted(() => {
-  qrcodeReaderTypeChange()
-})
-let mediaStream: MediaStream | null = null;
-let timeOut = null
+
 function startCap() {
   setTimeout(() => {
-    if(!videoRef.value || !videoRef.value.srcObject) return
+    if (!videoRef.value || !videoRef.value.srcObject) return
     var canvas = document.createElement("canvas");
-     canvas.width = videoRef.value.clientWidth;
-     canvas.height = videoRef.value.clientHeight;
-     const canvas2D = canvas.getContext("2d")
-     if(canvas2D) canvas2D.drawImage(videoRef.value, 0, 0, canvas.width, canvas.height);//截
-     var dataURL = canvas.toDataURL("image/png");
-     canvas.remove()
-     qrcodeParser(dataURL)
-        .then((res: string) => {
-          page.rqrcode.text = res;
-          imageUrl.value = dataURL;
-        }).catch(() => {}).finally(() => {
-          startCap()
-        })
+    canvas.width = videoRef.value.clientWidth;
+    canvas.height = videoRef.value.clientHeight;
+    const canvas2D = canvas.getContext("2d")
+    if (canvas2D) canvas2D.drawImage(videoRef.value, 0, 0, canvas.width, canvas.height);//截
+    var dataURL = canvas.toDataURL("image/png");
+    canvas.remove()
+    qrcodeParser(dataURL)
+      .then((res: string) => {
+        page.rqrcode.text = res;
+        imageUrl.value = dataURL;
+      }).catch(() => { }).finally(() => {
+        startCap()
+      })
   }, 1000);
 }
-function displayVideo() {
+function videoSuccess(stream: MediaStream) {
+  mediaStream = stream;
+  if (videoRef.value) {
+    videoRef.value.srcObject = stream;
+    startCap();
+    videoRef.value.play();
+  }
+}
+function videoError(error: any) {
+  ElMessage.warning(
+    t('Failed to call camera') + (error ? ", " + error.message : "")
+  );
+  stopVideo()
+}
+function startVideo() {
   if (!videoRef.value) return;
-  navigator.mediaDevices
-    .getUserMedia({
+  const nav = navigator as any
+  nav.getUserMedia = nav.getUserMedia || (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
+  try {
+    const result = nav.getUserMedia({
       audio: false,
       video: {
         width: videoRef.value.parentElement!.clientWidth,
         height: videoRef.value.parentElement!.clientHeight
       }
-    })
-    .then((stream) => {
-      mediaStream = stream;
-      if (videoRef.value) {
-        videoRef.value.srcObject = stream;
-        startCap();
-        videoRef.value.play();
-      }
-    })
-    .catch((error) => {
-      ElMessage.warning(
-        t('调用摄像头失败') + error ? ", " + error.message : ""
-      );
-    });
+    }, videoSuccess, videoError)
+    result && result.then && result.then(videoSuccess).catch(videoError);
+  } catch (error) {
+    videoError(error)
+  }
 }
 function stopVideo() {
-  console.log("调用通知", mediaStream)
   mediaStream &&
     mediaStream.getVideoTracks().forEach(function (track) {
       track.stop();
     });
   if (videoRef.value) videoRef.value.srcObject = null;
+  switchVideo.value = false;
 }
 </script>
 
@@ -123,12 +134,10 @@ function stopVideo() {
     <Title>
       <template #title>
         {{ t("QR Code") }}
+        <el-switch v-if="page.rqrcode.readerType == QRCodeReaderType.Camera" 
+          size="small" v-model="switchVideo" @change="switchVideoMode" style="margin-left: 10px"/>
       </template>
-      <el-radio-group
-        v-model="page.rqrcode.readerType"
-        size="small"
-        @change="qrcodeReaderTypeChange"
-      >
+      <el-radio-group v-model="page.rqrcode.readerType" size="small" @change="qrcodeReaderTypeChange">
         <el-radio-button :label="QRCodeReaderType.File">{{
           t("File")
         }}</el-radio-button>
@@ -142,30 +151,20 @@ function stopVideo() {
     </Title>
     <div class="dev-toys-rqrcode-reader">
       <div class="dev-toys-rqrcode-reader-type">
-        <video
-          v-show="page.rqrcode.readerType === QRCodeReaderType.Camera"
-          ref="videoRef"
-        ></video>
-        <template
-          v-if="page.rqrcode.readerType === QRCodeReaderType.Camera"
-        ></template>
-        <ClipoardPaste
-          v-else-if="page.rqrcode.readerType === QRCodeReaderType.Clipboard"
-          @change="onPaste"
-        >
-          <el-icon class="dev-toys-icon--paste"><List /></el-icon>
+        <video v-show="page.rqrcode.readerType === QRCodeReaderType.Camera" ref="videoRef"></video>
+        <template v-if="page.rqrcode.readerType === QRCodeReaderType.Camera"></template>
+        <ClipoardPaste v-else-if="page.rqrcode.readerType === QRCodeReaderType.Clipboard" @change="onPaste">
+          <el-icon class="dev-toys-icon--paste">
+            <List />
+          </el-icon>
           <div class="dev-toys-paste__text">
             {{ t("Paste Files Here") }}
           </div>
         </ClipoardPaste>
-        <el-upload
-          v-else
-          drag
-          :show-file-list="false"
-          :before-upload="readFile"
-          class="aaaa"
-        >
-          <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
+        <el-upload v-else drag :show-file-list="false" :before-upload="readFile" class="aaaa">
+          <el-icon class="el-icon--upload">
+            <UploadFilled />
+          </el-icon>
           <div class="el-upload__text">
             {{ t("Drop Files Here") }} {{ t("or") }}
             <em>{{ t("Click to Open") }}</em>
@@ -205,12 +204,15 @@ function stopVideo() {
     width: 100%;
     height: 187.4px;
     margin-bottom: 20px;
+
     &-type {
       flex: 1;
-      & > div,
-      & > div > .el-upload {
+
+      &>div,
+      &>div>.el-upload {
         height: 100%;
       }
+
       video {
         width: 100%;
         height: 100%;
@@ -218,6 +220,7 @@ function stopVideo() {
         border-radius: 6px;
       }
     }
+
     &-image {
       width: 200px;
       height: 100%;
@@ -225,6 +228,7 @@ function stopVideo() {
       border: 1px dashed var(--el-border-color);
       border-radius: 6px;
       padding: 5px;
+
       img {
         width: 100%;
         height: 100%;
@@ -236,6 +240,7 @@ function stopVideo() {
   &-form {
     margin-top: 20px;
   }
+
   .dev-toys-title {
     margin: 20px 0 0 0;
   }
