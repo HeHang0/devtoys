@@ -3,11 +3,18 @@ import { storage, StorageKey } from '@/utils/storage';
 import type { RouteLocationRaw } from 'vue-router';
 import { setFontFamily } from '@/utils/utils';
 import { allMenus } from './menu';
+
 export enum AppTheme {
   Auto = "auto",
   Dark = "dark",
   Light = "light"
 }
+
+export enum EditorType {
+  Default = "Default",
+  MonacoEditor = "Monaco Editor"
+}
+
 let appTheme = storage.getValue(StorageKey.AppTheme, AppTheme.Auto)
 const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 const handleThemeChange = (event: MediaQueryListEvent|boolean) => {
@@ -37,6 +44,7 @@ export const useSettingsStore = defineStore("settings", {
       appTheme: appTheme,
       fontFamily: setFontFamily(fontFamily),
       favoriteRouters: handleFavorities(storage.getValue<string[]>(StorageKey.FavoriteRouters, [])),
+      editorType: storage.getValue(StorageKey.EditorType, EditorType.Default),
     };
   },
   actions: {
@@ -77,6 +85,9 @@ export const useSettingsStore = defineStore("settings", {
         this.favoriteRouters.splice(i, 1)
         storage.setValue(StorageKey.FavoriteRouters, this.favoriteRouters.map(m => m.key))
       }
+    },
+    editorTypeChange() {
+      storage.setValue(StorageKey.EditorType, this.editorType)
     }
   },
   getters: {

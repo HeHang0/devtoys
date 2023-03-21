@@ -1,41 +1,34 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function jwtChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.jwtChange.bind(page, value), 200);
-}
 </script>
 
 <template>
   <div class="dev-toys-jwt">
     <div class="dev-toys-jwt-editor">
-      <MonacoEditor
+      <Editor
         :value="page.jwt.jwt"
         language="text"
-        @changeValue="jwtChange">
+        @delayInput="page.jwtChange">
         <template #title> {{t('JWT Key')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-jwt-editor">
-      <MonacoEditor
+      <Editor
         :value="page.jwt.header"
-        language="json"
-        :readonly="true">
+        language="json">
         <template #title> {{t('Header')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-jwt-editor">
-      <MonacoEditor
+      <Editor
         :value="page.jwt.payload"
-        language="json"
-        :readonly="true">
+        language="json">
         <template #title> {{t('Payload')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

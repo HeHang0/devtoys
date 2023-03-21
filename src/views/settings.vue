@@ -3,7 +3,7 @@ import { Operation, Sunny, Moon } from "@element-plus/icons-vue";
 import SettingCard from '@/components/SettingCard.vue';
 import IconLanguage from "@/components/icons/IconLanguage.vue";
 import { useLanguageStore, Language } from "@/stores/language";
-import { useSettingsStore, AppTheme } from "@/stores/settings";
+import { useSettingsStore, AppTheme, EditorType } from "@/stores/settings";
 import { ref } from "vue";
 const language = useLanguageStore();
 const settings = useSettingsStore();
@@ -51,6 +51,17 @@ function clearFontFamily() {
       <el-select v-model="fontFamily" size="small" @change="fontChange" multiple>
         <el-option :label="t('Default')" value="" @click="clearFontFamily"/>
         <el-option v-for="font in fonts" :label="font" :value="font" :key="font"/>
+      </el-select>
+    </SettingCard>
+    <SettingCard :title="t('Text Editor')" :desc="t('Choose the text editor you want to use.')">
+      <template #icon>
+        <span class="dev-toys-icon">
+          &#x0122;
+        </span>
+      </template>
+      <el-select v-model="settings.editorType" size="small" @change="settings.editorTypeChange">
+        <el-option :label="t(EditorType.Default)" :value="EditorType.Default"/>
+        <el-option :label="EditorType.MonacoEditor" :value="EditorType.MonacoEditor"/>
       </el-select>
     </SettingCard>
   </div>

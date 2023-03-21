@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import SettingCard from '@/components/SettingCard.vue';
 import { CopyDocument, Close } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";
@@ -38,7 +38,7 @@ function countInput() {
       <el-input v-model="page.uuid.count" type="number" @input="countInput"/>
     </div>
     <div class="dev-toys-uuid-editor">
-      <MonacoEditor
+      <Editor
         :value="page.uuid.text"
         :readonly="true"
         language="text">
@@ -60,7 +60,7 @@ function countInput() {
             style="margin-left: 12px"
           />
         </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

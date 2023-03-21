@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import SettingCard from '@/components/SettingCard.vue';
 import { CopyDocument } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function hashChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.hashTextChange.bind(page, value), 200);
-}
 const copyText = (text: string) => navigator.clipboard.writeText(text)
 </script>
 
@@ -25,12 +20,12 @@ const copyText = (text: string) => navigator.clipboard.writeText(text)
       <el-switch size="small" v-model="page.hash.upper" @change="page.hashUpperChange"/>
     </SettingCard>
     <div class="dev-toys-hash-editor">
-      <MonacoEditor
+      <Editor
         :value="page.hash.text"
         language="text"
-        @changeValue="hashChange">
+        @delayInput="page.hashTextChange">
         <template #title> {{t('Text')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <el-form label-position="top" label-width="100px" class="dev-toys-hash-form">
       <el-form-item label="MD5">

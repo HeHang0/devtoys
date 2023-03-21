@@ -15,7 +15,7 @@ afterEach(() => {
     const ele = document.getElementById(currentRoute.value.meta.key as string);
     ele && ele.scrollIntoView({ block: "nearest" });
   }
-
+  console.log("路由", currentRoute.value.path)
   if (
     !onceRouter &&
     settings.rememberRouter &&

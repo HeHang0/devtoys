@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { ref, onMounted, watch, getCurrentInstance } from "vue";
+import { ref, onMounted, watch, getCurrentInstance, onUnmounted } from "vue";
 import { CopyDocument, List, Document } from "@element-plus/icons-vue";
 import { formatCode } from "@/utils/formatter";
-import { readTextFile } from "@/utils/utils";
 import { useLanguageStore } from "@/stores/language";
 const { t } = useLanguageStore();
 
@@ -25,11 +24,43 @@ const props = withDefaults(defineProps<Props>(), {
 const editorRef = ref<HTMLDivElement>();
 const loading = ref(true);
 
-const { emit } = getCurrentInstance() as any;
+const emit = defineEmits({
+  change: (value: string) => true,
+});
 
-let editor: monaco.editor.IStandaloneCodeEditor;
+let editor: monaco.editor.IStandaloneCodeEditor | null = null;
 let editorDiff: monaco.editor.IStandaloneDiffEditor;
 let lastPosition: monaco.Position | null = null;
+
+function insertText(text: string, cover: boolean) {
+  if (!editor) return;
+  let range: monaco.Range | undefined;
+  if (cover) {
+    range = editor.getModel()?.getFullModelRange();
+    if (!range) range = new monaco.Range(0, 0, 0, 0);
+  } else {
+    let position = editor.getPosition();
+    if (!position) position = new monaco.Position(0, 0);
+    range = new monaco.Range(
+      position.lineNumber,
+      position.column,
+      position.lineNumber,
+      position.column
+    );
+  }
+
+  editor.executeEdits("insert-code", [
+    {
+      range,
+      text,
+    },
+  ]);
+  return editor.getModel()?.getValue() || "";
+}
+
+defineExpose({
+  insertText
+})
 
 onMounted(() => {
   if (props.difference) {
@@ -62,15 +93,20 @@ onMounted(() => {
       readOnly: props.readonly
     });
     editor.onDidChangeModelContent(() => {
+      if(!editor) return
       let pos = editor.getPosition();
       if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
-      emit("changeValue", editor.getValue());
-      emit("update:value", editor.getValue());
+      emit("change", editor.getValue());
     });
   }
 
   loading.value = false;
 });
+
+onUnmounted(() => {
+  editor && editor.dispose()
+  editor = null
+})
 
 watch(
   () => props.value,
@@ -117,46 +153,6 @@ props.difference &&
       }
     }
   );
-const copyText = () => {
-  const model = editor?.getModel();
-  model && navigator.clipboard.writeText(model.getValue());
-};
-function inserCode(text: string, cover?: boolean) {
-  if (!editor) return;
-  let range: monaco.Range | undefined;
-  if (cover) {
-    range = editor.getModel()?.getFullModelRange();
-    if (!range) range = new monaco.Range(0, 0, 0, 0);
-  } else {
-    let position = editor.getPosition();
-    if (!position) position = new monaco.Position(0, 0);
-    range = new monaco.Range(
-      position.lineNumber,
-      position.column,
-      position.lineNumber,
-      position.column
-    );
-  }
-
-  editor.executeEdits("insert-code", [
-    {
-      range,
-      text,
-    },
-  ]);
-}
-const pasteText = () =>
-  navigator.clipboard
-    .readText()
-    .then(inserCode)
-    .catch(() => {});
-
-function readFile(uploadFile: any) {
-  readTextFile(uploadFile)
-    .then((r) => inserCode(r, true))
-    .catch(ElMessage.warning);
-  return false;
-}
 
 monaco.languages.registerDocumentFormattingEditProvider("*", {
   provideDocumentFormattingEdits(model, options) {
@@ -177,44 +173,6 @@ monaco.languages.registerDocumentFormattingEditProvider("*", {
 </script>
 <template>
   <div class="dev-toys-monaco-editor">
-    <Title>
-      <template #title>
-        <slot name="title"></slot>
-      </template>
-      <template v-if="$slots.operate">
-        <slot name="operate"></slot>
-      </template>
-      <template v-else>
-        <slot name="more-operate"></slot>
-        <el-upload
-          style="display: inline"
-          :show-file-list="false"
-          :before-upload="readFile"
-        >
-          <el-button
-            plain
-            :icon="Document"
-            size="small"
-            :title="t('Read from file')"
-          />
-        </el-upload>
-        <el-button
-          plain
-          :icon="CopyDocument"
-          @click="copyText"
-          size="small"
-          :title="t('Copy')"
-          style="margin-left: 12px"
-        />
-        <el-button
-          plain
-          :icon="List"
-          @click="pasteText"
-          size="small"
-          :title="t('Paste')"
-        />
-      </template>
-    </Title>
     <div
       ref="editorRef"
       v-loading="loading"

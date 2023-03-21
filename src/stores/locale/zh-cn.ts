@@ -1,6 +1,6 @@
 export const language: Record<string, string> = {
     Configuration: "配置",
-    Format: "格式",
+    Format: "格式化",
     Pretty: "美化",
     Minified: "压缩",
     Encoded: "编码",
@@ -30,10 +30,12 @@ export const language: Record<string, string> = {
     Delete: "删除",
     Camera: "相机",
     Clipboard: "剪贴板",
-    "Default": "默认",
+    Default: "默认",
     or: "或",
     "Click to Open": "点击打开",
     "Failed to call camera": "调用摄像头失败",
+    "Text Editor": "文本编辑器",
+    "Parsing Failed": "解析失败",
 
     // - Category -
     "category.all": "所有工具",

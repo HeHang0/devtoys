@@ -1,45 +1,34 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function originalValueChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.originalValueChange.bind(page, value), 200);
-}
-function modifiedValueChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.modifiedValueChange.bind(page, value), 200);
-}
 </script>
 
 <template>
   <div class="dev-toys-text-diff">
     <div class="dev-toys-text-diff-editor">
-      <MonacoEditor
-        :value="page.textdiff.originalValue"
-        @changeValue="originalValueChange">
+      <Editor
+        v-model:value="page.textdiff.originalValue">
         <template #title> {{ t("Old Text") }} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-text-diff-editor">
-      <MonacoEditor
-        :value="page.textdiff.modifiedValue"
-        @changeValue="modifiedValueChange">
+      <Editor
+        v-model:value="page.textdiff.modifiedValue">
         <template #title> {{ t("New Text") }} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
 
     <div class="dev-toys-text-diff-body">
-      <MonacoEditor
+      <Editor
         :difference="true"
         :value="page.textdiff.originalValue"
         :diff-value="page.textdiff.modifiedValue">
         <template #title> {{ t("Difference") }} </template>
         <template #operate> </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

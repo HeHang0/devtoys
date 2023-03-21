@@ -1,37 +1,28 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function encodedChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.base64EncodedChange.bind(page, value), 200);
-}
-function decodedChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.base64DecodedChange.bind(page, value), 200);
-}
 </script>
 
 <template>
   <div class="dev-toys-base64">
     <div class="dev-toys-base64-editor">
-      <MonacoEditor
+      <Editor
         :value="page.base64.decoded"
         language="text"
-        @changeValue="decodedChange">
+        @delayInput="page.base64EncodedChange">
         <template #title> {{t('Decoded')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-base64-editor">
-      <MonacoEditor
+      <Editor
         :value="page.base64.encoded"
         language="text"
-        @changeValue="encodedChange">
+        @delayInput="page.base64DecodedChange">
         <template #title> {{t('Encoded')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

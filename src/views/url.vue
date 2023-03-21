@@ -1,41 +1,32 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 import { ref } from "vue";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function urlChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.urlChange.bind(page, value), 200);
-}
-function textChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.urlTextChange.bind(page, value), 200);
-}
 </script>
 
 <template>
   <div class="dev-toys-url">
     <div class="dev-toys-url-editor">
-      <MonacoEditor
+      <Editor
         :value="page.url.url"
         language="url"
-        @changeValue="urlChange">
+        @delay-input="page.urlChange">
         <template #title> {{t('Decoded')}} </template>
         <template #more-operate>
           <span class="dev-toys-url-switch">参数：<el-switch size="small" v-model="page.url.encodeComponent" @change="page.urlChange(page.url.url)"/></span>
         </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-url-editor">
-      <MonacoEditor
+      <Editor
         :value="page.url.text"
         language="text"
-        @changeValue="textChange">
+        @delay-input="page.textChange">
         <template #title> {{t('Encoded')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

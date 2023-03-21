@@ -2,7 +2,7 @@
 import { onMounted, ref, type Ref } from "vue";
 import { Share, UploadFilled, List } from "@element-plus/icons-vue";
 import qrcodeParser from "qrcode-parser";
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import SettingCard from "@/components/SettingCard.vue";
 import ClipoardPaste from "@/components/ClipoardPaste.vue";
 import { QRCodeReaderType, usePageStore } from "../stores/page";
@@ -24,21 +24,7 @@ function readFile(file: File | null) {
         .then((res: string) => {
           page.rqrcode.text = res;
         })
-        .catch(() => ElMessage.warning("解析失败"));
-      // Quagga.decodeSingle({
-      //     decoder: {
-      //         readers: ["code_128_reader", "ean_reader", "ean_5_reader", "ean_2_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader", "2of5_reader", "code_93_reader", "code_32_reader"] // List of active readers
-      //     },
-      //     locate: false, // try to locate the barcode in the image
-      //     src: imageUrl.value // or 'data:image/jpg;base64,' + data
-      // }, function(result){
-      //   console.log("二维码", result)
-      //     if(result && result.codeResult && result.codeResult.code) {
-      //       page.rqrcode.text = result.codeResult.code
-      //     } else {
-      //       ElMessage.warning("解析失败")
-      //     }
-      // });
+        .catch(() => ElMessage.warning(t('Parsing Failed')));
     }
   };
   return false;
@@ -176,9 +162,9 @@ function stopVideo() {
       </div>
     </div>
     <div class="dev-toys-rqrcode-editor">
-      <MonacoEditor :value="page.rqrcode.text" language="text" :readonly="true">
+      <Editor :value="page.rqrcode.text" language="text" :readonly="true">
         <template #title> {{ t("Text") }} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

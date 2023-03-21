@@ -16,7 +16,8 @@ export enum StorageKey {
     CheckSumAlgorithm = "checksum-algorithm",
     QRCodeLevel = "qrcode-level",
     QRCodeReaderType = "qrcode-reader-type",
-    RouterHistory = "router-history"
+    RouterHistory = "router-history",
+    EditorType = "editor-type"
 }
 
 function setValue<T>(key: string, value: T) {

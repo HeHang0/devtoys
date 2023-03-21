@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import Title from "@/components/Title.vue";
 import { CopyDocument, List, Document } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";
@@ -8,28 +8,14 @@ import { readTextFile } from "@/utils/utils";
 import { useRouter } from "vue-router";
 const page = usePageStore();
 const { t } = useLanguageStore();
-const copyText = () => navigator.clipboard.writeText(page.formatter.text);
-const pasteText = () =>
-  navigator.clipboard
-    .readText()
-    .then((r) => page.formatterTextChange(r, currentRoute.value.meta.key as string))
-    .catch(() => {});
-
-function readFile(uploadFile: any) {
-  readTextFile(uploadFile)
-    .then((r) => page.formatterTextChange(r, currentRoute.value.meta.key as string))
-    .catch(ElMessage.warning);
-  return false;
-}
 const { currentRoute } = useRouter()
-const language = 'json'
 </script>
 
 <template>
   <div class="dev-toys-formatter">
     <div class="dev-toys-formatter-editor">
-      <MonacoEditor
-        :value="page.formatter.text"
+      <Editor
+        v-model:value="page.formatter.text"
         :language="`${currentRoute.meta.key}` || 'json'"
       />
     </div>

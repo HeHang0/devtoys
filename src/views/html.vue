@@ -1,37 +1,28 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function htmlChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.htmlChange.bind(page, value), 200);
-}
-function textChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.textChange.bind(page, value), 200);
-}
 </script>
 
 <template>
   <div class="dev-toys-html">
     <div class="dev-toys-html-editor">
-      <MonacoEditor
+      <Editor
         :value="page.html.html"
         language="html"
-        @changeValue="htmlChange">
+        @delayInput="page.htmlChange">
         <template #title> {{t('Decoded')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-html-editor">
-      <MonacoEditor
+      <Editor
         :value="page.html.text"
         language="text"
-        @changeValue="textChange">
+        @delayInput="page.textChange">
         <template #title> {{t('Encoded')}} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ChecksumAlgorithm } from "@/utils/utils";
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import SettingCard from "@/components/SettingCard.vue";
 import { CopyDocument, UploadFilled } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";

@@ -1,37 +1,28 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import { usePageStore } from "../stores/page";
 import { useLanguageStore } from "../stores/language";
 const page = usePageStore();
 const { t } = useLanguageStore();
-let changeTimeOut: any = null;
-function jsonChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.jsonChange.bind(page, value), 200);
-}
-function yamlChange(value: string) {
-  clearTimeout(changeTimeOut);
-  changeTimeOut = setTimeout(page.yamlChange.bind(page, value), 200);
-}
 </script>
 
 <template>
   <div class="dev-toys-json2yaml">
     <div class="dev-toys-json2yaml-editor">
-      <MonacoEditor
+      <Editor
         :value="page.json2yaml.json"
         language="json"
-        @changeValue="jsonChange">
+        @delayInput="page.jsonChange">
         <template #title> JSON </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <div class="dev-toys-json2yaml-editor">
-      <MonacoEditor
+      <Editor
         :value="page.json2yaml.yaml"
         language="yaml"
-        @changeValue="yamlChange">
+        @delayInput="page.yamlChange">
         <template #title> YAML </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

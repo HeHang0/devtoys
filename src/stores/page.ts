@@ -133,12 +133,6 @@ export const usePageStore = defineStore("page", {
                 this.json2yaml.json = value ? formatCode('json', JSON.stringify(jsyaml.load(value))) : '';
             } catch { }
         },
-        originalValueChange(value: string) {
-            this.textdiff.originalValue = value;
-        },
-        modifiedValueChange(value: string) {
-            this.textdiff.modifiedValue = value;
-        },
         formatterTextChange(value: string, language: string) {
             this.formatter.text = formatCode(language, value);
         },

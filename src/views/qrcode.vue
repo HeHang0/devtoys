@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import QRCode from 'qrcode'
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import SettingCard from "@/components/SettingCard.vue";
 import { Share, Operation } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";
@@ -20,12 +20,11 @@ function qrcodeGenerate() {
 }
 function qrcodeChange(value: string) {
   clearTimeout(changeTimeOut);
-  page.qrcode.text = value;
   if(!value) {
     imageUrl.value = "";
     return;
   }
-  changeTimeOut = setTimeout(qrcodeGenerate, 600);
+  changeTimeOut = setTimeout(qrcodeGenerate, 400);
 }
 function exportPicture() {
   if(!imageUrl.value) return;
@@ -51,13 +50,13 @@ function exportPicture() {
       </el-select>
     </SettingCard>
     <div class="dev-toys-qrcode-editor">
-      <MonacoEditor
-        :value="page.qrcode.text"
+      <Editor
+        v-model:value="page.qrcode.text"
         language="text"
-        @changeValue="qrcodeChange"
+        @delayInput="qrcodeChange"
       >
         <template #title> {{ t("Text") }} </template>
-      </MonacoEditor>
+      </Editor>
     </div>
     <Title>
       <template #title>

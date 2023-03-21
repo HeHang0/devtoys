@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MonacoEditor from "@/components/MonacoEditor.vue";
+import Editor from "@/components/Editor.vue";
 import SettingCard from '@/components/SettingCard.vue';
 import { CopyDocument, Close } from "@element-plus/icons-vue";
 import { usePageStore } from "../stores/page";
@@ -19,9 +19,8 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article)
       </el-button>
     </div>
     <div class="dev-toys-ligen-editor">
-      <MonacoEditor
+      <Editor
         :value="page.ligen.article"
-        :readonly="true"
         language="text">
         <template #title>{{ t('Article') }}</template>
         <template #operate>
@@ -42,7 +41,7 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article)
             style="margin-left: 12px"
           />
         </template>
-      </MonacoEditor>
+      </Editor>
     </div>
   </div>
 </template>

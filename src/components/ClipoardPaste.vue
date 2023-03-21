@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted } from "vue";
 type PasteType = "file" | "text";
 const emit = defineEmits({
-  change: (type: PasteType, result: File | string, resultType?: string) => {},
+  change: (type: PasteType, result: File | string, resultType?: string) => true,
 });
 
 function onPaste(event: ClipboardEvent) {
@@ -24,17 +24,6 @@ function onPaste(event: ClipboardEvent) {
   } else if (item.kind == "file") {
     emit("change", "file", item.getAsFile()!, item.type);
   }
-  // navigator.clipboard.read().then(items => {
-  //   const item = items.find(m => m.types.find(n => n.includes("image")))
-  //   if(item) {
-  //   console.log("剪贴板", item)
-  //   }else {
-  //   }
-  //   // if(items.length > 0) {
-  //   //   items[0].types.find(m => m.includes("image"))
-  //   // }
-  // }).catch(() => {
-  // });
 }
 
 onMounted(() => {
