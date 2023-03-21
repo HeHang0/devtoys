@@ -39,7 +39,7 @@ jobs:
           npm install
           npm run build-only
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
           path: 'devtoys'
