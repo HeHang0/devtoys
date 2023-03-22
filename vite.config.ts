@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-
+import * as path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -11,7 +11,19 @@ import monacoEditorPlugin from 'vite-plugin-monaco-editor'
 export default defineConfig({
   base: './',
   build: {
-    outDir:'devtoys'
+    outDir:'devtoys',
+    rollupOptions: {
+      output:{
+        manualChunks(id, meta) {
+          console.log()
+            if (path.resolve(id).includes(path.resolve("./src/views"))) {
+                return 'views'
+            }else if(path.resolve(id).includes("node_modules")) {
+              return 'node_modules'
+            }
+        }
+      }
+    }
   },
   plugins: [
     vue(),
