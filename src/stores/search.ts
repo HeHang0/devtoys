@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 import type { Ref } from "vue"
 import type { RouteLocationNormalizedLoaded, RouteLocationRaw, Router } from "vue-router"
 import { allMenus } from "./menu"
-let timeout: number = 0
+let timeout: any
 let routerPath: RouteLocationRaw | null = null
 export const useSearchStore = defineStore("search", {
     state: () => {
@@ -12,10 +12,10 @@ export const useSearchStore = defineStore("search", {
         }
     },
     actions: {
-        onSearchKeyChange(currentRoute: Ref<RouteLocationNormalizedLoaded>, replace: any, t: any) {
-            const currentPath = currentRoute.value.path
+        onSearchKeyChange(currentRoute: RouteLocationNormalizedLoaded, replace: any, t: any) {
+            const currentPath = currentRoute.path
             if (currentPath != "/") {
-                routerPath = currentRoute.value
+                routerPath = currentRoute
                 replace("/")
             }
             clearTimeout(timeout)

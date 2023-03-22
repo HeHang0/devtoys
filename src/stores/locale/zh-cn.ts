@@ -186,8 +186,8 @@ export const language: Record<string, string> = {
     "tool.hyphenremove.mintitle": "连字符号",
     "tool.hyphenremove.description": "删除从PDF文本复制的连字符",
 
-    "tool.imageoptim.title": "PNG / JPEG 压缩工具",
-    "tool.imageoptim.mintitle": "PNG / JPEG 压缩",
+    "tool.imageoptim.title": "PNG/JPEG 压缩工具",
+    "tool.imageoptim.mintitle": "PNG/JPEG 压缩",
     "tool.imageoptim.description": "无损的PNG和JPEG压缩工具",
     "Optimize Level": "压缩级别",
     Low: "低",
@@ -248,5 +248,6 @@ export const language: Record<string, string> = {
     "Choose the language you want to use.": "选择您希望使用的语言",
     "Font": "字体",
     "App Font": "应用字体",
-    "Choose the font you want to use.": "选择您希望使用的字体"
+    "Choose the font you want to use.": "选择您希望使用的字体",
+    "Choose the text editor you want to use.": "选择您希望使用的文本编辑器"
 }

@@ -5,33 +5,35 @@ import Header from "./components/Header.vue";
 import { useLanguageStore } from "@/stores/language";
 import { useSettingsStore } from "./stores/settings";
 import { allMenus } from "./stores/menu";
-const { currentRoute, afterEach, replace } = useRouter();
+import { elementScrollClick } from "./utils/utils";
+const { currentRoute, afterEach, beforeEach, replace } = useRouter();
 const language = useLanguageStore();
 const settings = useSettingsStore();
 let onceRouter = false;
-afterEach(() => {
-  settings.setLastRouter(currentRoute.value.path);
-  if (currentRoute.value.meta.key) {
-    const ele = document.getElementById(currentRoute.value.meta.key as string);
-    ele && ele.scrollIntoView({ block: "nearest" });
-  }
+beforeEach((to, from, next) => {
   if (
     !onceRouter &&
     settings.rememberRouter &&
-    settings.lastRouter &&
-    currentRoute.value.path == "/" &&
+    settings.lastRouter && settings.lastRouter != "/" &&
+    to.path == "/" &&
     allMenus.find(m => "/" + m.key == settings.lastRouter)
   ) {
     replace(settings.lastRouter);
     onceRouter = true;
+    return
   }
+  next()
+})
+afterEach(() => {
+  settings.setLastRouter(currentRoute.value.path);
+  elementScrollClick(currentRoute.value.meta.key as any)
 });
 </script>
 
 <template>
   <el-config-provider :locale="language.elementLocale">
     <el-container class="devtoys-layout">
-      <title>{{ language.t(currentRoute.name) }} - DevToys</title>
+      <title>{{ currentRoute.name ? language.t(String(currentRoute.name))+" - " : "" }}DevToys</title>
       <SideMenu />
 
       <el-container direction="vertical">

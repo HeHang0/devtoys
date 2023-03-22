@@ -131,3 +131,11 @@ export function checksumFile(file: File, algorithm: ChecksumAlgorithm): Promise<
         readBlob(0)
     })
 }
+
+export function elementScrollClick(id: string, click?: boolean) {
+    const menuEle = document.getElementById(id)
+    if (!menuEle) return
+    click && menuEle.click()
+    const intoView =  (menuEle as any).scrollIntoViewIfNeeded || menuEle.scrollIntoView
+    intoView.bind(menuEle)()
+}

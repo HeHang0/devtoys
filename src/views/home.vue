@@ -3,11 +3,11 @@ import { Cellphone, Star } from "@element-plus/icons-vue";
 import { useSearchStore } from "@/stores/search";
 import { useLanguageStore } from "@/stores/language";
 import { useSettingsStore } from "@/stores/settings";
+import { elementScrollClick } from "@/utils/utils";
 const search = useSearchStore();
 const language = useLanguageStore();
 const settings = useSettingsStore();
 function openNewTab(key: string, event: Event) {
-  event.preventDefault()
   settings.setLastRouter("/"+key);
   window.open(location.pathname);
 }
@@ -46,7 +46,7 @@ function openNewTab(key: string, event: Event) {
             plain
             size="small"
             :title="language.t('Remove from favorites')"
-            @click="settings.removeFavoriteRouter(menu.key)"
+            @click.prevent="settings.removeFavoriteRouter(menu.key)"
           >
             <el-icon class="cancel"><Star /></el-icon>
           </el-button>
@@ -55,7 +55,7 @@ function openNewTab(key: string, event: Event) {
             plain
             size="small"
             :title="language.t('Add to favorites')"
-            @click="settings.addFavoriteRouter(menu.key)"
+            @click.prevent="settings.addFavoriteRouter(menu.key)"
           >
             <el-icon><Star /></el-icon>
           </el-button>
