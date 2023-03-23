@@ -37,7 +37,7 @@ function openNewTab(key: string, event: Event) {
             plain
             size="small"
             :title="language.t('Open in new tab')"
-            @click="openNewTab(menu.key, $event)"
+            @click.prevent="openNewTab(menu.key, $event)"
           >
             <el-icon><Cellphone /></el-icon>
           </el-button>
