@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { ref, type Ref } from "vue";
+import { nextTick, ref, type Ref } from "vue";
 import { CopyDocument, List, Document } from "@element-plus/icons-vue";
-import { formatCode } from "@/utils/formatter";
+import { formatCode, uglifyCode } from "@/utils/formatter";
 import { readTextFile } from "@/utils/utils";
 import { useLanguageStore } from "@/stores/language";
 import { useSettingsStore, EditorType } from "@/stores/settings";
@@ -17,6 +17,7 @@ interface Props {
   difference?: boolean;
   readonly?: boolean;
   editorType?: EditorType;
+  uglify?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,7 +41,6 @@ const copyText = () => {
   navigator.clipboard.writeText(props.value);
 };
 function insertText(text: string, cover?: boolean) {
-  // TODO
   let code = "";
   if (
     monacoEditorRef.value &&
@@ -53,7 +53,7 @@ function insertText(text: string, cover?: boolean) {
     let end = textAreaRef.value.selectionEnd;
     code = cover
       ? text
-      : props.value.substring(0, start) + text + props.value.substring(end);
+      : props.value.substring(0, start) + text + props.value.substring(start);
   }
   updateAllEvent(code);
 }
@@ -75,6 +75,11 @@ function formatText() {
   updateAllEvent(code);
 }
 
+
+function uglifyText() {
+  const code = uglifyCode(props.language, props.value);
+  updateAllEvent(code);
+}
 function updateAllEvent(value: string) {
   emit("update:value", value);
   emit("input", value);
@@ -97,9 +102,12 @@ function textInput(e: Event) {
     emit("delayInput", target.value || "");
   }, 200);
 }
-function textSelect(e: Event) {
-  const target = e.target as HTMLTextAreaElement;
-  console.log("hhhhhh", e);
+
+function textAreaKeyDown(e: KeyboardEvent) {
+  if(e.key == "Tab") {
+    e.preventDefault()
+    if(!e.shiftKey) insertText("    ")
+  }
 }
 </script>
 <template>
@@ -114,6 +122,17 @@ function textSelect(e: Event) {
       <template v-else>
         <slot name="more-operate"></slot>
         <el-button
+          v-if="props.uglify"
+          plain
+          @click="uglifyText"
+          size="small"
+          :title="t('Format')"
+        >
+          <el-icon>
+            <i class="devtoys-icon">&#x122;</i>
+          </el-icon>
+        </el-button>
+        <el-button
           plain
           @click="formatText"
           size="small"
@@ -121,7 +140,7 @@ function textSelect(e: Event) {
           style="margin-right: 12px"
         >
           <el-icon>
-            <i class="devtoys-icon">ģ</i>
+            <i class="devtoys-icon">&#x123;</i>
           </el-icon>
         </el-button>
         <el-upload
@@ -176,8 +195,8 @@ function textSelect(e: Event) {
         class="el-textarea__inner"
         :value="props.value"
         :readonly="props.readonly"
+        @keydown="textAreaKeyDown"
         @input="textInput"
-        @select="textSelect"
       ></textarea>
     </div>
   </div>

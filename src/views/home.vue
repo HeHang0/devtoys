@@ -67,10 +67,11 @@ function openNewTab(key: string, event: Event) {
 
 <style lang="less" scoped>
 .devtoys-home {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px 0 0 10px;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  padding-right: 5px;
+  grid-column-gap: 5px;
+  grid-row-gap: 10px;
 
 a {
     color: var(--el-text-color-primary);
@@ -78,7 +79,7 @@ a {
 }
   .el-card {
     width: 150px;
-    margin: 0 10px 10px 0;
+    // margin: 0 10px 10px 0;
     border: 1px solid var(--el-border-color);
     height: 250px;
     background-color: var(--el-bg-color);

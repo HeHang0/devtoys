@@ -15,7 +15,7 @@ const { currentRoute } = useRouter()
   <div class="devtoys-formatter">
     <div class="devtoys-formatter-editor">
       <Editor
-        v-model:value="page.formatter.text"
+        v-model:value="page.formatter.text" :uglify="currentRoute.meta.key != 'sql'"
         :language="`${currentRoute.meta.key}` || 'json'"
       />
     </div>
