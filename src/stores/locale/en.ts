@@ -170,6 +170,10 @@ export const language: Record<string, string> = {
     "tool.hyphenremove.mintitle": "Hyphenation",
     "tool.hyphenremove.description": "Remove hyphenations copied from PDF text",
 
+    "tool.markdown.title": "Markdown Preview",
+    "tool.markdown.mintitle": "Markdown Preview",
+    "tool.markdown.description": "Preview a Markdown document with a Github-like render",
+
     "tool.imageoptim.title": "PNG / JPEG Compressor",
     "tool.imageoptim.mintitle": "PNG / JPEG Compressor",
     "tool.imageoptim.description": "Lossless PNG and JPEG optimizer",

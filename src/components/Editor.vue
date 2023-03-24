@@ -90,6 +90,10 @@ function updateAllEvent(value: string) {
 function textChange(value: string) {
   emit("update:value", value);
   emit("change", value);
+  clearTimeout(delayTimeout);
+  delayTimeout = setTimeout(() => {
+    emit("delayInput", value);
+  }, 200);
 }
 
 let delayTimeout: any = null;
@@ -195,6 +199,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         class="el-textarea__inner"
         :value="props.value"
         :readonly="props.readonly"
+        spellcheck="false"
         @keydown="textAreaKeyDown"
         @input="textInput"
       ></textarea>

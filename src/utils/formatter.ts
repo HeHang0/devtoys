@@ -1,3 +1,4 @@
+import hljs from "highlight.js"
 import jsyaml from "js-yaml"
 import * as sqlFormatter from "sql-formatter"
 import xmlFormatter from "xml-formatter"
@@ -46,6 +47,11 @@ export function uglifyCode(language: string, code: string): string {
         console.error("uglify code err", error)
     }
     return code
+}
+
+export function highlightCode(code: string, language: string) {
+    const highlightedCode = hljs.highlightAuto(code, language ? [language] : undefined);
+    return `<pre><code class="hljs ${highlightedCode.language}">${highlightedCode.value}</code></pre>`;
 }
 
 export function encodeBase64(text: string) {

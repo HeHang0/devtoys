@@ -186,6 +186,10 @@ export const language: Record<string, string> = {
     "tool.hyphenremove.mintitle": "连字符号",
     "tool.hyphenremove.description": "删除从PDF文本复制的连字符",
 
+    "tool.markdown.title": "Markdown 预览工具",
+    "tool.markdown.mintitle": "Markdown 预览",
+    "tool.markdown.description": "使用类似 Github 的渲染预览 Markdown 文档",
+
     "tool.imageoptim.title": "PNG/JPEG 压缩工具",
     "tool.imageoptim.mintitle": "PNG/JPEG 压缩",
     "tool.imageoptim.description": "无损的PNG和JPEG压缩工具",

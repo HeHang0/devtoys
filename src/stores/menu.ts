@@ -190,6 +190,13 @@ const menus: Menu[] = [
                 desc: "tool.hyphenremove.description",
                 icon: "\u0122"
             },
+            {
+                key: "markdown",
+                name: "tool.markdown.mintitle",
+                longName: "tool.markdown.title",
+                desc: "tool.markdown.description",
+                icon: "\u0122"
+            }
         ],
     },
     {

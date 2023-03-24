@@ -96,6 +96,9 @@ export const usePageStore = defineStore("page", {
             rqrcode: {
                 text: '',
                 readerType: storage.getValue(StorageKey.QRCodeReaderType, QRCodeReaderType.File)
+            },
+            markdown: {
+                text: ''
             }
         }
     },

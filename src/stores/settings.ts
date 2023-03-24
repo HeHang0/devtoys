@@ -21,7 +21,7 @@ const handleThemeChange = (event: MediaQueryListEvent|boolean) => {
   if(appTheme !== AppTheme.Auto && typeof event !== 'boolean') return;
   const isDark = typeof event === 'boolean' ? event : event.matches
   const html = document.querySelector("html")
-  if(html) html.className = isDark ? 'dark' : ''
+  if(html) html.className = isDark ? 'dark' : 'light'
   const monaco = (() => import("monaco-editor"))()
   monaco.then(r => r.editor.setTheme(isDark ? 'vs-dark' : 'vs'))
 };
