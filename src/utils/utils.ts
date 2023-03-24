@@ -98,7 +98,7 @@ export function checksumFile(file: File, algorithm: ChecksumAlgorithm): Promise<
             case ChecksumAlgorithm.Sha512:
                 algo = crypto.algo.SHA512;
                 break;
-        
+
             default:
                 algo = crypto.algo.MD5;
                 break;
@@ -136,6 +136,25 @@ export function elementScrollClick(id: string, click?: boolean) {
     const menuEle = document.getElementById(id)
     if (!menuEle) return
     click && menuEle.click()
-    const intoView =  (menuEle as any).scrollIntoViewIfNeeded || menuEle.scrollIntoView
+    const intoView = (menuEle as any).scrollIntoViewIfNeeded || menuEle.scrollIntoView
     intoView.bind(menuEle)()
+}
+
+export function luminance(r: number, g: number, b: number) {
+    var a = [r, g, b].map(function (v) {
+        v /= 255;
+        return v <= 0.03928 ?
+            v / 12.92 :
+            Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
+export function contrast(rgb1: any, rgb2: any) {
+    var lum1 = luminance(rgb1.r, rgb1.g, rgb1.b);
+    var lum2 = luminance(rgb2.r, rgb2.g, rgb2.b);
+    var brightest = Math.max(lum1, lum2);
+    var darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) /
+        (darkest + 0.05);
 }

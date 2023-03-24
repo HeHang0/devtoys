@@ -76,15 +76,12 @@ body {
 ::-webkit-scrollbar {
    height: 6px;
    width: 6px;
-   cursor: pointer !important;
 }
 ::-webkit-scrollbar-track {
-  cursor: pointer !important;
    background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
    border-radius: 4px;
-   cursor: pointer !important;
    background-color: rgba(163, 166, 173, 0.3);
 }
 ::-webkit-scrollbar-thumb:hover {

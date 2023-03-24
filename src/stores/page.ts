@@ -6,7 +6,7 @@ import crypto from "crypto-js";
 import { parseExpression } from 'cron-parser'
 import { decodeBase64, encodeBase64, formatCode } from "@/utils/formatter";
 import { storage, StorageKey } from "@/utils/storage";
-import { ChecksumAlgorithm, checksumFile, guid2 } from "@/utils/utils";
+import { ChecksumAlgorithm, checksumFile, contrast, guid2 } from "@/utils/utils";
 import { generateArticle } from "@/utils/ligen";
 
 export enum QRCodeReaderType {
@@ -99,6 +99,15 @@ export const usePageStore = defineStore("page", {
             },
             markdown: {
                 text: ''
+            },
+            color: {
+                color: '#FFFFFF',
+                background: "#000000",
+                success: true,
+                success1: true,
+                success2: true,
+                success3: true,
+                success4: false,
             }
         }
     },
@@ -220,6 +229,11 @@ export const usePageStore = defineStore("page", {
         },
         qrcodeReaderTypeChange() {
             storage.setValue(StorageKey.QRCodeReaderType, this.rqrcode.readerType)
+        },
+        colorChange(color: string, background: string) {
+            this.color.color = color.toString();
+            this.color.background = background.toString();
+            console.log(contrast(color, background))
         }
     },
 })

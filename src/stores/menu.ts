@@ -195,7 +195,7 @@ const menus: Menu[] = [
                 name: "tool.markdown.mintitle",
                 longName: "tool.markdown.title",
                 desc: "tool.markdown.description",
-                icon: "\u0122"
+                icon: "\u0112"
             }
         ],
     },
