@@ -175,6 +175,7 @@ export const language: Record<string, string> = {
     "tool.regex.mintitle": "正则表达式",
     "tool.regex.description": "测试正则表达式",
     "Reguler expression": "正则表达式",
+    "Result": "结果",
 
     "Text Diff": "文本对比",
     "Compare two Text and display Diff": "对比展示两个文本不同处",
@@ -231,6 +232,10 @@ export const language: Record<string, string> = {
     "Color Picker": "颜色选择",
     "Color Picker ": "颜色选择工具",
     "Picker the color and copy components": "选择一种颜色并复制格式化的颜色",
+    "Selected Color": "所选颜色",
+    "Contrast": "对比度",
+    "Text Color": "文本颜色",
+    "Background Color": "背景颜色",
 
     "Audio Converter": "音频转换",
     "Audio Converter ": "音频转换工具",

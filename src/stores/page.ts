@@ -1,18 +1,18 @@
 import { defineStore } from "pinia"
-import moment from 'moment'
-import jsyaml from "js-yaml";
-import he from "he";
-import crypto from "crypto-js";
-import { parseExpression } from 'cron-parser'
-import { decodeBase64, encodeBase64, formatCode } from "@/utils/formatter";
-import { storage, StorageKey } from "@/utils/storage";
-import { ChecksumAlgorithm, checksumFile, contrast, guid2 } from "@/utils/utils";
-import { generateArticle } from "@/utils/ligen";
+import moment from "moment"
+import jsyaml from "js-yaml"
+import he from "he"
+import crypto from "crypto-js"
+import { parseExpression } from "cron-parser"
+import { decodeBase64, encodeBase64, formatCode } from "@/utils/formatter"
+import { storage, StorageKey } from "@/utils/storage"
+import { ChecksumAlgorithm, checksumFile, contrast, guid2 } from "@/utils/utils"
+import { generateArticle } from "@/utils/ligen"
 
 export enum QRCodeReaderType {
     File = "file",
     Camera = "camera",
-    Clipboard = "clipboard"
+    Clipboard = "clipboard",
 }
 
 export const usePageStore = defineStore("page", {
@@ -23,92 +23,106 @@ export const usePageStore = defineStore("page", {
                 unix: ~~(now.valueOf() / 1000),
                 iso: now.toISOString(),
                 timestamp: now.valueOf(),
-                format: moment(now).format('YYYY-MM-DD HH:mm:ss'),
-                now: now
+                format: moment(now).format("YYYY-MM-DD HH:mm:ss"),
+                now: now,
             },
             number: {
                 decimal: "",
                 octal: "",
                 hexadecimal: "",
-                binary: ""
+                binary: "",
             },
             cron: {
                 count: 5,
-                format: 'yyyy-MM-DD dddd HH:mm:ss',
-                expression: '* * * * * *',
-                result: ''
+                format: "yyyy-MM-DD dddd HH:mm:ss",
+                expression: "* * * * * *",
+                result: "",
             },
             json2yaml: {
-                json: '',
-                yaml: ''
+                json: "",
+                yaml: "",
             },
             textdiff: {
-                originalValue: '',
-                modifiedValue: ''
+                originalValue: "",
+                modifiedValue: "",
             },
             formatter: {
-                text: ''
+                text: "",
             },
             html: {
-                html: '',
-                text: ''
+                html: "",
+                text: "",
             },
             url: {
-                url: '',
-                text: '',
-                encodeComponent: storage.getValue(StorageKey.UrlEncodeComponent, false),
+                url: "",
+                text: "",
+                encodeComponent: storage.getValue(
+                    StorageKey.UrlEncodeComponent,
+                    false
+                ),
             },
             base64: {
-                decoded: '',
-                encoded: ''
+                decoded: "",
+                encoded: "",
             },
             jwt: {
-                jwt: '',
-                header: '',
-                payload: ''
+                jwt: "",
+                header: "",
+                payload: "",
             },
             hash: {
                 upper: storage.getValue(StorageKey.HashUpperCase, false),
-                text: '',
-                md5: '',
-                sha1: '',
-                sha256: '',
-                sha512: ''
+                text: "",
+                md5: "",
+                sha1: "",
+                sha256: "",
+                sha512: "",
             },
             uuid: {
                 hyphen: storage.getValue(StorageKey.UuidHyphen, true),
                 upper: storage.getValue(StorageKey.UuidUpperCase, false),
                 count: storage.getValue(StorageKey.UuidCount, 5),
-                text: ''
+                text: "",
             },
             ligen: {
-                topic: storage.getValue(StorageKey.LigenTopic, '一个开发者工具箱📦'),
-                article: ''
+                topic: storage.getValue(
+                    StorageKey.LigenTopic,
+                    "一个开发者工具箱📦"
+                ),
+                article: "",
             },
             checksum: {
                 upper: storage.getValue(StorageKey.CheckSumUpperCase, false),
-                algorithm: storage.getValue(StorageKey.CheckSumAlgorithm, ChecksumAlgorithm.Md5),
+                algorithm: storage.getValue(
+                    StorageKey.CheckSumAlgorithm,
+                    ChecksumAlgorithm.Md5
+                ),
             },
             qrcode: {
                 level: storage.getValue(StorageKey.QRCodeLevel, "M"),
-                text: ''
+                text: "",
             },
             rqrcode: {
-                text: '',
-                readerType: storage.getValue(StorageKey.QRCodeReaderType, QRCodeReaderType.File)
+                text: "",
+                readerType: storage.getValue(
+                    StorageKey.QRCodeReaderType,
+                    QRCodeReaderType.File
+                ),
             },
             markdown: {
-                text: ''
+                text: "",
             },
             color: {
-                color: '#FFFFFF',
+                color: "#FFFFFF",
                 background: "#000000",
-                success: true,
-                success1: true,
-                success2: true,
-                success3: true,
-                success4: false,
-            }
+                contrast: "1",
+                opacity: 1,
+            },
+            regex: {
+                pattern: "",
+                text: "",
+                result: new Array<any>(),
+            },
         }
     },
     actions: {
@@ -116,74 +130,87 @@ export const usePageStore = defineStore("page", {
             this.date.unix = ~~(date.valueOf() / 1000)
             this.date.iso = date.toISOString()
             this.date.timestamp = date.valueOf()
-            this.date.format = moment(date).format('YYYY-MM-DD HH:mm:ss')
+            this.date.format = moment(date).format("YYYY-MM-DD HH:mm:ss")
             this.date.now = date
         },
         numberChange(number: number) {
-            this.number.decimal = number.toString() || '0'
-            this.number.octal = number.toString(8) || '0'
-            this.number.hexadecimal = number.toString(16).toUpperCase() || '0'
-            this.number.binary = number.toString(2) || '0'
+            this.number.decimal = number.toString() || "0"
+            this.number.octal = number.toString(8) || "0"
+            this.number.hexadecimal = number.toString(16).toUpperCase() || "0"
+            this.number.binary = number.toString(2) || "0"
         },
         cronChange() {
             const res = parseExpression(this.cron.expression)
             const result = []
             for (let i = 0; i < this.cron.count; i++) {
-                result.push(moment(res.next().getTime()).format(this.cron.format))
+                result.push(
+                    moment(res.next().getTime()).format(this.cron.format)
+                )
             }
-            this.cron.result = result.join('\n')
+            this.cron.result = result.join("\n")
         },
         jsonChange(value: string) {
             try {
-                this.json2yaml.json = value;
-                this.json2yaml.yaml = value ? formatCode('yaml', jsyaml.dump(JSON.parse(value))) : '';
-            } catch { }
+                this.json2yaml.json = value
+                this.json2yaml.yaml = value
+                    ? formatCode("yaml", jsyaml.dump(JSON.parse(value)))
+                    : ""
+            } catch {}
         },
         yamlChange(value: string) {
             try {
-                this.json2yaml.yaml = value;
-                this.json2yaml.json = value ? formatCode('json', JSON.stringify(jsyaml.load(value))) : '';
-            } catch { }
+                this.json2yaml.yaml = value
+                this.json2yaml.json = value
+                    ? formatCode("json", JSON.stringify(jsyaml.load(value)))
+                    : ""
+            } catch {}
         },
         formatterTextChange(value: string, language: string) {
-            this.formatter.text = formatCode(language, value);
+            this.formatter.text = formatCode(language, value)
         },
         htmlChange(value: string) {
-            this.html.html = value;
-            this.html.text = he.encode(value);
+            this.html.html = value
+            this.html.text = he.encode(value)
         },
         textChange(value: string) {
-            this.html.text = value;
-            this.html.html = he.decode(value);
+            this.html.text = value
+            this.html.html = he.decode(value)
         },
         urlChange(value: string) {
-            this.url.url = value;
-            this.url.text = this.url.encodeComponent ? encodeURIComponent(value) : encodeURI(value)
-            storage.setValue(StorageKey.UrlEncodeComponent, this.url.encodeComponent)
+            this.url.url = value
+            this.url.text = this.url.encodeComponent
+                ? encodeURIComponent(value)
+                : encodeURI(value)
+            storage.setValue(
+                StorageKey.UrlEncodeComponent,
+                this.url.encodeComponent
+            )
         },
         urlTextChange(value: string) {
-            if(value == this.url.text) return
-            this.url.text = value;
-            this.url.url = this.url.encodeComponent ? decodeURIComponent(value) : decodeURI(value)
+            if (value == this.url.text) return
+            this.url.text = value
+            this.url.url = this.url.encodeComponent
+                ? decodeURIComponent(value)
+                : decodeURI(value)
         },
         base64DecodedChange(value: string) {
-            this.base64.decoded = value;
-            this.base64.encoded = encodeBase64(value);
+            this.base64.decoded = value
+            this.base64.encoded = encodeBase64(value)
         },
         base64EncodedChange(value: string) {
-            this.base64.encoded = value;
-            this.base64.decoded = decodeBase64(value);
+            this.base64.encoded = value
+            this.base64.decoded = decodeBase64(value)
         },
         jwtChange(value: string) {
-            if(!value) value = ''
-            this.jwt.jwt = value;
-            const jwtArray = value.split('.')
+            if (!value) value = ""
+            this.jwt.jwt = value
+            const jwtArray = value.split(".")
             try {
-                this.jwt.header = formatCode('json', decodeBase64(jwtArray[0]))
-                this.jwt.payload = formatCode('json', decodeBase64(jwtArray[1]))
+                this.jwt.header = formatCode("json", decodeBase64(jwtArray[0]))
+                this.jwt.payload = formatCode("json", decodeBase64(jwtArray[1]))
             } catch {
-                this.jwt.header = ''
-                this.jwt.payload = ''
+                this.jwt.header = ""
+                this.jwt.payload = ""
             }
         },
         hashUpperChange() {
@@ -197,16 +224,17 @@ export const usePageStore = defineStore("page", {
         hashTextChange(value: string) {
             this.hash.text = value
             const toCase = this.hash.upper ? "toUpperCase" : "toLowerCase"
-            this.hash.md5 = crypto.MD5(value).toString()[toCase]();
-            this.hash.sha1 = crypto.SHA1(value).toString()[toCase]();
-            this.hash.sha256 = crypto.SHA256(value).toString()[toCase]();
-            this.hash.sha512 = crypto.SHA512(value).toString()[toCase]();
+            this.hash.md5 = crypto.MD5(value).toString()[toCase]()
+            this.hash.sha1 = crypto.SHA1(value).toString()[toCase]()
+            this.hash.sha256 = crypto.SHA256(value).toString()[toCase]()
+            this.hash.sha512 = crypto.SHA512(value).toString()[toCase]()
         },
         generateUuid() {
             storage.setValue(StorageKey.UuidHyphen, this.uuid.hyphen)
             storage.setValue(StorageKey.UuidUpperCase, this.uuid.upper)
             storage.setValue(StorageKey.UuidCount, this.uuid.count)
-            let text = !this.uuid.text || this.uuid.text.endsWith("\n")  ? "" : "\n";
+            let text =
+                !this.uuid.text || this.uuid.text.endsWith("\n") ? "" : "\n"
             for (let i = 0; i < this.uuid.count; i++) {
                 text += guid2(this.uuid.hyphen, this.uuid.upper)
                 text += "\n"
@@ -218,7 +246,10 @@ export const usePageStore = defineStore("page", {
             this.ligen.article = generateArticle(this.ligen.topic)
         },
         checksumFile(file: File) {
-            storage.setValue(StorageKey.CheckSumAlgorithm, this.checksum.algorithm)
+            storage.setValue(
+                StorageKey.CheckSumAlgorithm,
+                this.checksum.algorithm
+            )
             return checksumFile(file, this.checksum.algorithm)
         },
         checksumUpperChange() {
@@ -228,12 +259,51 @@ export const usePageStore = defineStore("page", {
             storage.setValue(StorageKey.QRCodeLevel, this.qrcode.level)
         },
         qrcodeReaderTypeChange() {
-            storage.setValue(StorageKey.QRCodeReaderType, this.rqrcode.readerType)
+            storage.setValue(
+                StorageKey.QRCodeReaderType,
+                this.rqrcode.readerType
+            )
         },
         colorChange(color: string, background: string) {
-            this.color.color = color.toString();
-            this.color.background = background.toString();
-            console.log(contrast(color, background))
-        }
+            this.color.color = color
+            this.color.background = background
+            const colorContrast = contrast(color, background)
+            this.color.contrast = colorContrast.toFixed(2)
+            const success = colorContrast >= 3 && colorContrast <= 7
+            if (success) this.color.opacity = 1
+            else if (colorContrast < 3)
+                this.color.opacity = (colorContrast - 1) / 2
+            else if (colorContrast > 7)
+                this.color.opacity = 1 - (colorContrast - 7) / 14
+            else this.color.opacity = 0
+        },
+        regexChange() {
+            this.regex.result.splice(0, this.regex.result.length)
+            try {
+                const regex = new RegExp(this.regex.pattern, "g")
+                if (!regex.test(this.regex.text)) {
+                    return
+                }
+                let lastIndex = -1
+                for (;;) {
+                    const r = regex.exec(this.regex.text)
+                    if (!r || lastIndex === r.index) break
+                    lastIndex = r.index
+                    this.regex.result.push({
+                        text: r[0],
+                        sub: r.slice(1),
+                        groups: r.groups,
+                        index: r.index,
+                    })
+                }
+            } catch {}
+            if (
+                this.regex.result.length === 1 &&
+                !this.regex.result[0].text &&
+                !this.regex.result[0].index
+            ) {
+                this.regex.result.splice(0, this.regex.result.length)
+            }
+        },
     },
 })

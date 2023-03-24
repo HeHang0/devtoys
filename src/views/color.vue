@@ -1,21 +1,28 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
-import Pickr from '@simonwep/pickr'
-import { useLanguageStore } from "../stores/language";
-import { usePageStore } from "../stores/page";
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import Pickr from '@simonwep/pickr';
+import { useLanguageStore } from '../stores/language';
+import { usePageStore } from '../stores/page';
 import '@simonwep/pickr/dist/themes/nano.min.css';
 const { t } = useLanguageStore();
 const page = usePageStore();
 const textColorPickerRef = ref();
 const backColorPickerRef = ref();
 
+var textColorPicker: Pickr | null = null;
+var backColorPicker: Pickr | null = null;
+
+onUnmounted(() => {
+  textColorPicker && textColorPicker.destroyAndRemove();
+  backColorPicker && backColorPicker.destroyAndRemove();
+});
 onMounted(() => {
   nextTick(() => {
     let config = {
       useAsButton: true, // 直接展示
       showAlways: true,
       inline: true,
-      
+
       components: {
         // 可选颜色
         palette: false,
@@ -32,68 +39,64 @@ onMounted(() => {
           hsva: true,
           cmyk: true,
           // hsla: true,
-          input: true,
+          input: true
           // clear: true,
           // save: true,
-        },
+        }
       }
-    }
-    Pickr.create({
+    };
+    textColorPicker = Pickr.create({
       el: textColorPickerRef.value,
       default: page.color.color,
       theme: 'nano', // 自定义主题
       ...config
     }).on('change', (color: any) => {
-      page.colorChange(color.toRGBA(), page.color.background)
-    })
-    Pickr.create({
+      page.colorChange(color.toHEXA().toString(), page.color.background);
+    });
+    backColorPicker = Pickr.create({
       el: backColorPickerRef.value,
       default: page.color.background,
       theme: 'nano', // 自定义主题
       ...config
     }).on('change', (color: any) => {
-      page.colorChange(page.color.color, color.toRGBA())
-    })
-  })
-})
+      page.colorChange(page.color.color, color.toHEXA().toString());
+    });
+  });
+});
 </script>
 
 <template>
   <div class="devtoys-color-picker">
-    <!-- <SettingCard :title="t('显示方式')">
-      <template #icon>
-        <span class="devtoys-icon"> &#x134; </span>
-      </template>
-      <el-select size="small">
-        <el-option :label="t('HLS')" value="HLS" />
-        <el-option :label="t('HSV')" value="HSV" />
-      </el-select>
-    </SettingCard> -->
     <div class="devtoys-color-picker-body">
       <div class="devtoys-color-picker-body-color">
         <Title>
           <template #title>
-            {{ t("所选颜色") }}
+            {{ t('Selected Color') }}
           </template>
         </Title>
-        <div class="devtoys-color-picker-body-color-sel"
-          :style="{ color: page.color.color, backgroundColor: page.color.background }">哈哈哈哈哈哈哈哈哈哈哈</div>
+        <div
+          class="devtoys-color-picker-body-color-sel"
+          :style="{
+            color: page.color.color,
+            backgroundColor: page.color.background
+          }">
+          哈哈哈哈哈哈哈哈哈哈哈
+        </div>
       </div>
       <div class="devtoys-color-picker-body-contrast">
         <Title>
           <template #title>
-            {{ t("对比度") }}
+            {{ t('Contrast') }} {{ page.color.contrast }}
           </template>
         </Title>
         <div class="devtoys-color-picker-body-contrast-layout">
-          <div class="devtoys-color-picker-body-contrast-sel"
-            :style="{ backgroundColor: page.color.success ? 'green' : 'red' }">哈哈哈哈哈哈哈哈哈哈哈</div>
-          <!-- <div class="devtoys-color-picker-body-contrast-sel"
-            :style="{ backgroundColor: page.color.success2 ? 'green' : 'red' }">哈哈哈哈哈哈哈哈哈哈哈</div>
-          <div class="devtoys-color-picker-body-contrast-sel"
-            :style="{ backgroundColor: page.color.success3 ? 'green' : 'red' }">哈哈哈哈哈哈哈哈哈哈哈</div>
-          <div class="devtoys-color-picker-body-contrast-sel"
-            :style="{ backgroundColor: page.color.success4 ? 'green' : 'red' }">哈哈哈哈哈哈哈哈哈哈哈</div> -->
+          <div
+            class="devtoys-color-picker-body-contrast-sel devtoys-color-picker-body-contrast-sel-helper"></div>
+          <div
+            class="devtoys-color-picker-body-contrast-sel"
+            :style="{
+              opacity: page.color.opacity
+            }"></div>
         </div>
       </div>
     </div>
@@ -101,7 +104,7 @@ onMounted(() => {
       <div class="devtoys-color-picker-body-text">
         <Title>
           <template #title>
-            {{ t("文本颜色") }}
+            {{ t('Text Color') }}
           </template>
         </Title>
         <div ref="textColorPickerRef"></div>
@@ -109,14 +112,13 @@ onMounted(() => {
       <div class="devtoys-color-picker-body-back">
         <Title>
           <template #title>
-            {{ t("背景颜色") }}
+            {{ t('Background Color') }}
           </template>
         </Title>
         <div ref="backColorPickerRef"></div>
       </div>
     </div>
-    <div class="devtoys-color-picker-body-pickr">
-    </div>
+    <div class="devtoys-color-picker-body-pickr"></div>
   </div>
 </template>
 
@@ -125,7 +127,7 @@ onMounted(() => {
   &-body {
     display: flex;
 
-    &>div {
+    & > div {
       flex: 1;
       margin-bottom: 20px;
     }
@@ -133,22 +135,22 @@ onMounted(() => {
       display: flex;
     }
 
-    &>div:nth-child(1) {
+    & > div:nth-child(1) {
       margin-right: 5px;
     }
 
-    &>div:nth-child(2) {
+    & > div:nth-child(2) {
       margin-left: 5px;
     }
 
-    @media(max-width:850px) {
+    @media (max-width: 850px) {
       flex-direction: column;
 
-      &>div:nth-child(1) {
+      & > div:nth-child(1) {
         margin-right: 0;
       }
 
-      &>div:nth-child(2) {
+      & > div:nth-child(2) {
         margin-left: 0;
       }
     }
@@ -160,22 +162,31 @@ onMounted(() => {
     }
 
     &-contrast {
-      color: white;
-
       &-sel {
+        flex: 1;
+        height: 100%;
+        border-radius: var(--el-border-radius-base);
+        background-color: green;
+      }
+      &-sel-helper {
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
+        height: 100%;
+        border-radius: var(--el-border-radius-base);
+        background-color: red;
       }
 
       &-layout {
         width: 100%;
-        display: flex;
-        justify-content: space-between;
+        height: 80px;
+        border-radius: var(--el-border-radius-base);
+        position: relative;
       }
     }
 
-    &-color,
-    &-contrast {
-
+    &-color {
       &-sel {
         height: 80px;
         display: flex;
@@ -192,7 +203,7 @@ onMounted(() => {
 .pcr-picker {
   z-index: 1;
 }
-.devtoys-color-picker-body>div>.pcr-app {
+.devtoys-color-picker-body > div > .pcr-app {
   width: 100%;
 }
 </style>

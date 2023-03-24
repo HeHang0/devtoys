@@ -85,23 +85,26 @@ export enum ChecksumAlgorithm {
     Sha512 = "SHA512",
 }
 
-export function checksumFile(file: File, algorithm: ChecksumAlgorithm): Promise<string> {
+export function checksumFile(
+    file: File,
+    algorithm: ChecksumAlgorithm
+): Promise<string> {
     return new Promise((resolve, reject) => {
-        let algo;
+        let algo
         switch (algorithm) {
             case ChecksumAlgorithm.Sha1:
-                algo = crypto.algo.SHA1;
-                break;
+                algo = crypto.algo.SHA1
+                break
             case ChecksumAlgorithm.Sha256:
-                algo = crypto.algo.SHA256;
-                break;
+                algo = crypto.algo.SHA256
+                break
             case ChecksumAlgorithm.Sha512:
-                algo = crypto.algo.SHA512;
-                break;
+                algo = crypto.algo.SHA512
+                break
 
             default:
-                algo = crypto.algo.MD5;
-                break;
+                algo = crypto.algo.MD5
+                break
         }
         let md5 = algo.create()
         let reader = new FileReader()
@@ -136,25 +139,46 @@ export function elementScrollClick(id: string, click?: boolean) {
     const menuEle = document.getElementById(id)
     if (!menuEle) return
     click && menuEle.click()
-    const intoView = (menuEle as any).scrollIntoViewIfNeeded || menuEle.scrollIntoView
+    const intoView =
+        (menuEle as any).scrollIntoViewIfNeeded || menuEle.scrollIntoView
     intoView.bind(menuEle)()
 }
 
-export function luminance(r: number, g: number, b: number) {
-    var a = [r, g, b].map(function (v) {
-        v /= 255;
-        return v <= 0.03928 ?
-            v / 12.92 :
-            Math.pow((v + 0.055) / 1.055, 2.4);
-    });
-    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+const luminance = (r: number, g: number, b: number) =>
+    0.2126 * (r / 255) + 0.7152 * (g / 255) + 0.0722 * (b / 255)
+
+export function contrast(color1: string, color2: string) {
+    const rgb1 = hexToRgb(color1)
+    const rgb2 = hexToRgb(color2)
+    if (!rgb1 || !rgb2) return 1
+    var lum1 = luminance(rgb1.r, rgb1.g, rgb1.b)
+    var lum2 = luminance(rgb2.r, rgb2.g, rgb2.b)
+    var brightest = Math.max(lum1, lum2)
+    var darkest = Math.min(lum1, lum2)
+    return (brightest + 0.05) / (darkest + 0.05)
 }
 
-export function contrast(rgb1: any, rgb2: any) {
-    var lum1 = luminance(rgb1.r, rgb1.g, rgb1.b);
-    var lum2 = luminance(rgb2.r, rgb2.g, rgb2.b);
-    var brightest = Math.max(lum1, lum2);
-    var darkest = Math.min(lum1, lum2);
-    return (brightest + 0.05) /
-        (darkest + 0.05);
+function hexToRgb(hexColor: string) {
+    if (hexColor.startsWith("#")) {
+        hexColor = hexColor.substring(1)
+    }
+    if (hexColor.length !== 6 && hexColor.length !== 8) {
+        return null
+    }
+    let r = parseInt(hexColor.substring(0, 2), 16)
+    let g = parseInt(hexColor.substring(2, 4), 16)
+    let b = parseInt(hexColor.substring(4, 6), 16)
+    let a = 1
+    if (hexColor.substring(6, 8)) {
+        a = parseInt(hexColor.substring(6, 8), 16)
+    }
+    r = (1 - a) * 255 + a * r
+    g = (1 - a) * 255 + a * g
+    b = (1 - a) * 255 + a * b
+
+    return {
+        r : r >= 0 && r <= 255 ? r : 0,
+        g : g >= 0 && g <= 255 ? g : 0,
+        b : g >= 0 && g <= 255 ? g : 0
+    }
 }

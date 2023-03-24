@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import * as monaco from "monaco-editor";
-import { nextTick, ref, type Ref } from "vue";
+import { ref, type Ref } from "vue";
 import { CopyDocument, List, Document } from "@element-plus/icons-vue";
 import { formatCode, uglifyCode } from "@/utils/formatter";
 import { readTextFile } from "@/utils/utils";
