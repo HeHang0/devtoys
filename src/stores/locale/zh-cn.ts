@@ -112,6 +112,11 @@ export const language: Record<string, string> = {
   Header: '头部',
   Payload: '负载',
 
+  'tool.keycode.title': 'KeyCode 键盘按键码',
+  'tool.keycode.mintitle': 'KeyCode',
+  'tool.keycode.description': '获取键盘按键值 KeyCode',
+  Keys: '按键',
+
   'tool.jsonformat.title': 'JSON 格式化工具',
   'tool.jsonformat.mintitle': 'JSON',
   'tool.jsonformat.description': '缩进或压缩 json 数据',
@@ -130,6 +135,7 @@ export const language: Record<string, string> = {
   'HTML Document': 'HTML 文档',
   'XML Document': 'XML 文档',
   'Document Type': '文档类型',
+  'Image Type': '图像类型',
   'Auto Fix Document': '自动修复',
   'Pretty Document': '美化',
 
@@ -152,6 +158,7 @@ export const language: Record<string, string> = {
   'tool.ligen.title': '乱数假文Lorem Ipsum生成工具',
   'tool.ligen.mintitle': '乱数假文',
   'tool.ligen.description': '生成Lorem Ipsum的占位符文本',
+  Topic: '主题',
 
   'QR Code Generator': '二维码生成',
   'Create a QR code from text': '使用文本创建二维码',
@@ -213,15 +220,18 @@ export const language: Record<string, string> = {
   'tool.imageoptim.mintitle': 'PNG/JPEG 压缩',
   'tool.imageoptim.description': '无损的PNG和JPEG压缩工具',
   'Optimize Level': '压缩级别',
+  Quality: '质量',
   Low: '低',
   Medium: '中',
   High: '高',
   'Very High (Slow)': '优 (慢)',
+  Download: '下载',
 
   'tool.pdfgen.title': 'PDF 生成工具',
   'tool.pdfgen.mintitle': 'PDF 生成',
   'tool.pdfgen.description': '从多个图像生成PDF',
   Images: '图像',
+  Image: '图像',
   Size: '大小',
   'Generate PDF': '生成 PDF',
   Page: '页面',

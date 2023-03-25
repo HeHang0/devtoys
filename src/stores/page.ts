@@ -18,7 +18,8 @@ import {
   ChecksumAlgorithm,
   checksumFile,
   contrast,
-  guid2
+  guid2,
+  ImageType
 } from '@/utils/utils';
 import { generateArticle } from '@/utils/ligen';
 
@@ -115,6 +116,14 @@ export const usePageStore = defineStore('page', {
           StorageKey.QRCodeReaderType,
           QRCodeReaderType.File
         )
+      },
+      image: {
+        readerType: storage.getValue(
+          StorageKey.QRCodeReaderType,
+          QRCodeReaderType.File
+        ),
+        quality: storage.getValue(StorageKey.ImageQuality, 1),
+        convertType: storage.getValue(StorageKey.ImageType, ImageType.Png)
       },
       markdown: {
         text: ''
@@ -268,6 +277,9 @@ export const usePageStore = defineStore('page', {
     },
     qrcodeReaderTypeChange() {
       storage.setValue(StorageKey.QRCodeReaderType, this.rqrcode.readerType);
+    },
+    imageReaderTypeChange() {
+      storage.setValue(StorageKey.ImageReaderType, this.image.readerType);
     },
     colorChange(color: string, background: string) {
       this.color.color = color;

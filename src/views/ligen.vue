@@ -1,27 +1,24 @@
 <script setup lang="ts">
-import Editor from "@/components/Editor.vue";
-import SettingCard from '@/components/SettingCard.vue';
-import { CopyDocument, Close } from "@element-plus/icons-vue";
-import { usePageStore } from "../stores/page";
-import { useLanguageStore } from "../stores/language";
+import Editor from '@/components/Editor.vue';
+import { CopyDocument, Close } from '@element-plus/icons-vue';
+import { usePageStore } from '../stores/page';
+import { useLanguageStore } from '../stores/language';
 const page = usePageStore();
 const { t } = useLanguageStore();
-const copyText = () => navigator.clipboard.writeText(page.ligen.article)
+const copyText = () => navigator.clipboard.writeText(page.ligen.article);
 </script>
 
 <template>
   <div class="devtoys-ligen">
     <div class="devtoys-ligen-generate">
-      <span>主题：</span>
-      <el-input v-model="page.ligen.topic"/>
-      <el-button type="primary"  @click="page.generateLigen">
+      <span>{{ t('Topic') }}</span>
+      <el-input v-model="page.ligen.topic" />
+      <el-button type="primary" @click="page.generateLigen">
         {{ t('Generate article') }}
       </el-button>
     </div>
     <div class="devtoys-ligen-editor">
-      <Editor
-        :value="page.ligen.article"
-        language="text">
+      <Editor :value="page.ligen.article" language="text">
         <template #title>{{ t('Article') }}</template>
         <template #operate>
           <el-button
@@ -30,16 +27,14 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article)
             @click="copyText"
             :title="t('Copy')"
             size="small"
-            style="margin-left: 12px"
-          />
+            style="margin-left: 12px" />
           <el-button
             plain
             :icon="Close"
-            @click="page.ligen.article=''"
+            @click="page.ligen.article = ''"
             :title="t('Clear')"
             size="small"
-            style="margin-left: 12px"
-          />
+            style="margin-left: 12px" />
         </template>
       </Editor>
     </div>
@@ -66,7 +61,7 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article)
     display: flex;
     align-items: center;
     .el-input {
-      flex: 1
+      flex: 1;
     }
     button {
       margin-left: 20px;

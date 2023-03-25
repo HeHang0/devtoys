@@ -1,11 +1,12 @@
 {
-    "cSpell.words": [
-        "devtoys",
-        "imageconvert",
-        "imageoptim",
-        "ligen",
-        "openeds",
-        "pdfgen",
-        "rqrcode"
-    ]
+  "cSpell.words": [
+    "devtoys",
+    "imageconvert",
+    "imageoptim",
+    "ligen",
+    "openeds",
+    "pdfgen",
+    "qrcode",
+    "rqrcode"
+  ]
 }

@@ -105,6 +105,10 @@ export const language: Record<string, string> = {
   Header: 'Header',
   Payload: 'Payload',
 
+  'tool.keycode.title': 'Keyboard Key Code',
+  'tool.keycode.mintitle': 'KeyCode',
+  'tool.keycode.description': 'Get keyboard key code',
+
   'tool.jsonformat.title': 'JSON Formatter',
   'tool.jsonformat.mintitle': 'JSON',
   'tool.jsonformat.description': 'Indent or minify Json data',

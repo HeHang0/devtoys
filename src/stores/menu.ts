@@ -81,6 +81,13 @@ const menus: Menu[] = [
         longName: 'tool.jwt.title',
         desc: 'tool.jwt.description',
         icon: '\u0110'
+      },
+      {
+        key: 'keycode',
+        name: 'tool.keycode.mintitle',
+        longName: 'tool.keycode.title',
+        desc: 'tool.keycode.description',
+        icon: '\u0110'
       }
     ]
   },
@@ -211,20 +218,20 @@ const menus: Menu[] = [
     name: 'category.graphic',
     icon: '\u0129',
     children: [
-      {
-        key: 'imageoptim',
-        name: 'tool.imageoptim.mintitle',
-        longName: 'tool.imageoptim.title',
-        desc: 'tool.imageoptim.description',
-        icon: '\u0128'
-      },
-      {
-        key: 'pdf',
-        name: 'tool.pdfgen.mintitle',
-        longName: 'tool.pdfgen.title',
-        desc: 'tool.pdfgen.description',
-        icon: '\u0128'
-      },
+      //   {
+      //     key: 'imageoptim',
+      //     name: 'tool.imageoptim.mintitle',
+      //     longName: 'tool.imageoptim.title',
+      //     desc: 'tool.imageoptim.description',
+      //     icon: '\u0128'
+      //   },
+      //   {
+      //     key: 'pdf',
+      //     name: 'tool.pdfgen.mintitle',
+      //     longName: 'tool.pdfgen.title',
+      //     desc: 'tool.pdfgen.description',
+      //     icon: '\u0128'
+      //   },
       {
         key: 'imageconvert',
         name: 'tool.imageconvert.mintitle',
@@ -232,19 +239,19 @@ const menus: Menu[] = [
         desc: 'tool.imageconvert.description',
         icon: '\u0128'
       },
-      {
-        key: 'icon',
-        name: 'Icon Generate',
-        longName: 'Icon Generate',
-        desc: 'Create a Icon from image',
-        icon: '\u0128'
-      },
+      //   {
+      //     key: 'icon',
+      //     name: 'Icon Generate',
+      //     longName: 'Icon Generate',
+      //     desc: 'Create a Icon from image',
+      //     icon: '\u0128'
+      //   },
       {
         key: 'rqrcode',
         name: 'tool.rqrcode.mintitle',
         longName: 'tool.rqrcode.title',
         desc: 'tool.rqrcode.description',
-        icon: '\u0128'
+        icon: '\u0110'
       }
     ]
   },
@@ -259,21 +266,21 @@ const menus: Menu[] = [
         longName: 'Color Picker ',
         desc: 'Picker the color and copy components',
         icon: '\u0134'
-      },
-      {
-        key: 'audio',
-        name: 'Audio Converter',
-        longName: 'Audio Converter ',
-        desc: 'Convert audio from one format to another',
-        icon: '\u0120'
-      },
-      {
-        key: 'gif',
-        name: 'Gif Converter',
-        longName: 'Gif Converter ',
-        desc: 'Convert a movie to an animated GIF file',
-        icon: '\u0120'
       }
+      //   {
+      //     key: 'audio',
+      //     name: 'Audio Converter',
+      //     longName: 'Audio Converter ',
+      //     desc: 'Convert audio from one format to another',
+      //     icon: '\u0120'
+      //   },
+      //   {
+      //     key: 'gif',
+      //     name: 'Gif Converter',
+      //     longName: 'Gif Converter ',
+      //     desc: 'Convert a movie to an animated GIF file',
+      //     icon: '\u0120'
+      //   }
     ]
   },
   {
