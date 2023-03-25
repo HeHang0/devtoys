@@ -214,7 +214,7 @@ export const language: Record<string, string> = {
 
   'tool.markdown.title': 'Markdown 预览工具',
   'tool.markdown.mintitle': 'Markdown 预览',
-  'tool.markdown.description': '使用类似 Github 的渲染预览 Markdown 文档',
+  'tool.markdown.description': '类似 Github 的渲染预览 Markdown',
 
   'tool.imageoptim.title': 'PNG/JPEG 压缩工具',
   'tool.imageoptim.mintitle': 'PNG/JPEG 压缩',

@@ -87,7 +87,7 @@ const menus: Menu[] = [
         name: 'tool.keycode.mintitle',
         longName: 'tool.keycode.title',
         desc: 'tool.keycode.description',
-        icon: '\u0110'
+        icon: '\u0119'
       }
     ]
   },
