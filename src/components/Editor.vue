@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
-import { CopyDocument, List, Document } from "@element-plus/icons-vue";
-import { formatCode, uglifyCode } from "@/utils/formatter";
-import { readTextFile } from "@/utils/utils";
-import { useLanguageStore } from "@/stores/language";
-import { useSettingsStore, EditorType } from "@/stores/settings";
-import MonacoEditor from "./MonacoEditor.vue";
+import { ref, type Ref } from 'vue';
+import { CopyDocument, List, Document } from '@element-plus/icons-vue';
+import { formatCode, uglifyCode } from '@/utils/formatter';
+import { readTextFile } from '@/utils/utils';
+import { useLanguageStore } from '@/stores/language';
+import { useSettingsStore, EditorType } from '@/stores/settings';
+import MonacoEditor from './MonacoEditor.vue';
 const settings = useSettingsStore();
 const { t } = useLanguageStore();
 
@@ -16,15 +16,15 @@ interface Props {
   difference?: boolean;
   readonly?: boolean;
   editorType?: EditorType;
-  uglify?: boolean
+  uglify?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  value: "",
-  diffValue: "",
+  value: '',
+  diffValue: '',
   difference: false,
-  language: "text",
-  readonly: false,
+  language: 'text',
+  readonly: false
 });
 
 const textAreaRef: Ref<HTMLTextAreaElement | undefined> = ref();
@@ -34,13 +34,13 @@ const emit = defineEmits({
   delayInput: (value: string) => true,
   input: (value: string) => true,
   change: (value: string) => true,
-  "update:value": (value: string) => true,
+  'update:value': (value: string) => true
 });
 const copyText = () => {
   navigator.clipboard.writeText(props.value);
 };
 function insertText(text: string, cover?: boolean) {
-  let code = "";
+  let code = '';
   if (
     monacoEditorRef.value &&
     ((props.editorType || settings.editorType) == EditorType.MonacoEditor ||
@@ -64,7 +64,7 @@ const pasteText = () =>
 
 function readFile(uploadFile: any) {
   readTextFile(uploadFile)
-    .then((r) => insertText(r, true))
+    .then(r => insertText(r, true))
     .catch(ElMessage.warning);
   return false;
 }
@@ -74,42 +74,41 @@ function formatText() {
   updateAllEvent(code);
 }
 
-
 function uglifyText() {
   const code = uglifyCode(props.language, props.value);
   updateAllEvent(code);
 }
 function updateAllEvent(value: string) {
-  emit("update:value", value);
-  emit("input", value);
-  emit("change", value);
-  emit("delayInput", value);
+  emit('update:value', value);
+  emit('input', value);
+  emit('change', value);
+  emit('delayInput', value);
 }
 
 function textChange(value: string) {
-  emit("update:value", value);
-  emit("change", value);
+  emit('update:value', value);
+  emit('change', value);
   clearTimeout(delayTimeout);
   delayTimeout = setTimeout(() => {
-    emit("delayInput", value);
+    emit('delayInput', value);
   }, 200);
 }
 
 let delayTimeout: any = null;
 function textInput(e: Event) {
   const target = e.target as HTMLTextAreaElement;
-  emit("update:value", target.value || "");
-  emit("input", target.value || "");
+  emit('update:value', target.value || '');
+  emit('input', target.value || '');
   clearTimeout(delayTimeout);
   delayTimeout = setTimeout(() => {
-    emit("delayInput", target.value || "");
+    emit('delayInput', target.value || '');
   }, 200);
 }
 
 function textAreaKeyDown(e: KeyboardEvent) {
-  if(e.key == "Tab") {
-    e.preventDefault()
-    if(!e.shiftKey) insertText("    ")
+  if (e.key == 'Tab') {
+    e.preventDefault();
+    if (!e.shiftKey) insertText('    ');
   }
 }
 </script>
@@ -129,34 +128,32 @@ function textAreaKeyDown(e: KeyboardEvent) {
           plain
           @click="uglifyText"
           size="small"
-          :title="t('Format')"
-        >
+          :title="t('Format')">
           <el-icon>
             <i class="devtoys-icon">&#x122;</i>
           </el-icon>
         </el-button>
         <el-button
+          v-if="props.language !== 'text'"
           plain
           @click="formatText"
           size="small"
           :title="t('Format')"
-          style="margin-right: 12px"
-        >
+          style="margin-right: 12px">
           <el-icon>
             <i class="devtoys-icon">&#x123;</i>
           </el-icon>
         </el-button>
         <el-upload
+          v-if="!props.readonly"
           style="display: inline"
           :show-file-list="false"
-          :before-upload="readFile"
-        >
+          :before-upload="readFile">
           <el-button
             plain
             :icon="Document"
             size="small"
-            :title="t('Read from file')"
-          />
+            :title="t('Read from file')" />
         </el-upload>
         <el-button
           plain
@@ -164,15 +161,14 @@ function textAreaKeyDown(e: KeyboardEvent) {
           @click="copyText"
           size="small"
           :title="t('Copy')"
-          style="margin-left: 12px"
-        />
+          style="margin-left: 12px" />
         <el-button
+          v-if="!props.readonly"
           plain
           :icon="List"
           @click="pasteText"
           size="small"
-          :title="t('Paste')"
-        />
+          :title="t('Paste')" />
       </template>
     </Title>
     <div
@@ -180,8 +176,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         (props.editorType || settings.editorType) == EditorType.MonacoEditor ||
         props.difference
       "
-      class="devtoys-monaco-editor-body"
-    >
+      class="devtoys-monaco-editor-body">
       <MonacoEditor
         ref="monacoEditorRef"
         :value="props.value"
@@ -189,8 +184,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         :language="props.language"
         :difference="props.difference"
         :diff-value="props.diffValue"
-        @change="textChange"
-      ></MonacoEditor>
+        @change="textChange"></MonacoEditor>
     </div>
     <div v-else class="devtoys-editor-body el-textarea">
       <textarea
@@ -200,8 +194,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         :readonly="props.readonly"
         spellcheck="false"
         @keydown="textAreaKeyDown"
-        @input="textInput"
-      ></textarea>
+        @input="textInput"></textarea>
     </div>
   </div>
 </template>
