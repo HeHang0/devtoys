@@ -61,7 +61,7 @@ const imageTypes = Object.keys(ImageType).map(m => ({
   <div class="devtoys-image">
     <SettingCard :title="t('Image Type')">
       <template #icon>
-        <span class="devtoys-icon"> &#x125; </span>
+        <span class="devtoys-icon"> &#x127; </span>
       </template>
       <el-select v-model="page.image.convertType" size="small">
         <el-option
@@ -73,7 +73,7 @@ const imageTypes = Object.keys(ImageType).map(m => ({
     </SettingCard>
     <SettingCard :title="t('Quality')">
       <template #icon>
-        <span class="devtoys-icon"> &#x125; </span>
+        <span class="devtoys-icon"> &#x116; </span>
       </template>
       <el-select v-model="page.image.quality" size="small">
         <el-option

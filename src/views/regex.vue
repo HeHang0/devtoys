@@ -19,7 +19,8 @@ const { t } = useLanguageStore();
     <Editor
       class="devtoys-regex-item"
       v-model:value="page.regex.text"
-      style="height: 369px">
+      style="height: 369px"
+      @delay-input="page.regexChange">
       <template #title> {{ t('Text') }} </template>
     </Editor>
     <Title v-if="page.regex.result.length > 0">

@@ -5,6 +5,8 @@ import xmlFormatter from 'xml-formatter';
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 
+export const formattableLanguage = ['json', 'yaml', 'sql', 'xml'];
+
 export function formatCode(
   language: string,
   code: string,

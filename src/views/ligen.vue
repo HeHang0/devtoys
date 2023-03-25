@@ -13,7 +13,7 @@ const copyText = () => navigator.clipboard.writeText(page.ligen.article);
     <div class="devtoys-ligen-generate">
       <span>{{ t('Topic') }}</span>
       <el-input v-model="page.ligen.topic" />
-      <el-button type="primary" @click="page.generateLigen">
+      <el-button plain type="primary" @click="page.generateLigen">
         {{ t('Generate article') }}
       </el-button>
     </div>

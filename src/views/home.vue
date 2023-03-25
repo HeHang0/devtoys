@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Cellphone, Star } from "@element-plus/icons-vue";
-import { useSearchStore } from "@/stores/search";
-import { useLanguageStore } from "@/stores/language";
-import { useSettingsStore } from "@/stores/settings";
-import { elementScrollClick } from "@/utils/utils";
+import { Cellphone, Star } from '@element-plus/icons-vue';
+import { useSearchStore } from '@/stores/search';
+import { useLanguageStore } from '@/stores/language';
+import { useSettingsStore } from '@/stores/settings';
+import { elementScrollClick } from '@/utils/utils';
 const search = useSearchStore();
 const language = useLanguageStore();
 const settings = useSettingsStore();
 function openNewTab(key: string, event: Event) {
-  settings.setLastRouter("/"+key);
+  settings.setLastRouter('/' + key);
   window.open(location.pathname);
 }
 </script>
@@ -18,27 +18,25 @@ function openNewTab(key: string, event: Event) {
     <router-link
       v-for="menu in search.menus"
       :key="menu.key"
-      :to="'/' + menu.key"
-    >
-      <el-card
-        body-style="display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%"
-      >
+      :to="'/' + menu.key">
+      <el-card>
         <div class="devtoys-home-icon">
           <i v-if="menu.icon" class="devtoys-icon">{{ menu.icon }}</i>
         </div>
-        <div class="devtoys-home-title">
-          <span>{{ language.t(menu.longName || menu.name) }}</span>
+        <div
+          class="devtoys-home-title"
+          :title="language.t(menu.longName || menu.name)">
+          {{ language.t(menu.longName || menu.name) }}
         </div>
-        <div class="devtoys-home-desc">
-          <span>{{ language.t(menu.desc || "") }}</span>
+        <div class="devtoys-home-desc" :title="language.t(menu.desc || '')">
+          {{ language.t(menu.desc || '') }}
         </div>
         <div class="devtoys-home-operate">
           <el-button
             plain
             size="small"
             :title="language.t('Open in new tab')"
-            @click.prevent="openNewTab(menu.key, $event)"
-          >
+            @click.prevent="openNewTab(menu.key, $event)">
             <el-icon><Cellphone /></el-icon>
           </el-button>
           <el-button
@@ -46,8 +44,7 @@ function openNewTab(key: string, event: Event) {
             plain
             size="small"
             :title="language.t('Remove from favorites')"
-            @click.prevent="settings.removeFavoriteRouter(menu.key)"
-          >
+            @click.prevent="settings.removeFavoriteRouter(menu.key)">
             <el-icon class="cancel"><Star /></el-icon>
           </el-button>
           <el-button
@@ -55,8 +52,7 @@ function openNewTab(key: string, event: Event) {
             plain
             size="small"
             :title="language.t('Add to favorites')"
-            @click.prevent="settings.addFavoriteRouter(menu.key)"
-          >
+            @click.prevent="settings.addFavoriteRouter(menu.key)">
             <el-icon><Star /></el-icon>
           </el-button>
         </div>
@@ -68,22 +64,31 @@ function openNewTab(key: string, event: Event) {
 <style lang="less" scoped>
 .devtoys-home {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   padding-right: 5px;
   grid-column-gap: 5px;
   grid-row-gap: 10px;
 
-a {
+  a {
     color: var(--el-text-color-primary);
     text-decoration: unset;
-}
+  }
   .el-card {
-    width: 150px;
-    // margin: 0 10px 10px 0;
+    width: 160px;
     border: 1px solid var(--el-border-color);
-    height: 250px;
+    height: 260px;
     background-color: var(--el-bg-color);
     box-shadow: none;
+
+    /deep/.el-card__body {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100%;
+      position: relative;
+    }
     .devtoys-home-icon {
       width: 80px;
       height: 80px;
@@ -92,6 +97,7 @@ a {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: 12px;
       i {
         font-size: 30px;
       }
@@ -106,12 +112,18 @@ a {
     }
     .devtoys-home-desc {
       margin-top: 5px;
-      font-size: var(--el-font-size-extra-small);
+      font-size: 8px;
       color: var(--el-text-color-regular);
-      flex: 1;
+      line-height: 12px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .devtoys-home-operate {
-      margin-top: 10px;
+      position: absolute;
+      bottom: 10px;
       opacity: 0;
       button {
         width: 24px;
@@ -119,7 +131,7 @@ a {
           position: relative;
         }
         i.cancel::after {
-          content: " ";
+          content: ' ';
           position: absolute;
           left: 2px;
           top: 2px;

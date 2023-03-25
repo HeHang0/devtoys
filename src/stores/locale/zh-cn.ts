@@ -33,6 +33,7 @@ export const language: Record<string, string> = {
   Camera: '相机',
   Clipboard: '剪贴板',
   Default: '默认',
+  Uglify: '压缩',
   or: '或',
   'Click to Open': '点击打开',
   'Failed to call camera': '调用摄像头失败',

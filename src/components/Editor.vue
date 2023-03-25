@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
 import { CopyDocument, List, Document } from '@element-plus/icons-vue';
-import { formatCode, uglifyCode } from '@/utils/formatter';
+import { formatCode, uglifyCode, formattableLanguage } from '@/utils/formatter';
 import { readTextFile } from '@/utils/utils';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore, EditorType } from '@/stores/settings';
@@ -128,13 +128,13 @@ function textAreaKeyDown(e: KeyboardEvent) {
           plain
           @click="uglifyText"
           size="small"
-          :title="t('Format')">
+          :title="t('Uglify')">
           <el-icon>
             <i class="devtoys-icon">&#x122;</i>
           </el-icon>
         </el-button>
         <el-button
-          v-if="props.language !== 'text'"
+          v-if="formattableLanguage.includes(props.language)"
           plain
           @click="formatText"
           size="small"

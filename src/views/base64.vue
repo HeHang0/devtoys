@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Editor from "@/components/Editor.vue";
-import { usePageStore } from "../stores/page";
-import { useLanguageStore } from "../stores/language";
+import Editor from '@/components/Editor.vue';
+import { usePageStore } from '../stores/page';
+import { useLanguageStore } from '../stores/language';
 const page = usePageStore();
 const { t } = useLanguageStore();
 </script>
@@ -12,16 +12,16 @@ const { t } = useLanguageStore();
       <Editor
         :value="page.base64.decoded"
         language="text"
-        @delayInput="page.base64EncodedChange">
-        <template #title> {{t('Decoded')}} </template>
+        @delayInput="page.base64DecodedChange">
+        <template #title> {{ t('Decoded') }} </template>
       </Editor>
     </div>
     <div class="devtoys-base64-editor">
       <Editor
         :value="page.base64.encoded"
         language="text"
-        @delayInput="page.base64DecodedChange">
-        <template #title> {{t('Encoded')}} </template>
+        @delayInput="page.base64EncodedChange">
+        <template #title> {{ t('Encoded') }} </template>
       </Editor>
     </div>
   </div>

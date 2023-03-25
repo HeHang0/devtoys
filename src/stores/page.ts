@@ -126,7 +126,8 @@ export const usePageStore = defineStore('page', {
         convertType: storage.getValue(StorageKey.ImageType, ImageType.Png)
       },
       markdown: {
-        text: ''
+        text: '',
+        previewHtmlContent: ''
       },
       color: {
         color: '#FFFFFF',
@@ -140,13 +141,13 @@ export const usePageStore = defineStore('page', {
         result: new Array<any>()
       },
       escape: {
-        text: '',
-        result: '',
+        text: 'DevToys - A "Swiss Army knife" for developers',
+        result: 'DevToys - A \\"Swiss Army knife\\" for developers',
         escape: true
       },
       capitalization: {
-        input: '',
-        output: '',
+        input: 'DevToys - A Swiss Army knife for developers',
+        output: 'Devtoys - a swiss army knife for developers',
         type: CapitalizationType.SentenceCase
       }
     };
@@ -297,12 +298,13 @@ export const usePageStore = defineStore('page', {
       this.regex.result.splice(0, this.regex.result.length);
       try {
         const regex = new RegExp(this.regex.pattern, 'g');
-        if (!regex.test(this.regex.text)) {
-          return;
-        }
+        const text = this.regex.text;
+        // if (!regex.test(text)) {
+        //   return;
+        // }
         let lastIndex = -1;
         for (;;) {
-          const r = regex.exec(this.regex.text);
+          const r = regex.exec(text);
           if (!r || lastIndex === r.index) break;
           lastIndex = r.index;
           this.regex.result.push({
