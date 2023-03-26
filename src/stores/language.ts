@@ -4,6 +4,7 @@ import moment from 'moment'
 import 'moment/dist/locale/zh-cn'
 import elementZhCn from "element-plus/dist/locale/zh-cn.mjs"
 import elementEn from "element-plus/dist/locale/en.mjs"
+import elementJA from "element-plus/dist/locale/ja.mjs"
 import { language as zhCn } from "./locale/zh-cn"
 import { language as en } from "./locale/en"
 
@@ -11,17 +12,41 @@ export enum Language {
     Auto = "auto",
     ZhCN = "zh-cn",
     EnUS = "en",
+    JA = "ja",
 }
 let locale = storage.getValue<Language>(StorageKey.Language, Language.Auto);
-const handleLanguageChange = (event: Event | Language) => {
+function handleLanguageChange(event: Event | Language) {
     if(typeof event !== 'string' && locale !== Language.Auto) return;
     var browserLanguage: string = (navigator.language || (navigator as any).userLanguage).toLocaleLowerCase();
     let language = typeof event === 'string' ? event : browserLanguage;
     if(language === Language.Auto) language = browserLanguage;
     if(language.includes("zh")) language = Language.ZhCN
     else if(language.includes("en")) language = Language.EnUS
-    moment.locale(language == Language.ZhCN ? 'zh-cn' : 'en');
+    else if(language.includes("ja")) language = Language.JA
+    switch (language) {
+        case Language.EnUS:
+            moment.locale('en');
+            break;
+        case Language.JA:
+            moment.locale('ja');
+            break;
+    
+        default:
+            moment.locale('zh-cn');
+            break;
+    }
     return language
+}
+function getElementLocale(language: string|undefined) {
+    switch (language) {
+        case Language.EnUS:
+            return elementEn;
+        case Language.JA:
+            return elementJA;
+    
+        default:
+            return elementZhCn;
+    }
 }
 window.addEventListener('languagechange', handleLanguageChange);
 let localLanguage = handleLanguageChange(locale)
@@ -29,7 +54,7 @@ let localLanguage = handleLanguageChange(locale)
 export const useLanguageStore = defineStore("language", {
     state: () => {
         return {
-            elementLocale: localLanguage == Language.ZhCN ? elementZhCn : elementEn,
+            elementLocale: getElementLocale(localLanguage),
             locale: locale
         }
     },
@@ -39,7 +64,7 @@ export const useLanguageStore = defineStore("language", {
             this.locale = language
             locale = language;
             localLanguage = handleLanguageChange(locale)
-            this.elementLocale = localLanguage == Language.ZhCN ? elementZhCn : elementEn
+            this.elementLocale =  getElementLocale(localLanguage)
         },
     },
     getters: {
