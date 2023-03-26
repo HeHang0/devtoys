@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Editor from "@/components/Editor.vue";
-import { usePageStore } from "../stores/page";
-import { useLanguageStore } from "../stores/language";
+import Editor from '@/components/Editor.vue';
+import { usePageStore } from '../stores/page';
+import { useLanguageStore } from '../stores/language';
 const page = usePageStore();
 const { t } = useLanguageStore();
 </script>
@@ -40,6 +40,13 @@ const { t } = useLanguageStore();
   &-editor {
     width: calc(50% - 5px);
     height: 100%;
+  }
+
+  @media (max-width: 850px) {
+    flex-direction: column;
+    &-editor {
+      width: 100%;
+    }
   }
 }
 </style>

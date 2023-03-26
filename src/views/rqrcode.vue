@@ -245,6 +245,18 @@ function stopVideo() {
         border-radius: 4px;
       }
     }
+
+    @media (max-width: 850px) {
+      height: 130px;
+      &-image {
+        width: 130px;
+      }
+      &-type {
+        :deep(.el-upload-dragger) {
+          padding: 0;
+        }
+      }
+    }
   }
 
   &-form {

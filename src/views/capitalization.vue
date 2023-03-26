@@ -64,12 +64,21 @@ console.log('哈哈哈', Object(CapitalizationType), page.capitalization.type);
 
   &-editor {
     width: 100%;
-    height: calc(100% - 100px);
     display: flex;
     justify-content: space-between;
     & > div {
       width: calc(50% - 5px);
       height: 100%;
+    }
+  }
+
+  @media (max-width: 850px) {
+    &-editor {
+      flex-direction: column;
+      & > div {
+        height: 369px;
+        width: 100%;
+      }
     }
   }
 }

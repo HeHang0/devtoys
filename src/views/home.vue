@@ -149,5 +149,18 @@ function openNewTab(key: string, event: Event) {
       }
     }
   }
+
+  @media (max-width: 850px) {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    .el-card {
+      width: 140px;
+      .devtoys-home-operate {
+        opacity: 1;
+      }
+      .devtoys-home-desc {
+        -webkit-line-clamp: 3;
+      }
+    }
+  }
 }
 </style>

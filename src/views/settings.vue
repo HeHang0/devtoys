@@ -91,6 +91,7 @@ function clearFontFamily() {
         <el-option :label="t('Auto Mode')" :value="Language.Auto" />
         <el-option label="简体中文" :value="Language.ZhCN" />
         <el-option label="English" :value="Language.EnUS" />
+        <el-option label="日本語" :value="Language.JA" />
       </el-select>
     </SettingCard>
     <SettingCard

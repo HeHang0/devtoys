@@ -63,6 +63,16 @@ onMounted(() => {
     background: var(--el-bg-color);
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
+
+  @media (max-width: 850px) {
+    flex-direction: column;
+    &-preview,
+    &-editor {
+      width: 100%;
+      height: 456px;
+      margin-bottom: 10px;
+    }
+  }
 }
 </style>
 <style lang="less">
