@@ -131,17 +131,3 @@ function clearFontFamily() {
     </SettingCard>
   </div>
 </template>
-
-<style lang="less" scoped>
-.devtoys-settings {
-  @media (max-width: 850px) {
-    :deep(.devtoys-setting-card-left) {
-      flex: 0.6;
-    }
-    :deep(.devtoys-setting-card-body) {
-      flex: 0.4;
-      margin-left: 10px;
-    }
-  }
-}
-</style>

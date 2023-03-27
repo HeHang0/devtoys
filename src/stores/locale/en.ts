@@ -98,6 +98,10 @@ export const language: Record<string, string> = {
   'Text Source': 'Text Source',
   'File Source': 'File Source',
 
+  'tool.base64img.title': 'Base64 image Encoder / Decoder',
+  'tool.base64img.mintitle': 'Base64 Image',
+  'tool.base64img.description': 'Encode and decode Base64 image',
+
   'tool.jwt.title': 'JWT Encoder / Decoder',
   'tool.jwt.mintitle': 'JWT',
   'tool.jwt.description': 'Decode a JWT header playload and signature',

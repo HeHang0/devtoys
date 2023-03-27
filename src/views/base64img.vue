@@ -163,6 +163,9 @@ function base64Change() {
         max-height: 100%;
       }
     }
+    @media (max-width: 850px) {
+      height: 232.2px;
+    }
   }
 }
 </style>

@@ -57,8 +57,9 @@ const imageTypes = Object.keys(ImageType).map(m => ({
 }));
 
 onMounted(() => {
-  if(page.fileReaderType === FileReaderType.Camera) page.fileReaderType = FileReaderType.File
-})
+  if (page.fileReaderType === FileReaderType.Camera)
+    page.fileReaderType = FileReaderType.File;
+});
 </script>
 
 <template>
@@ -192,6 +193,19 @@ onMounted(() => {
       &.disable {
         border-color: var(--el-border-color);
         cursor: not-allowed;
+      }
+    }
+    @media (max-width: 850px) {
+      height: 150px;
+      &-download {
+        width: 125px;
+      }
+      :deep(.el-upload) {
+        height: 100%;
+        .el-upload-dragger {
+          padding: 10px;
+          height: 100%;
+        }
       }
     }
   }

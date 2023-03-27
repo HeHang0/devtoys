@@ -5,7 +5,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: "",
+  title: ''
 });
 </script>
 <template>
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
     </template>
   </el-card>
 </template>
-  
+
 <style lang="less" scoped>
 .devtoys-setting-card {
   width: 100%;
@@ -64,18 +64,22 @@ const props = withDefaults(defineProps<Props>(), {
       }
     }
   }
-}
-</style>
-  
-<style lang="less">
-.devtoys-setting-card {
-  .el-card__header {
+  :deep(.el-card__header) {
     border-bottom: 0;
     padding: 10px 20px;
   }
-  .el-card__body {
+  :deep(.el-card__body) {
     display: none;
+  }
+  @media (max-width: 850px) {
+    :deep(.devtoys-setting-card-left) {
+      flex: 0.6;
+    }
+    :deep(.devtoys-setting-card-body) {
+      flex: 0.4;
+      margin-left: 10px;
+      text-align: right;
+    }
   }
 }
 </style>
-  
