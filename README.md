@@ -1,40 +1,76 @@
 # DevToys
 
-This template should help get you started developing with Vue 3 in Vite.
+Web-based version of a Swiss Army knife for developers.
 
-## Recommended IDE Setup
+## Installation and Usage
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+To develop locally, use the command line to navigate to the project directory and run:
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+``` bash
+yarn
+yarn dev
 ```
 
-### Compile and Hot-Reload for Development
+Or simply access the deployed site at <https://hehang0.github.io/devtoys>.
 
-```sh
-npm run dev
-```
+## Technology Stack
 
-### Type-Check, Compile and Minify for Production
+Vue3 + TS + Vite
 
-```sh
-npm run build
-```
+## Features
+
+- Converters
+  - JSON <> YAML
+  - Timestamp
+  - Number Base
+  - Cron Parser
+- Encoders / Decoders
+  - HTML
+  - URL
+  - Base64 Text & Image
+  - JWT Decoder
+  - KeyCode
+- Formatters
+  - JSON
+  - SQL
+  - XML
+- Generators
+  - Hash (MD5, SHA1, SHA256, SHA512)
+  - UUID
+  - Lorem Ipsum for Chinese
+  - Checksum
+  - QRCode
+- Escape / Unescape
+  - Inspector & Case Converter
+  - Regex Tester
+  - Text Escape
+  - Text Diff
+  - Markdown Preview
+- Graphic
+  - Image Converter
+  - QRCode Reader
+- Media
+  - Color Picker
+
+## Key Features
+
+- Light/Dark Theme
+- Support English/Chinese/Japanese
+- Support Multi Editor
+- Support Change Font
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. You can also email me at [picalpico@gmail.com](mailto:picalpico@gmail.com).
+
+## License
+
+See [LICENSE](LICENSE.md)
+
+## Acknowledgements
+
+This project was inspired by [DevToys](https://github.com/veler/DevToys), and I essentially replicated the features in that project.
+
+## Author
+
+hehang
