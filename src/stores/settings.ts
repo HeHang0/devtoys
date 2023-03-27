@@ -38,7 +38,7 @@ const handleFavorities = (routers: string[]) =>  Array.isArray(routers) ? allMen
 export const useSettingsStore = defineStore("settings", {
   state: () => {
     return {
-      showAside: Boolean(storage.getValue(StorageKey.ShowAside, true)),
+      showAside: navigator.userAgent.toLowerCase().includes("mobile") ? false : Boolean(storage.getValue(StorageKey.ShowAside, true)),
       rememberRouter: Boolean(storage.getValue(StorageKey.RememberRouter, true)),
       lastRouter: storage.getValue(StorageKey.LastRouter, ''),
       appTheme: appTheme,
