@@ -2,15 +2,18 @@
 import { ref } from 'vue';
 import { UploadFilled, List } from '@element-plus/icons-vue';
 import ClipboardPaste from '@/components/ClipboardPaste.vue';
-import { QRCodeReaderType, usePageStore } from '../stores/page';
+import { FileReaderType, usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
-import { convertImageToDataUrl } from '@/utils/utils';
 import Editor from '@/components/Editor.vue';
 const page = usePageStore();
 const imageRef = ref();
+const loading = ref(false);
 const { t } = useLanguageStore();
+let currentFile: File | null;
 function readFile(file: File | null) {
   if (!file || !file.type.includes('image')) return false;
+  currentFile = file;
+  loading.value = true;
   page.base64img.image = URL.createObjectURL(file);
   return false;
 }
@@ -18,8 +21,22 @@ function readFile(file: File | null) {
 function imageLoad() {
   if (page.base64img.image && page.base64img.image.startsWith('blob:')) {
     URL.revokeObjectURL(page.base64img.image);
-    if(imageRef.value && page.base64img.text !== page.base64img.image) {
-      page.base64img.text = convertImageToDataUrl(imageRef.value)
+    if (
+      imageRef.value &&
+      page.base64img.text !== page.base64img.image &&
+      currentFile
+    ) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        page.base64img.text = reader.result?.toString() || '';
+        loading.value = false;
+      };
+      reader.onerror = function () {
+        loading.value = false;
+      };
+      reader.readAsDataURL(currentFile);
+    } else {
+      loading.value = false;
     }
   }
 }
@@ -37,7 +54,7 @@ function onPaste(pasteType: any, result: File | string, fileType?: string) {
 }
 
 function base64Change() {
-  page.base64img.image = page.base64img.text
+  page.base64img.image = page.base64img.text;
 }
 </script>
 
@@ -48,13 +65,13 @@ function base64Change() {
         {{ t('Image') }}
       </template>
       <el-radio-group
-        v-model="page.image.readerType"
+        v-model="page.fileReaderType"
         size="small"
-        @change="page.imageReaderTypeChange">
-        <el-radio-button :label="QRCodeReaderType.File">{{
+        @change="page.fileReaderTypeChange">
+        <el-radio-button :label="FileReaderType.File">{{
           t('File')
         }}</el-radio-button>
-        <el-radio-button :label="QRCodeReaderType.Clipboard">{{
+        <el-radio-button :label="FileReaderType.Clipboard">{{
           t('Clipboard')
         }}</el-radio-button>
       </el-radio-group>
@@ -62,7 +79,7 @@ function base64Change() {
     <div class="devtoys-base64img-reader">
       <div class="devtoys-base64img-reader-type">
         <ClipboardPaste
-          v-if="page.image.readerType === QRCodeReaderType.Clipboard"
+          v-if="page.fileReaderType === FileReaderType.Clipboard"
           @change="onPaste">
           <el-icon class="devtoys-icon--paste">
             <List />
@@ -86,11 +103,18 @@ function base64Change() {
         </el-upload>
       </div>
       <div class="devtoys-base64img-reader-image el-upload-dragger disable">
-        <img v-if="page.base64img.image" ref="imageRef" :src="page.base64img.image" @load="imageLoad" />
+        <img
+          v-if="page.base64img.image"
+          ref="imageRef"
+          :src="page.base64img.image"
+          @load="imageLoad" />
       </div>
     </div>
-    <div class="devtoys-base64img-editor">
-      <Editor v-model:value="page.base64img.text" language="text" @delayInput="base64Change"/>
+    <div class="devtoys-base64img-editor" v-loading="loading">
+      <Editor
+        v-model:value="page.base64img.text"
+        language="text"
+        @delayInput="base64Change" />
     </div>
   </div>
 </template>
@@ -134,20 +158,10 @@ function base64Change() {
         border-color: var(--el-border-color);
         cursor: default;
       }
-    }
-  }
-
-  &-output {
-    width: 100%;
-    border: 1px dashed var(--el-border-color);
-    border-radius: 6px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      max-width: 100%;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
     }
   }
 }

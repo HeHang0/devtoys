@@ -23,7 +23,7 @@ import {
 } from '@/utils/utils';
 import { generateArticle } from '@/utils/ligen';
 
-export enum QRCodeReaderType {
+export enum FileReaderType {
   File = 'file',
   Camera = 'camera',
   Clipboard = 'clipboard'
@@ -33,6 +33,10 @@ export const usePageStore = defineStore('page', {
   state: () => {
     const now = new Date();
     return {
+      fileReaderType: storage.getValue(
+        StorageKey.FileReaderType,
+        FileReaderType.File
+      ),
       date: {
         unix: ~~(now.valueOf() / 1000),
         iso: now.toISOString(),
@@ -115,17 +119,9 @@ export const usePageStore = defineStore('page', {
         text: ''
       },
       rqrcode: {
-        text: '',
-        readerType: storage.getValue(
-          StorageKey.QRCodeReaderType,
-          QRCodeReaderType.File
-        )
+        text: ''
       },
       image: {
-        readerType: storage.getValue(
-          StorageKey.QRCodeReaderType,
-          QRCodeReaderType.File
-        ),
         quality: storage.getValue(StorageKey.ImageQuality, 1),
         convertType: storage.getValue(StorageKey.ImageType, ImageType.Png)
       },
@@ -280,11 +276,8 @@ export const usePageStore = defineStore('page', {
     qrcodeLevelChange() {
       storage.setValue(StorageKey.QRCodeLevel, this.qrcode.level);
     },
-    qrcodeReaderTypeChange() {
-      storage.setValue(StorageKey.QRCodeReaderType, this.rqrcode.readerType);
-    },
-    imageReaderTypeChange() {
-      storage.setValue(StorageKey.ImageReaderType, this.image.readerType);
+    fileReaderTypeChange() {
+      storage.setValue(StorageKey.FileReaderType, this.fileReaderType);
     },
     colorChange(color: string, background: string) {
       this.color.color = color;

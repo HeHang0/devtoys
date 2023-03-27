@@ -4,7 +4,7 @@ import { Share, UploadFilled, List } from '@element-plus/icons-vue';
 import qrcodeParser from 'qrcode-parser';
 import Editor from '@/components/Editor.vue';
 import ClipboardPaste from '@/components/ClipboardPaste.vue';
-import { QRCodeReaderType, usePageStore } from '../stores/page';
+import { FileReaderType, usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
 const page = usePageStore();
 const imageUrl = ref('');
@@ -40,8 +40,8 @@ function onPaste(pasteType: any, result: File | string, fileType?: string) {
   }
 }
 function qrcodeReaderTypeChange(change?: any) {
-  page.qrcodeReaderTypeChange();
-  if (page.rqrcode.readerType !== QRCodeReaderType.Camera) {
+  page.fileReaderTypeChange();
+  if (page.fileReaderType !== FileReaderType.Camera) {
     stopVideo();
   }
 }
@@ -129,23 +129,23 @@ function stopVideo() {
       <template #title>
         {{ t('QR Code') }}
         <el-switch
-          v-if="page.rqrcode.readerType == QRCodeReaderType.Camera"
+          v-if="page.fileReaderType == FileReaderType.Camera"
           size="small"
           v-model="switchVideo"
           @change="switchVideoMode"
           style="margin-left: 10px" />
       </template>
       <el-radio-group
-        v-model="page.rqrcode.readerType"
+        v-model="page.fileReaderType"
         size="small"
         @change="qrcodeReaderTypeChange">
-        <el-radio-button :label="QRCodeReaderType.File">{{
+        <el-radio-button :label="FileReaderType.File">{{
           t('File')
         }}</el-radio-button>
-        <el-radio-button :label="QRCodeReaderType.Camera">{{
+        <el-radio-button :label="FileReaderType.Camera">{{
           t('Camera')
         }}</el-radio-button>
-        <el-radio-button :label="QRCodeReaderType.Clipboard">{{
+        <el-radio-button :label="FileReaderType.Clipboard">{{
           t('Clipboard')
         }}</el-radio-button>
       </el-radio-group>
@@ -153,12 +153,12 @@ function stopVideo() {
     <div class="devtoys-rqrcode-reader">
       <div class="devtoys-rqrcode-reader-type">
         <video
-          v-show="page.rqrcode.readerType === QRCodeReaderType.Camera"
+          v-show="page.fileReaderType === FileReaderType.Camera"
           ref="videoRef"></video>
         <template
-          v-if="page.rqrcode.readerType === QRCodeReaderType.Camera"></template>
+          v-if="page.fileReaderType === FileReaderType.Camera"></template>
         <ClipboardPaste
-          v-else-if="page.rqrcode.readerType === QRCodeReaderType.Clipboard"
+          v-else-if="page.fileReaderType === FileReaderType.Clipboard"
           @change="onPaste">
           <el-icon class="devtoys-icon--paste">
             <List />

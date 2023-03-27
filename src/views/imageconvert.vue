@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
-import { Share, UploadFilled, Download, List } from '@element-plus/icons-vue';
+import { onMounted, ref } from 'vue';
+import { UploadFilled, Download, List } from '@element-plus/icons-vue';
 import ClipboardPaste from '@/components/ClipboardPaste.vue';
-import { QRCodeReaderType, usePageStore } from '../stores/page';
+import { FileReaderType, usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
 import { convertImage, ImageType } from '@/utils/utils';
 const page = usePageStore();
@@ -55,6 +55,10 @@ const imageTypes = Object.keys(ImageType).map(m => ({
   key: m,
   value: Object(ImageType)[m]
 }));
+
+onMounted(() => {
+  if(page.fileReaderType === FileReaderType.Camera) page.fileReaderType = FileReaderType.File
+})
 </script>
 
 <template>
@@ -88,13 +92,13 @@ const imageTypes = Object.keys(ImageType).map(m => ({
         {{ t('Image') }}
       </template>
       <el-radio-group
-        v-model="page.image.readerType"
+        v-model="page.fileReaderType"
         size="small"
-        @change="page.imageReaderTypeChange">
-        <el-radio-button :label="QRCodeReaderType.File">{{
+        @change="page.fileReaderType">
+        <el-radio-button :label="FileReaderType.File">{{
           t('File')
         }}</el-radio-button>
-        <el-radio-button :label="QRCodeReaderType.Clipboard">{{
+        <el-radio-button :label="FileReaderType.Clipboard">{{
           t('Clipboard')
         }}</el-radio-button>
       </el-radio-group>
@@ -102,7 +106,7 @@ const imageTypes = Object.keys(ImageType).map(m => ({
     <div class="devtoys-image-reader">
       <div class="devtoys-image-reader-type">
         <ClipboardPaste
-          v-if="page.image.readerType === QRCodeReaderType.Clipboard"
+          v-if="page.fileReaderType === FileReaderType.Clipboard"
           @change="onPaste">
           <el-icon class="devtoys-icon--paste">
             <List />

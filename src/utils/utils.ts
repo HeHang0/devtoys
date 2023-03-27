@@ -74,7 +74,7 @@ export enum ChecksumAlgorithm {
   Md5 = 'MD5',
   Sha1 = 'SHA1',
   Sha256 = 'SHA256',
-  Sha512 = 'SHA512',
+  Sha512 = 'SHA512'
 }
 
 export function checksumFile(
@@ -171,7 +171,7 @@ function hexToRgb(hexColor: string) {
   return {
     r: r >= 0 && r <= 255 ? r : 0,
     g: g >= 0 && g <= 255 ? g : 0,
-    b: g >= 0 && g <= 255 ? g : 0,
+    b: g >= 0 && g <= 255 ? g : 0
   };
 }
 
@@ -180,7 +180,7 @@ export enum ImageType {
   Jpg = 'jpeg',
   Gif = 'gif',
   Bmp = 'bmp',
-  Webp = 'webp',
+  Webp = 'webp'
 }
 
 export function convertImage(
@@ -191,8 +191,8 @@ export function convertImage(
   return new Promise((resolve, reject) => {
     const canvas = document.createElement('canvas');
     // 计算图像的新尺寸
-    let newWidth = img.width;
-    let newHeight = img.height;
+    let newWidth = img.naturalWidth;
+    let newHeight = img.naturalHeight;
     canvas.width = newWidth;
     canvas.height = newHeight;
     // 在画布上绘制图像并转换为Blob URL
@@ -213,7 +213,7 @@ export function convertImage(
   });
 }
 
-export function convertImageToDataUrl(img: HTMLImageElement): string {
+export function convertImageToDataUrl(img: HTMLImageElement): Promise<string> {
   const canvas = document.createElement('canvas');
   // 计算图像的新尺寸
   let newWidth = img.width;
@@ -222,12 +222,18 @@ export function convertImageToDataUrl(img: HTMLImageElement): string {
   canvas.height = newHeight;
   // 在画布上绘制图像并转换为Data URL
   const ctx = canvas.getContext('2d');
-  if (ctx) {
-    ctx.drawImage(img, 0, 0, newWidth, newHeight);
-    return canvas.toDataURL();
-  } else {
-    return '';
-  }
+  return new Promise(resolve => {
+    // 调用 requestAnimationFrame() 以确保在下一帧中执行 toDataURL() 方法
+    window.requestAnimationFrame(() => {
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        resolve(canvas.toDataURL());
+        canvas.remove();
+      } else {
+        resolve('');
+      }
+    });
+  });
 }
 
 export const KeyCode2Android: any = {
@@ -359,7 +365,7 @@ export const KeyCode2Android: any = {
   '219': 71,
   '220': 73,
   '221': 72,
-  '222': 222,
+  '222': 222
 };
 
 export const KeyCode2IOS: any = {
@@ -548,5 +554,5 @@ export const KeyCode2IOS: any = {
   '219': 91,
   '220': 92,
   '221': 93,
-  '222': 39,
+  '222': 39
 };

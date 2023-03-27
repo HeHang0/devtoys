@@ -17,6 +17,7 @@ export enum StorageKey {
   QRCodeLevel = 'qrcode-level',
   QRCodeReaderType = 'qrcode-reader-type',
   ImageReaderType = 'image-reader-type',
+  FileReaderType = 'file-reader-type',
   ImageType = 'image-type',
   ImageQuality = 'image-quality',
   RouterHistory = 'router-history',
