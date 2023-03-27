@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
-type PasteType = "file" | "text";
+import { onMounted, onUnmounted } from 'vue';
+type PasteType = 'file' | 'text';
 const emit = defineEmits({
   change: (type: PasteType, result: File | string, resultType?: string) => true,
 });
@@ -9,28 +9,28 @@ function onPaste(event: ClipboardEvent) {
   if (!event.clipboardData || event.clipboardData.items.length <= 0) return;
   if (event.clipboardData.files.length > 0) {
     emit(
-      "change",
-      "file",
+      'change',
+      'file',
       event.clipboardData.files[0],
       event.clipboardData.files[0].type
     );
     return;
   }
   const item = event.clipboardData.items[0];
-  if (item.kind == "string") {
-    item.getAsString((text) => {
-      emit("change", "text", text);
+  if (item.kind == 'string') {
+    item.getAsString(text => {
+      emit('change', 'text', text);
     });
-  } else if (item.kind == "file") {
-    emit("change", "file", item.getAsFile()!, item.type);
+  } else if (item.kind == 'file') {
+    emit('change', 'file', item.getAsFile()!, item.type);
   }
 }
 
 onMounted(() => {
-  document.addEventListener("paste", onPaste);
+  document.addEventListener('paste', onPaste);
 });
 onUnmounted(() => {
-  document.removeEventListener("paste", onPaste);
+  document.removeEventListener('paste', onPaste);
 });
 </script>
 

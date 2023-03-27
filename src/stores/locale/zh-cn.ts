@@ -106,6 +106,10 @@ export const language: Record<string, string> = {
   'Text Source': '字符串',
   'File Source': '文件',
 
+  'tool.base64img.title': 'Base64图像 编码 / 解码',
+  'tool.base64img.mintitle': 'Base64图像',
+  'tool.base64img.description': '编码或解码 Base64 图像',
+
   'tool.jwt.title': 'JWT 编码 / 解码',
   'tool.jwt.mintitle': 'JWT',
   'tool.jwt.description': '解码JWT头部的负载和签名',

@@ -76,6 +76,10 @@ export const usePageStore = defineStore('page', {
         decoded: '',
         encoded: ''
       },
+      base64img: {
+        text: '',
+        image: ''
+      },
       jwt: {
         jwt: '',
         header: '',

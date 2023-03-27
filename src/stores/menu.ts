@@ -73,6 +73,13 @@ const menus: Menu[] = [
         name: 'tool.base64.mintitle',
         longName: 'tool.base64.title',
         desc: 'tool.base64.description',
+        icon: '\u0100'
+      },
+      {
+        key: 'base64img',
+        name: 'tool.base64img.mintitle',
+        longName: 'tool.base64img.title',
+        desc: 'tool.base64img.description',
         icon: '\u0102'
       },
       {

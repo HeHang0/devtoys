@@ -106,6 +106,10 @@ export const language: Record<string, string> = {
   'Text Source': 'テキスト',
   'File Source': 'ファイル',
 
+  'tool.base64img.title': 'Base64画像エンコード/デコード',
+  'tool.base64img.mintitle': 'Base64画像',
+  'tool.base64img.description': 'Base64画像データをエンコードまたはデコードします',
+
   'tool.jwt.title': 'JWTエンコード/デコード',
   'tool.jwt.mintitle': 'JWT',
   'tool.jwt.description': 'JWTヘッダ、ペイロード、署名をデコードします',
