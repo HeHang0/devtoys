@@ -56,7 +56,9 @@ export function highlightCode(code: string, language: string) {
     code,
     language ? [language] : undefined
   );
-  return `<pre><code class="hljs ${highlightedCode.language}">${highlightedCode.value}</code></pre>`;
+  return `<pre><code class="hljs ${highlightedCode.language || ''}">${
+    highlightedCode.value
+  }</code></pre>`;
 }
 
 export function encodeBase64(text: string) {

@@ -6,6 +6,7 @@ import { readTextFile } from '@/utils/utils';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore, EditorType } from '@/stores/settings';
 import MonacoEditor from './MonacoEditor.vue';
+import PicaEditor from './PicaEditor.vue';
 const settings = useSettingsStore();
 const { t } = useLanguageStore();
 
@@ -176,7 +177,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         (props.editorType || settings.editorType) == EditorType.MonacoEditor ||
         props.difference
       "
-      class="devtoys-monaco-editor-body">
+      class="devtoys-editor-body">
       <MonacoEditor
         ref="monacoEditorRef"
         :value="props.value"
@@ -185,6 +186,18 @@ function textAreaKeyDown(e: KeyboardEvent) {
         :difference="props.difference"
         :diff-value="props.diffValue"
         @change="textChange"></MonacoEditor>
+    </div>
+    <div
+      v-if="
+        (props.editorType || settings.editorType) == EditorType.PicaPicoEditor
+      "
+      class="devtoys-editor-body">
+      <PicaEditor
+        ref="monacoEditorRef"
+        :value="props.value"
+        :readonly="props.readonly"
+        :language="props.language"
+        @change="textChange"></PicaEditor>
     </div>
     <div v-else class="devtoys-editor-body el-textarea">
       <textarea

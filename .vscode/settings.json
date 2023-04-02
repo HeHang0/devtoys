@@ -3,11 +3,13 @@
     "devtoys",
     "formattable",
     "hehang",
+    "hljs",
     "imageconvert",
     "imageoptim",
     "ligen",
     "openeds",
     "pdfgen",
+    "Pico",
     "qrcode",
     "rqrcode"
   ]

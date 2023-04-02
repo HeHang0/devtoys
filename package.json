@@ -38,7 +38,6 @@
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
     "@types/he": "^1.2.0",
-    "@types/highlight.js": "^10.1.0",
     "@types/js-yaml": "^4.0.5",
     "@types/marked": "^4.0.8",
     "@types/node": "^18.14.2",

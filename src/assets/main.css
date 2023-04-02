@@ -1,10 +1,10 @@
 @import './base.css';
 
-html>body {
+html > body {
   color: var(--el-color-black);
 }
 
-html.dark>body {
+html.dark > body {
   color: var(--el-color-white);
 }
 

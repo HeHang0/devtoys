@@ -125,6 +125,9 @@ function clearFontFamily() {
         @change="settings.editorTypeChange">
         <el-option :label="t(EditorType.Default)" :value="EditorType.Default" />
         <el-option
+          :label="EditorType.PicaPicoEditor"
+          :value="EditorType.PicaPicoEditor" />
+        <el-option
           :label="EditorType.MonacoEditor"
           :value="EditorType.MonacoEditor" />
       </el-select>

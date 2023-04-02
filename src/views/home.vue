@@ -80,7 +80,7 @@ function openNewTab(key: string, event: Event) {
     background-color: var(--el-bg-color);
     box-shadow: none;
 
-    /deep/.el-card__body {
+    :deep(.el-card__body) {
       padding: 15px;
       display: flex;
       flex-direction: column;

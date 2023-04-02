@@ -1,26 +1,26 @@
-import { fileURLToPath, URL } from 'node:url'
-import * as path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import monacoEditorPlugin from 'vite-plugin-monaco-editor'
+import { fileURLToPath, URL } from 'node:url';
+import * as path from 'path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
   build: {
-    outDir:'devtoys',
+    outDir: 'devtoys',
     rollupOptions: {
-      output:{
+      output: {
         manualChunks(id, meta) {
-          console.log()
-            if (path.resolve(id).includes(path.resolve("./src/views"))) {
-                return 'views'
-            }else if(path.resolve(id).includes("node_modules")) {
-              return 'node_modules'
-            }
+          console.log();
+          if (path.resolve(id).includes(path.resolve('./src/views'))) {
+            return 'views';
+          } else if (path.resolve(id).includes('node_modules')) {
+            return 'node_modules';
+          }
         }
       }
     }
@@ -28,13 +28,13 @@ export default defineConfig({
   plugins: [
     vue(),
     monacoEditorPlugin({
-      languageWorkers: ["css", "html", "json", "editorWorkerService"]
+      languageWorkers: ['css', 'html', 'json', 'editorWorkerService']
     }),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     })
   ],
   resolve: {
@@ -42,4 +42,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   }
-})
+});

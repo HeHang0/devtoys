@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import * as monaco from "monaco-editor";
-import { ref, onMounted, watch, getCurrentInstance, onUnmounted } from "vue";
-import { CopyDocument, List, Document } from "@element-plus/icons-vue";
-import { formatCode } from "@/utils/formatter";
-import { useLanguageStore } from "@/stores/language";
+import * as monaco from 'monaco-editor';
+import { ref, onMounted, watch, onUnmounted } from 'vue';
+import { formatCode } from '@/utils/formatter';
+import { useLanguageStore } from '@/stores/language';
 const { t } = useLanguageStore();
 
 interface Props {
@@ -11,21 +10,21 @@ interface Props {
   diffValue?: string;
   language?: string;
   difference?: boolean;
-  readonly?: boolean
+  readonly?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  value: "",
-  diffValue: "",
+  value: '',
+  diffValue: '',
   difference: false,
-  language: "text",
+  language: 'text',
   readonly: false
 });
 const editorRef = ref<HTMLDivElement>();
 const loading = ref(true);
 
 const emit = defineEmits({
-  change: (value: string) => true,
+  change: (value: string) => true
 });
 
 let editor: monaco.editor.IStandaloneCodeEditor | null = null;
@@ -49,24 +48,24 @@ function insertText(text: string, cover: boolean) {
     );
   }
 
-  editor.executeEdits("insert-code", [
+  editor.executeEdits('insert-code', [
     {
       range,
-      text,
-    },
+      text
+    }
   ]);
-  return editor.getModel()?.getValue() || "";
+  return editor.getModel()?.getValue() || '';
 }
 
 defineExpose({
   insertText
-})
+});
 
 onMounted(() => {
   if (props.difference) {
     editorDiff = monaco.editor.createDiffEditor(editorRef.value!, {
       readOnly: true,
-      wordWrap: "on",
+      wordWrap: 'on',
       automaticLayout: true,
       suggestOnTriggerCharacters: false
     });
@@ -81,22 +80,22 @@ onMounted(() => {
 
     editorDiff.setModel({
       original: originalModel,
-      modified: modifiedModel,
+      modified: modifiedModel
     });
   } else {
     editor = monaco.editor.create(editorRef.value!, {
       ...props,
-      wordWrap: "on",
+      wordWrap: 'on',
       automaticLayout: true,
       suggestOnTriggerCharacters: false,
       quickSuggestions: false,
       readOnly: props.readonly
     });
     editor.onDidChangeModelContent(() => {
-      if(!editor) return
+      if (!editor) return;
       let pos = editor.getPosition();
       if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
-      emit("change", editor.getValue());
+      emit('change', editor.getValue());
     });
   }
 
@@ -104,13 +103,13 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  editor && editor.dispose()
-  editor = null
-})
+  editor && editor.dispose();
+  editor = null;
+});
 
 watch(
   () => props.value,
-  (newValue) => {
+  newValue => {
     if (props.difference) {
       if (
         props.difference &&
@@ -130,7 +129,7 @@ watch(
 
 watch(
   () => props.language,
-  (newValue) => {
+  newValue => {
     if (!editor) return;
     let model = editor.getModel();
     if (model && newValue != model.getLanguageId()) {
@@ -142,7 +141,7 @@ watch(
 props.difference &&
   watch(
     () => props.diffValue,
-    (newValue) => {
+    newValue => {
       if (!editorDiff) return;
       if (
         props.difference &&
@@ -154,7 +153,7 @@ props.difference &&
     }
   );
 
-monaco.languages.registerDocumentFormattingEditProvider("*", {
+monaco.languages.registerDocumentFormattingEditProvider('*', {
   provideDocumentFormattingEdits(model, options) {
     const formatted = formatCode(
       model.getLanguageId(),
@@ -165,10 +164,10 @@ monaco.languages.registerDocumentFormattingEditProvider("*", {
     return [
       {
         range: model.getFullModelRange(),
-        text: formatted,
-      },
+        text: formatted
+      }
     ];
-  },
+  }
 });
 </script>
 <template>
@@ -176,8 +175,7 @@ monaco.languages.registerDocumentFormattingEditProvider("*", {
     <div
       ref="editorRef"
       v-loading="loading"
-      class="devtoys-monaco-editor-body"
-    ></div>
+      class="devtoys-monaco-editor-body"></div>
   </div>
 </template>
 <style lang="less">
