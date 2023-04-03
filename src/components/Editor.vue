@@ -188,7 +188,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         @change="textChange"></MonacoEditor>
     </div>
     <div
-      v-if="
+      v-else-if="
         (props.editorType || settings.editorType) == EditorType.PicaPicoEditor
       "
       class="devtoys-editor-body">
