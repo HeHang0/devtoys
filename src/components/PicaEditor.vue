@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, onUnmounted, type Ref } from 'vue';
+import { ref, onMounted, watch, onUnmounted, type Ref, nextTick } from 'vue';
 import { formatCode, highlightCode } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
 const { t } = useLanguageStore();
@@ -18,8 +18,8 @@ const props = withDefaults(defineProps<Props>(), {
   readonly: false
 });
 
-const htmlRef: Ref<HTMLDivElement> = ref('' as any);
-const innerHtml = ref('');
+const htmlRef = ref('' as any);
+const hljsCodeClass = ref('hljs');
 
 const emit = defineEmits({
   change: (value: string) => true
@@ -30,7 +30,9 @@ function editorInput(payload: Event) {
   emit('change', inputEvent.innerText);
 }
 
-function insertText(text: string, cover: boolean) {}
+function insertText(text: string, cover?: boolean) {
+  return htmlRef.value?.innerText || '';
+}
 
 defineExpose({
   insertText
@@ -41,17 +43,22 @@ onMounted(() => {
 });
 
 function textChange(text: string) {
-  innerHtml.value = highlightCode(
+  const hlCode = highlightCode(
     formatCode(props.language, text),
-    props.language
-  );
+    props.language,
+    true
+  ) as { value: string; language: string };
+  hljsCodeClass.value = `hljs ` + (hlCode.language || '');
+  if (htmlRef.value) {
+    htmlRef.value.innerHTML = hlCode.value;
+  }
 }
 
 watch(
   () => props.value,
   newValue => {
-    if (htmlRef.value && props.value != htmlRef.value.innerText) {
-      textChange(props.value);
+    if (htmlRef.value && newValue != htmlRef.value.innerText) {
+      textChange(newValue);
     }
   }
 );
@@ -62,19 +69,33 @@ watch(
     textChange(props.value);
   }
 );
+
+function codeInputKeyDown(e: KeyboardEvent) {
+  if (e.key == 'Tab') {
+    e.preventDefault();
+    if (!e.shiftKey) insertText('    ');
+  }
+}
 </script>
 <template>
-  <div
-    class="devtoys-pica-editor el-textarea el-textarea__inner"
+  <div class="devtoys-pica-editor">
+    <pre><code
     ref="htmlRef"
-    v-html="innerHtml"
     :contenteditable="Boolean(!props.readonly)"
-    @input.native="editorInput"></div>
+        @keydown="codeInputKeyDown"
+    @input.native="editorInput" class="el-textarea el-textarea__inner" :class="hljsCodeClass"></code></pre>
+  </div>
 </template>
 <style lang="less">
 .devtoys-pica-editor {
   width: 100%;
   height: 100%;
   border-radius: 4px;
+  pre,
+  code {
+    width: 100%;
+    height: 100%;
+    resize: none;
+  }
 }
 </style>

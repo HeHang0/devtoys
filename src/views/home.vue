@@ -3,7 +3,6 @@ import { Cellphone, Star } from '@element-plus/icons-vue';
 import { useSearchStore } from '@/stores/search';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore } from '@/stores/settings';
-import { elementScrollClick } from '@/utils/utils';
 const search = useSearchStore();
 const language = useLanguageStore();
 const settings = useSettingsStore();

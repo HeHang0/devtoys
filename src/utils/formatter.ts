@@ -51,11 +51,17 @@ export function uglifyCode(language: string, code: string): string {
   return code;
 }
 
-export function highlightCode(code: string, language: string) {
+export function highlightCode(code: string, language: string, pure?: boolean) {
   const highlightedCode = hljs.highlightAuto(
     code,
     language ? [language] : undefined
   );
+  if (pure) {
+    return {
+      language: highlightedCode.language,
+      value: highlightedCode.value
+    };
+  }
   return `<pre><code class="hljs ${highlightedCode.language || ''}">${
     highlightedCode.value
   }</code></pre>`;

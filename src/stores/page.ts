@@ -177,7 +177,7 @@ export const usePageStore = defineStore('page', {
     jsonChange(value: string) {
       try {
         this.json2yaml.json = value;
-        this.json2yaml.yaml = value
+        this.json2yaml.yaml = value.trim()
           ? formatCode('yaml', jsyaml.dump(JSON.parse(value)))
           : '';
       } catch {}
@@ -185,7 +185,7 @@ export const usePageStore = defineStore('page', {
     yamlChange(value: string) {
       try {
         this.json2yaml.yaml = value;
-        this.json2yaml.json = value
+        this.json2yaml.json = value.trim()
           ? formatCode('json', JSON.stringify(jsyaml.load(value)))
           : '';
       } catch {}

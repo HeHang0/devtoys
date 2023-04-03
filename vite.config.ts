@@ -15,7 +15,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id, meta) {
-          console.log();
           if (path.resolve(id).includes(path.resolve('./src/views'))) {
             return 'views';
           } else if (path.resolve(id).includes('node_modules')) {

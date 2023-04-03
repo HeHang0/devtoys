@@ -12,7 +12,7 @@ const { t } = useLanguageStore();
       <Editor
         :value="page.json2yaml.json"
         language="json"
-        @delayInput="page.jsonChange">
+        @delay-input="page.jsonChange">
         <template #title> JSON </template>
       </Editor>
     </div>

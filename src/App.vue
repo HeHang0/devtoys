@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from "vue-router";
-import SideMenu from "./components/SideMenu.vue";
-import Header from "./components/Header.vue";
-import { useLanguageStore } from "@/stores/language";
-import { useSettingsStore } from "./stores/settings";
-import { allMenus } from "./stores/menu";
-import { elementScrollClick } from "./utils/utils";
+import { RouterView, useRouter } from 'vue-router';
+import SideMenu from './components/SideMenu.vue';
+import Header from './components/Header.vue';
+import { useLanguageStore } from '@/stores/language';
+import { useSettingsStore } from './stores/settings';
+import { allMenus } from './stores/menu';
+import { elementScrollClick } from './utils/utils';
 const { currentRoute, afterEach, beforeEach, replace } = useRouter();
 const language = useLanguageStore();
 const settings = useSettingsStore();
@@ -14,29 +14,36 @@ beforeEach((to, from, next) => {
   if (
     !onceRouter &&
     settings.rememberRouter &&
-    settings.lastRouter && settings.lastRouter != "/" &&
-    to.path == "/" &&
-    allMenus.find(m => "/" + m.key == settings.lastRouter)
+    settings.lastRouter &&
+    settings.lastRouter != '/' &&
+    to.path == '/' &&
+    allMenus.find(m => '/' + m.key == settings.lastRouter)
   ) {
     replace(settings.lastRouter);
     onceRouter = true;
-    return
+    return;
   }
-  next()
-})
+  next();
+});
 afterEach(() => {
   settings.setLastRouter(currentRoute.value.path);
-  elementScrollClick(currentRoute.value.meta.key as any)
+  elementScrollClick(currentRoute.value.meta.key as any);
 });
 </script>
 
 <template>
   <el-config-provider :locale="language.elementLocale">
     <el-container class="devtoys-layout">
-      <title>{{ currentRoute.name ? language.t(String(currentRoute.name))+" - " : "" }}DevToys</title>
+      <title>
+        {{
+          currentRoute.name
+            ? language.t(String(currentRoute.name)) + ' - '
+            : ''
+        }}DevToys
+      </title>
       <SideMenu />
 
-      <el-container direction="vertical">
+      <el-container direction="vertical" style="min-width: 355px">
         <Header />
         <el-main class="devtoys-main">
           <el-scrollbar>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
+import { reactive, ref, type Ref } from 'vue';
 import { CopyDocument, List, Document } from '@element-plus/icons-vue';
 import { formatCode, uglifyCode, formattableLanguage } from '@/utils/formatter';
 import { readTextFile } from '@/utils/utils';
@@ -35,7 +35,11 @@ const emit = defineEmits({
   delayInput: (value: string) => true,
   input: (value: string) => true,
   change: (value: string) => true,
-  'update:value': (value: string) => true
+  'update:value': (value: string) => true,
+  'update:language': (value: string) => true
+});
+const language = reactive({
+  value: props.language
 });
 const copyText = () => {
   navigator.clipboard.writeText(props.value);
@@ -71,12 +75,12 @@ function readFile(uploadFile: any) {
 }
 
 function formatText() {
-  const code = formatCode(props.language, props.value);
+  const code = formatCode(language.value, props.value);
   updateAllEvent(code);
 }
 
 function uglifyText() {
-  const code = uglifyCode(props.language, props.value);
+  const code = uglifyCode(language.value, props.value);
   updateAllEvent(code);
 }
 function updateAllEvent(value: string) {
@@ -112,6 +116,11 @@ function textAreaKeyDown(e: KeyboardEvent) {
     if (!e.shiftKey) insertText('    ');
   }
 }
+
+function languageChange(lang: string) {
+  emit('update:language', lang);
+  language.value = lang;
+}
 </script>
 <template>
   <div class="devtoys-editor">
@@ -134,8 +143,72 @@ function textAreaKeyDown(e: KeyboardEvent) {
             <i class="devtoys-icon">&#x122;</i>
           </el-icon>
         </el-button>
+        <el-dropdown style="margin-right: 12px" @command="languageChange">
+          <span class="el-dropdown-link"
+            ><el-button plain size="small" :title="t('Language')">
+              <el-icon>
+                <i class="devtoys-icon">&#x108;</i>
+              </el-icon>
+            </el-button></span
+          >
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                command="text"
+                :class="
+                  language.value == 'text' ? 'el-dropdown-menu__item-focus' : ''
+                "
+                >Text</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="json"
+                :class="
+                  language.value == 'json' ? 'el-dropdown-menu__item-focus' : ''
+                "
+                >Json</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="yaml"
+                :class="
+                  language.value == 'yaml' ? 'el-dropdown-menu__item-focus' : ''
+                "
+                >Yaml</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="sql"
+                :class="
+                  language.value == 'sql' ? 'el-dropdown-menu__item-focus' : ''
+                "
+                >SQL</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="html"
+                :class="
+                  language.value == 'html' ? 'el-dropdown-menu__item-focus' : ''
+                "
+                >Html</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="xml"
+                :class="
+                  language.value == 'xml' ? 'el-dropdown-menu__item-focus' : ''
+                "
+                >Xml</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="javascript"
+                :class="
+                  language.value == 'javascript'
+                    ? 'el-dropdown-menu__item-focus'
+                    : ''
+                "
+                >JavaScript</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <el-button
-          v-if="formattableLanguage.includes(props.language)"
+          v-if="formattableLanguage.includes(language.value)"
           plain
           @click="formatText"
           size="small"
@@ -182,7 +255,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         ref="monacoEditorRef"
         :value="props.value"
         :readonly="props.readonly"
-        :language="props.language"
+        :language="language.value"
         :difference="props.difference"
         :diff-value="props.diffValue"
         @change="textChange"></MonacoEditor>
@@ -196,7 +269,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
         ref="monacoEditorRef"
         :value="props.value"
         :readonly="props.readonly"
-        :language="props.language"
+        :language="language.value"
         @change="textChange"></PicaEditor>
     </div>
     <div v-else class="devtoys-editor-body el-textarea">
@@ -211,7 +284,7 @@ function textAreaKeyDown(e: KeyboardEvent) {
     </div>
   </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
 .devtoys-editor {
   width: 100%;
   height: 100%;
@@ -223,5 +296,11 @@ function textAreaKeyDown(e: KeyboardEvent) {
       resize: none;
     }
   }
+}
+</style>
+<style lang="less">
+.el-dropdown-menu__item-focus {
+  background-color: var(--el-dropdown-menuItem-hover-fill);
+  color: var(--el-dropdown-menuItem-hover-color);
 }
 </style>

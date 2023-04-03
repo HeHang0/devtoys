@@ -6,7 +6,6 @@ import { CapitalizationType } from '@/utils/formatter';
 const page = usePageStore();
 const { t } = useLanguageStore();
 const capitalizationTypes = Object.keys(CapitalizationType);
-console.log('哈哈哈', Object(CapitalizationType), page.capitalization.type);
 </script>
 
 <template>
