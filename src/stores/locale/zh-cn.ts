@@ -39,6 +39,7 @@ export const language: Record<string, string> = {
   'Failed to call camera': '调用摄像头失败',
   'Text Editor': '文本编辑器',
   'Parsing Failed': '解析失败',
+  'Editor Wrap': '编辑器换行',
 
   // - Category -
   'category.all': '所有工具',
@@ -292,5 +293,6 @@ export const language: Record<string, string> = {
   Font: '字体',
   'App Font': '应用字体',
   'Choose the font you want to use.': '选择您希望使用的字体',
-  'Choose the text editor you want to use.': '选择您希望使用的文本编辑器'
+  'Choose the text editor you want to use.': '选择您希望使用的文本编辑器',
+  'Check the text editor wrap you want to use.': '选择您的编辑器是否自动换行'
 };

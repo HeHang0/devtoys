@@ -132,5 +132,17 @@ function clearFontFamily() {
           :value="EditorType.MonacoEditor" />
       </el-select>
     </SettingCard>
+    <SettingCard
+      :title="t('Editor Wrap')"
+      :desc="t('Check the text editor wrap you want to use.')">
+      <template #icon>
+        <span class="devtoys-icon"> &#x0122; </span>
+      </template>
+      <el-checkbox
+        v-model="settings.editorWrap"
+        size="small"
+        @change="settings.editorWrapChange">
+      </el-checkbox>
+    </SettingCard>
   </div>
 </template>

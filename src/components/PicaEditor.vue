@@ -2,7 +2,9 @@
 import { ref, onMounted, watch, onUnmounted, type Ref, nextTick } from 'vue';
 import { formatCode, highlightCode } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
+import { useSettingsStore } from '@/stores/settings';
 const { t } = useLanguageStore();
+const settings = useSettingsStore();
 
 interface Props {
   value: string;
@@ -79,7 +81,7 @@ function codeInputKeyDown(e: KeyboardEvent) {
 </script>
 <template>
   <div class="devtoys-pica-editor">
-    <pre><code
+    <pre :style="{ whiteSpace: settings.editorWrap ? 'pre-wrap' : 'pre' }"><code
     ref="htmlRef"
     :contenteditable="Boolean(!props.readonly)"
         @keydown="codeInputKeyDown"
@@ -95,6 +97,8 @@ function codeInputKeyDown(e: KeyboardEvent) {
   code {
     width: 100%;
     height: 100%;
+  }
+  code {
     resize: none;
   }
 }

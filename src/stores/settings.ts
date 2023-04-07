@@ -61,7 +61,8 @@ export const useSettingsStore = defineStore('settings', {
       editorType: storage.getValue(
         StorageKey.EditorType,
         EditorType.PicaPicoEditor
-      )
+      ),
+      editorWrap: storage.getValue(StorageKey.EditorWrap, true)
     };
   },
   actions: {
@@ -112,6 +113,9 @@ export const useSettingsStore = defineStore('settings', {
     },
     editorTypeChange() {
       storage.setValue(StorageKey.EditorType, this.editorType);
+    },
+    editorWrapChange() {
+      storage.setValue(StorageKey.EditorWrap, this.editorWrap);
     }
   },
   getters: {

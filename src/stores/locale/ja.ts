@@ -39,6 +39,7 @@ export const language: Record<string, string> = {
   'Failed to call camera': 'カメラの呼び出しに失敗しました',
   'Text Editor': 'テキストエディタ',
   'Parsing Failed': '解析に失敗しました',
+  'Editor Wrap': 'エディターの改行',
 
   // - Category -
   'category.all': 'すべてのツール',
@@ -77,7 +78,8 @@ export const language: Record<string, string> = {
   'tool.cron.mintitle': 'Cron解析',
   'tool.cron.description': 'Cron式を解析して予定された日付を取得します',
   'Output Formatter': '出力フォーマット',
-  'Cron Mode Contain Second(6 paragraphs)': '秒を含むCronモード（6つのパラグラフ）',
+  'Cron Mode Contain Second(6 paragraphs)':
+    '秒を含むCronモード（6つのパラグラフ）',
   'Number of Next Scheduled Dates': '次の予定日数',
   'Next Scheduled Dates': '次の予定日',
   'Cron Expression to parse': '解析するCron式',
@@ -108,7 +110,8 @@ export const language: Record<string, string> = {
 
   'tool.base64img.title': 'Base64画像エンコード/デコード',
   'tool.base64img.mintitle': 'Base64画像',
-  'tool.base64img.description': 'Base64画像データをエンコードまたはデコードします',
+  'tool.base64img.description':
+    'Base64画像データをエンコードまたはデコードします',
 
   'tool.jwt.title': 'JWTエンコード/デコード',
   'tool.jwt.mintitle': 'JWT',
@@ -175,11 +178,13 @@ export const language: Record<string, string> = {
   'tool.checksum.description': 'ファイルのチェックサムを生成またはテストする',
   'Output Comparer': '出力比較',
   'Hash Algorithm': 'ハッシュアルゴリズム',
-  'Select which algorithm you want to use': '使用するアルゴリズムを選択してください',
+  'Select which algorithm you want to use':
+    '使用するアルゴリズムを選択してください',
 
   'tool.textinspect.title': 'テキストチェック＆大文字小文字変換ツール',
   'tool.textinspect.mintitle': 'テキストチェック',
-  'tool.textinspect.description': 'テキストを分析して異なる大文字小文字に変換します',
+  'tool.textinspect.description':
+    'テキストを分析して異なる大文字小文字に変換します',
   Charactors: '文字数',
   Lines: '行数',
   Bytes: 'バイト数',
@@ -199,7 +204,8 @@ export const language: Record<string, string> = {
 
   'tool.escape.title': 'テキストエスケープツール',
   'tool.escape.mintitle': 'テキストエスケープ',
-  'tool.escape.description': '文字列をエスケープまたはアンエスケープし、解析を妨げる可能性のある文字を削除します',
+  'tool.escape.description':
+    '文字列をエスケープまたはアンエスケープし、解析を妨げる可能性のある文字を削除します',
 
   'tool.regex.title': '正規表現テストツール',
   'tool.regex.mintitle': '正規表現',
@@ -215,11 +221,13 @@ export const language: Record<string, string> = {
 
   'tool.hyphenremove.title': 'ハイフン除去ツール',
   'tool.hyphenremove.mintitle': 'ハイフン',
-  'tool.hyphenremove.description': 'PDFテキストからコピーされたハイフンを削除します',
+  'tool.hyphenremove.description':
+    'PDFテキストからコピーされたハイフンを削除します',
 
   'tool.markdown.title': 'Markdownプレビューツール',
   'tool.markdown.mintitle': 'Markdownプレビュー',
-  'tool.markdown.description': 'GitHubのようにMarkdownをレンダリングするプレビュー',
+  'tool.markdown.description':
+    'GitHubのようにMarkdownをレンダリングするプレビュー',
 
   'tool.imageoptim.title': 'PNG/JPEG 圧縮ツール',
   'tool.imageoptim.mintitle': 'PNG/JPEG 圧縮',
@@ -251,7 +259,8 @@ export const language: Record<string, string> = {
   'JPEG Format': 'JPEG形式',
   'TIFF Format': 'TIFF形式',
   'GIF Format': 'GIF形式',
-  'Scale to Fill': 'コンテナを埋めるようにスケーリングする (縦横比を保持しない)',
+  'Scale to Fill':
+    'コンテナを埋めるようにスケーリングする (縦横比を保持しない)',
   'Scale to Fit': '縦横比を保持しながらスケーリングする',
   'Image Format': '画像形式',
   Resize: 'サイズ変更',
@@ -264,7 +273,8 @@ export const language: Record<string, string> = {
 
   'Color Picker': 'カラーピッカー',
   'Color Picker ': 'カラーピッカーツール',
-  'Picker the color and copy components': '色を選択してコンポーネントをコピーする',
+  'Picker the color and copy components':
+    '色を選択してコンポーネントをコピーする',
   'Selected Color': '選択された色',
   Contrast: 'コントラスト',
   'Text Color': 'テキストの色',
@@ -272,25 +282,28 @@ export const language: Record<string, string> = {
 
   'Audio Converter': 'オーディオ変換',
   'Audio Converter ': 'オーディオ変換ツール',
-  'Convert audio from one format to another':
-    '音声を別の形式に変換する',
+  'Convert audio from one format to another': '音声を別の形式に変換する',
 
   'Gif Converter': 'GIF変換',
   'Gif Converter ': 'GIF変換ツール',
-  'Convert a movie to an animated GIF file': '動画をアニメーションGIFファイルに変換する',
+  'Convert a movie to an animated GIF file':
+    '動画をアニメーションGIFファイルに変換する',
 
   Settings: '設定',
   'Setting of application': 'アプリケーションの設定',
   'App Theme': 'テーマの切り替え',
   'Choose your preferred theme to change the look and feel of the interface.':
-    'お好みのテーマを選択して、インターフェイスの外観を変更してください。',
+    'お好みのテーマを選択して、インターフェイスの外観を変更してください',
   'Dark Mode': 'ダークモード',
   'Light Mode': 'ライトモード',
   'Auto Mode': 'システムに従う',
   Language: '言語',
-  'Choose the language you want to use.': '使用する言語を選択してください。',
+  'Choose the language you want to use.': '使用する言語を選択してください',
   Font: 'フォント',
   'App Font': 'アプリフォント',
-  'Choose the font you want to use.': '使用するフォントを選択してください。',
-  'Choose the text editor you want to use.': '使用するテキストエディタを選択してください。'
-}
+  'Choose the font you want to use.': '使用するフォントを選択してください',
+  'Choose the text editor you want to use.':
+    '使用するテキストエディタを選択してください',
+  'Check the text editor wrap you want to use.':
+    'エディターが自動的に行を折り返すかどうかを選択します'
+};

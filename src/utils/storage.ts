@@ -21,7 +21,8 @@ export enum StorageKey {
   ImageType = 'image-type',
   ImageQuality = 'image-quality',
   RouterHistory = 'router-history',
-  EditorType = 'editor-type'
+  EditorType = 'editor-type',
+  EditorWrap = 'editor-wrap'
 }
 
 function setValue<T>(key: string, value: T) {

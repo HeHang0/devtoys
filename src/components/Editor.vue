@@ -135,6 +135,7 @@ function languageChange(lang: string) {
         <slot name="more-operate"></slot>
         <el-button
           v-if="props.uglify"
+          class="plus-ml12"
           plain
           @click="uglifyText"
           size="small"
@@ -143,7 +144,10 @@ function languageChange(lang: string) {
             <i class="devtoys-icon">&#x122;</i>
           </el-icon>
         </el-button>
-        <el-dropdown style="margin-right: 12px" @command="languageChange">
+        <el-dropdown
+          v-if="(props.editorType || settings.editorType) != EditorType.Default"
+          class="plus-ml12"
+          @command="languageChange">
           <span class="el-dropdown-link"
             ><el-button plain size="small" :title="t('Language')">
               <el-icon>
@@ -209,17 +213,18 @@ function languageChange(lang: string) {
         </el-dropdown>
         <el-button
           v-if="formattableLanguage.includes(language.value)"
+          class="plus-ml12"
           plain
           @click="formatText"
           size="small"
-          :title="t('Format')"
-          style="margin-right: 12px">
+          :title="t('Format')">
           <el-icon>
             <i class="devtoys-icon">&#x123;</i>
           </el-icon>
         </el-button>
         <el-upload
           v-if="!props.readonly"
+          class="plus-ml12"
           style="display: inline"
           :show-file-list="false"
           :before-upload="readFile">
@@ -231,6 +236,7 @@ function languageChange(lang: string) {
         </el-upload>
         <el-button
           plain
+          class="plus-ml12"
           :icon="CopyDocument"
           @click="copyText"
           size="small"
@@ -239,6 +245,7 @@ function languageChange(lang: string) {
         <el-button
           v-if="!props.readonly"
           plain
+          class="plus-ml12"
           :icon="List"
           @click="pasteText"
           size="small"
@@ -279,6 +286,7 @@ function languageChange(lang: string) {
         :value="props.value"
         :readonly="props.readonly"
         spellcheck="false"
+        :style="{ whiteSpace: settings.editorWrap ? 'pre-wrap' : 'pre' }"
         @keydown="textAreaKeyDown"
         @input="textInput"></textarea>
     </div>
@@ -295,6 +303,9 @@ function languageChange(lang: string) {
       height: 100%;
       resize: none;
     }
+  }
+  .plus-ml12 + .plus-ml12 {
+    margin-left: 12px;
   }
 }
 </style>

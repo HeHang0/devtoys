@@ -3,7 +3,9 @@ import * as monaco from 'monaco-editor';
 import { ref, onMounted, watch, onUnmounted } from 'vue';
 import { formatCode } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
+import { useSettingsStore } from '@/stores/settings';
 const { t } = useLanguageStore();
+const settings = useSettingsStore();
 
 interface Props {
   value: string;
@@ -65,7 +67,7 @@ onMounted(() => {
   if (props.difference) {
     editorDiff = monaco.editor.createDiffEditor(editorRef.value!, {
       readOnly: true,
-      wordWrap: 'on',
+      wordWrap: settings.editorWrap ? 'on' : 'off',
       automaticLayout: true,
       suggestOnTriggerCharacters: false
     });
@@ -85,7 +87,7 @@ onMounted(() => {
   } else {
     editor = monaco.editor.create(editorRef.value!, {
       ...props,
-      wordWrap: 'on',
+      wordWrap: settings.editorWrap ? 'on' : 'off',
       automaticLayout: true,
       suggestOnTriggerCharacters: false,
       quickSuggestions: false,
