@@ -195,14 +195,11 @@ function stopVideo() {
 
 <style lang="less" scoped>
 .devtoys-rqrcode {
+  width: 100%;
+  height: 100%;
   display: flex;
   // justify-content: space-between;
   flex-direction: column;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
 
   &-editor {
     flex: 1;

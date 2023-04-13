@@ -173,11 +173,12 @@ monaco.languages.registerDocumentFormattingEditProvider('*', {
 });
 </script>
 <template>
-  <div class="devtoys-monaco-editor">
+  <div class="devtoys-monaco-editor el-textarea">
     <div
       ref="editorRef"
       v-loading="loading"
-      class="devtoys-monaco-editor-body"></div>
+      class="devtoys-monaco-editor-body el-textarea__inner"
+      :style="props.difference ? 'height: 100%' : ''"></div>
   </div>
 </template>
 <style lang="less">

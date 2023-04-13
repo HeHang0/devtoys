@@ -46,9 +46,7 @@ afterEach(() => {
       <el-container direction="vertical" style="min-width: 355px">
         <Header />
         <el-main class="devtoys-main">
-          <el-scrollbar>
-            <RouterView />
-          </el-scrollbar>
+          <RouterView />
         </el-main>
       </el-container>
     </el-container>

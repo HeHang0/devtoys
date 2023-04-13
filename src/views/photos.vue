@@ -9,7 +9,7 @@ import { storage, StorageKey } from '@/utils/storage';
 import { formatBytes } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
 
-const { t } = useLanguageStore();
+const { t, currentLanguage } = useLanguageStore();
 
 interface ImageDetail {
   src: string;
@@ -132,7 +132,7 @@ async function selectImage(file: File) {
           exifData.GPSLongitude[1] / 60 +
           exifData.GPSLongitude[2] / 3600;
         fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=${currentLanguage()}`
         )
           .then(r => r.json())
           .then(r => {
@@ -195,6 +195,11 @@ function paneResized(e: any) {
           </div>
           <span>{{ file.name }}</span>
         </el-card>
+      </div>
+      <div v-if="fileList.length <= 0" class="devtoys-photos-sel-dir">
+        <el-button @click.stop="selectDirectory">{{
+          t('Select Directory')
+        }}</el-button>
       </div>
     </Pane>
     <Pane
@@ -313,21 +318,14 @@ function paneResized(e: any) {
         </div>
       </div>
     </Pane>
-    <div v-if="fileList.length <= 0" class="devtoys-photos-sel-dir">
-      <el-button @click.stop="selectDirectory">{{
-        t('Select Directory')
-      }}</el-button>
-    </div>
   </Splitpanes>
 </template>
 
 <style lang="less" scoped>
 .devtoys-photos {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
   :deep(.splitpanes__splitter) {
     width: 2px;
     background-color: var(--el-bg-color-page);

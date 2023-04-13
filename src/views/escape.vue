@@ -36,11 +36,8 @@ const { t } = useLanguageStore();
 
 <style lang="less" scoped>
 .devtoys-escape {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   &-item {
     height: calc(50% - 40px);
     &-output {

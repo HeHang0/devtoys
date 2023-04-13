@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Editor from "@/components/Editor.vue";
-import { usePageStore } from "../stores/page";
-import { useLanguageStore } from "../stores/language";
+import Editor from '@/components/Editor.vue';
+import { usePageStore } from '../stores/page';
+import { useLanguageStore } from '../stores/language';
 const page = usePageStore();
 const { t } = useLanguageStore();
 </script>
@@ -13,7 +13,7 @@ const { t } = useLanguageStore();
         :value="page.html.html"
         language="html"
         @delayInput="page.htmlChange">
-        <template #title> {{t('Decoded')}} </template>
+        <template #title> {{ t('Decoded') }} </template>
       </Editor>
     </div>
     <div class="devtoys-html-editor">
@@ -21,7 +21,7 @@ const { t } = useLanguageStore();
         :value="page.html.text"
         language="text"
         @delayInput="page.textChange">
-        <template #title> {{t('Encoded')}} </template>
+        <template #title> {{ t('Encoded') }} </template>
       </Editor>
     </div>
   </div>
@@ -29,11 +29,8 @@ const { t } = useLanguageStore();
 
 <style lang="less" scoped>
 .devtoys-html {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;

@@ -58,11 +58,8 @@ function countInput() {
 
 <style lang="less" scoped>
 .devtoys-uuid {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 

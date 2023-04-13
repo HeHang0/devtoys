@@ -72,6 +72,11 @@ export const useLanguageStore = defineStore('language', {
       locale = language;
       localLanguage = handleLanguageChange(locale);
       this.elementLocale = getElementLocale(localLanguage);
+    },
+    currentLanguage() {
+      let locale = this.locale == Language.Auto ? localLanguage : this.locale;
+      if (!locale) locale = Language.EnUS;
+      return locale;
     }
   },
   getters: {

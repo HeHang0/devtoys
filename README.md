@@ -48,6 +48,7 @@ Vue3 + TS + Vite
   - Markdown Preview
 - Graphic
   - Image Converter
+  - Photo Exif Viewer
   - QRCode Reader
 - Media
   - Color Picker
