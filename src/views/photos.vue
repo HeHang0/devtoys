@@ -219,9 +219,19 @@ function paneResized(e: any) {
         <div class="devtoys-photos-desc-item">
           <span>{{ t('Photo Dimension') }}</span>
           <span>
-            {{ imageDetail.exif.PixelXDimension }}
+            {{
+              Math.ceil(
+                imageDetail.exif.PixelXDimension ||
+                  imageDetail.exif.FocalPlaneXResolution
+              )
+            }}
             x
-            {{ imageDetail.exif.PixelYDimension }}
+            {{
+              Math.ceil(
+                imageDetail.exif.PixelYDimension ||
+                  imageDetail.exif.FocalPlaneYResolution
+              )
+            }}
           </span>
         </div>
         <div class="devtoys-photos-desc-item">
@@ -239,6 +249,16 @@ function paneResized(e: any) {
         <div v-if="imageDetail.exif.Model" class="devtoys-photos-desc-item">
           <span>{{ t('Device Model') }}</span>
           <span>{{ imageDetail.exif.Model }}</span>
+        </div>
+        <div v-if="imageDetail.exif.LensMake" class="devtoys-photos-desc-item">
+          <span>{{ t('Lens Manufacturer') }}</span>
+          <span>{{ imageDetail.exif.LensMake }}</span>
+        </div>
+        <div v-if="imageDetail.exif.LensModel" class="devtoys-photos-desc-item">
+          <span>{{ t('Lens Model') }}</span>
+          <span :title="imageDetail.exif.LensModel">{{
+            imageDetail.exif.LensModel
+          }}</span>
         </div>
         <div
           v-if="imageDetail.exif.ExposureTime"

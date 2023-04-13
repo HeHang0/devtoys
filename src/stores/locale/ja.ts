@@ -318,6 +318,8 @@ export const language: Record<string, string> = {
   'Filming Time': '撮影時間',
   'Camera Manufacturer': 'カメラメーカー',
   'Device Model': 'デバイスモデル',
+  'Lens Manufacturer': 'レンズメーカー',
+  'Lens Model': 'レンズモデル',
   'Shutter Speed': 'シャッタースピード',
   Aperture: '絞り値',
   'Focal Length': '焦点距離',

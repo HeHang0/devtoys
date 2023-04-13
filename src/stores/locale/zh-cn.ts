@@ -307,6 +307,8 @@ export const language: Record<string, string> = {
   'Filming Time': '拍摄时间',
   'Camera Manufacturer': '相机厂商',
   'Device Model': '设备型号',
+  'Lens Manufacturer': '镜头厂商',
+  'Lens Model': '镜头型号',
   'Shutter Speed': '快门速度',
   Aperture: '光圈值',
   'Focal Length': '焦距',

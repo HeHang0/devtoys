@@ -77,8 +77,10 @@ var ExifTags = (EXIF.Tags = {
   // other tags
   0xa005: 'InteroperabilityIFDPointer',
   0xa420: 'ImageUniqueID', // Identifier assigned uniquely to each image
+
   0xa433: 'LensMake',
-  0xa434: 'LensModel'
+  0xa434: 'LensModel',
+  0xa435: 'LensSerialNumber'
 });
 
 var TiffTags = (EXIF.TiffTags = {
@@ -114,7 +116,10 @@ var TiffTags = (EXIF.TiffTags = {
   0x0110: 'Model',
   0x0131: 'Software',
   0x013b: 'Artist',
-  0x8298: 'Copyright'
+  0x8298: 'Copyright',
+  0xa433: 'LensMake',
+  0xa434: 'LensModel',
+  0xa435: 'LensSerialNumber'
 });
 
 var GPSTags = (EXIF.GPSTags = {
@@ -809,7 +814,6 @@ function readEXIFData(file, start) {
     TiffTags,
     bigEnd
   );
-
   if (tags.ExifIFDPointer) {
     exifData = readTags(
       file,

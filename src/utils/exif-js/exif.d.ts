@@ -37,6 +37,8 @@ export interface ExifInfo {
   ColorSpace: number;
   PixelXDimension: number;
   PixelYDimension: number;
+  FocalPlaneXResolution: number;
+  FocalPlaneYResolution: number;
   InteroperabilityIFDPointer: number;
   SensingMethod: string;
   FileSource: string;
@@ -68,10 +70,12 @@ export interface ExifInfo {
   GPSLatitude: number[];
   GPSLongitudeRef: string;
   GPSLatitudeRef: string;
+  LensModel: string;
+  LensMake: string;
 }
 
 interface EXIFStatic {
-  getData(url: string, callback: any): any;
+  getData(url: File | string, callback: any): any;
   getTag(img: any, tag: any): any;
   getAllTags(img: any): any;
   pretty(img: any): string;

@@ -239,22 +239,10 @@ export function convertImageToDataUrl(img: HTMLImageElement): Promise<string> {
 
 export function readExifFromFile(file: File): Promise<ExifInfo | null> {
   return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = function (ev: ProgressEvent<FileReader>) {
-      if (!ev.target || !(ev.target.result instanceof ArrayBuffer)) {
-        resolve(null);
-        return;
-      }
-      try {
-        const exifData = exif.readFromBinaryFile(ev.target.result);
-        resolve(exifData);
-      } catch {}
-      resolve(null);
-    };
-    reader.onerror = function () {
-      resolve(null);
-    };
-    reader.readAsArrayBuffer(file);
+    exif.getData(file, function () {
+      const that: any = this;
+      resolve(that.exifdata);
+    });
   });
 }
 
