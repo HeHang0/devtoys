@@ -93,6 +93,9 @@ async function selectImage(file: File) {
   if (imageDetail.value && imageDetail.value.name === file.name) return;
   if (imageDetailLoading.value) return;
   imageDetailLoading.value = true;
+  if (imageDetail.value && imageDetail.value.src) {
+    URL.revokeObjectURL(imageDetail.value.src);
+  }
   readExifFromFile(file)
     .then((exifData: any) => {
       if (!exifData) {
@@ -150,6 +153,9 @@ async function selectImage(file: File) {
 }
 
 function cancelSelection() {
+  if (imageDetail.value && imageDetail.value.src) {
+    URL.revokeObjectURL(imageDetail.value.src);
+  }
   imageDetail.value = null;
 }
 
@@ -188,11 +194,7 @@ function paneResized(e: any) {
               loading="lazy"
               fit="contain"
               @load="imageLoaded">
-              <template #placeholder>
-                <div class="image-slot">
-                  Loading<span class="dot">...</span>
-                </div>
-              </template>
+              <template #placeholder> Loading... </template>
             </el-image>
           </div>
           <span>{{ file.name }}</span>
@@ -209,7 +211,12 @@ function paneResized(e: any) {
       class="devtoys-photos-panel"
       v-loading="imageDetailLoading">
       <div class="devtoys-photos-detail">
-        <img :src="imageDetail.src" @load="imageLoaded" />
+        <el-image
+          :src="imageDetail.src"
+          :preview-src-list="[imageDetail.src]"
+          fit="contain">
+          <template #placeholder> Loading... </template>
+        </el-image>
       </div>
       <div class="devtoys-photos-desc">
         <div class="devtoys-photos-desc-item">
@@ -421,6 +428,13 @@ function paneResized(e: any) {
     display: flex;
     justify-content: center;
     align-items: center;
+    .el-image {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     img {
       max-width: 100%;
       max-height: 100%;
