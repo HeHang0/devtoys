@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "devtoys",
+    "Exif",
     "formattable",
     "hehang",
     "hljs",
@@ -11,6 +12,7 @@
     "pdfgen",
     "Pico",
     "qrcode",
-    "rqrcode"
+    "rqrcode",
+    "Splitpanes"
   ]
 }

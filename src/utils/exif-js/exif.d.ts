@@ -1,0 +1,82 @@
+export interface ExifInfo {
+  Make: string;
+  Model: string;
+  Orientation: number;
+  XResolution: number;
+  YResolution: number;
+  ResolutionUnit: number;
+  Software: string;
+  DateTime: string;
+  Artist: string;
+  YCbCrPositioning: number;
+  Copyright: string;
+  ExifIFDPointer: number;
+  GPSInfoIFDPointer: number;
+  ExposureTime: any;
+  FNumber: number;
+  ExposureProgram: string;
+  ISOSpeedRatings: number;
+  undefined: number;
+  ExifVersion: string;
+  DateTimeOriginal: string;
+  DateTimeDigitized: string;
+  ComponentsConfiguration: string;
+  CompressedBitsPerPixel: number;
+  ExposureBias: any;
+  MaxApertureValue: number;
+  MeteringMode: string;
+  LightSource: string;
+  Flash: string;
+  FocalLength: number;
+  MakerNote: number[];
+  UserComment: number[];
+  SubsecTime: string;
+  SubsecTimeOriginal: string;
+  SubsecTimeDigitized: string;
+  FlashpixVersion: string;
+  ColorSpace: number;
+  PixelXDimension: number;
+  PixelYDimension: number;
+  InteroperabilityIFDPointer: number;
+  SensingMethod: string;
+  FileSource: string;
+  SceneType: string;
+  CFAPattern: number[];
+  CustomRendered: string;
+  ExposureMode: number;
+  WhiteBalance: string;
+  DigitalZoomRation: number;
+  FocalLengthIn35mmFilm: number;
+  SceneCaptureType: string;
+  GainControl: string;
+  Contrast: string;
+  Saturation: string;
+  Sharpness: string;
+  SubjectDistanceRange: string;
+  GPSVersionID: string;
+  thumbnail: {
+    Compression: number;
+    XResolution: number;
+    YResolution: number;
+    ResolutionUnit: number;
+    JpegIFOffset: number;
+    JpegIFByteCount: number;
+    YCbCrPositioning: number;
+    blob: Blob;
+  };
+  GPSLongitude: number[];
+  GPSLatitude: number[];
+  GPSLongitudeRef: string;
+  GPSLatitudeRef: string;
+}
+
+interface EXIFStatic {
+  getData(url: string, callback: any): any;
+  getTag(img: any, tag: any): any;
+  getAllTags(img: any): any;
+  pretty(img: any): string;
+  readFromBinaryFile(file: ArrayBuffer): ExifInfo;
+}
+
+declare var EXIF: EXIFStatic;
+export const exif = EXIF;

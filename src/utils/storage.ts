@@ -22,7 +22,8 @@ export enum StorageKey {
   ImageQuality = 'image-quality',
   RouterHistory = 'router-history',
   EditorType = 'editor-type',
-  EditorWrap = 'editor-wrap'
+  EditorWrap = 'editor-wrap',
+  SplitSize = 'split-size'
 }
 
 function setValue<T>(key: string, value: T) {

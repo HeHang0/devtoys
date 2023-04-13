@@ -246,6 +246,13 @@ const menus: Menu[] = [
         desc: 'tool.imageconvert.description',
         icon: '\u0128'
       },
+      {
+        key: 'photos',
+        name: 'tool.photos.mintitle',
+        longName: 'tool.photos.title',
+        desc: 'tool.photos.description',
+        icon: '\u0128'
+      },
       //   {
       //     key: 'icon',
       //     name: 'Icon Generate',

@@ -221,6 +221,10 @@ export const language: Record<string, string> = {
   'Converted Images': 'Converted Images',
   Scale: 'Scale',
 
+  'tool.photos.title': 'Photos',
+  'tool.photos.mintitle': 'Photos',
+  'tool.photos.description': 'Show Photos from folder',
+
   'QR Code Generator': 'QR Code Generator',
   'Create a QR code from text': 'Create a QR code from text',
   'Correction Level': 'Correction Level',
@@ -278,5 +282,10 @@ export const language: Record<string, string> = {
   'By Lines': 'Lines',
   'Input 1': 'Input 1',
   'Input 2': 'Input 2',
-  'Diff Style': 'Diff Style'
+  'Diff Style': 'Diff Style',
+
+  GPSRefE: 'E',
+  GPSRefS: 'S',
+  GPSRefW: 'W',
+  GPSRefN: 'N'
 };

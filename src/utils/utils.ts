@@ -1,4 +1,5 @@
 import crypto from 'crypto-js';
+import { exif, type ExifInfo } from './exif-js/exif';
 
 export function readClipboard(success: (value: string) => {}) {
   navigator.clipboard
@@ -233,6 +234,81 @@ export function convertImageToDataUrl(img: HTMLImageElement): Promise<string> {
         resolve('');
       }
     });
+  });
+}
+
+export function readExifFromFile(file: File): Promise<ExifInfo | null> {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = function (ev: ProgressEvent<FileReader>) {
+      if (!ev.target || !(ev.target.result instanceof ArrayBuffer)) {
+        resolve(null);
+        return;
+      }
+      try {
+        const exifData = exif.readFromBinaryFile(ev.target.result);
+        resolve(exifData);
+      } catch {}
+      resolve(null);
+    };
+    reader.onerror = function () {
+      resolve(null);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+export function readThumbnailFromFile(
+  file: File,
+  maxWidth?: number,
+  maxHeight?: number
+): Promise<string> {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = function (ev: ProgressEvent<FileReader>) {
+      if (!ev.target || typeof ev.target.result !== 'string') {
+        resolve('');
+        return;
+      }
+      const img = new Image();
+      img.onload = function () {
+        let width = img.width;
+        let height = img.height;
+        const MAX_WIDTH = maxWidth || 100;
+        const MAX_HEIGHT = maxHeight || 100;
+
+        // 如果图片的宽度或高度大于最大值，则按比例缩放
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+
+        // 创建一个 Canvas 对象并在其中绘制缩略图
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx && ctx.drawImage(img, 0, 0, width, height);
+
+        // 将 Canvas 转换为 base64 编码的图片
+        const thumbnail = canvas.toDataURL('image/jpeg', 0.8);
+        canvas.remove();
+        img.remove();
+        resolve(thumbnail);
+      };
+      img.onerror = function () {
+        resolve('');
+      };
+      img.src = ev.target.result;
+    };
+    reader.onerror = function () {
+      resolve('');
+    };
+    reader.readAsDataURL(file);
   });
 }
 
