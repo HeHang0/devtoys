@@ -8,8 +8,7 @@ import { readExifFromFile, readThumbnailFromFile } from '@/utils/utils';
 import { storage, StorageKey } from '@/utils/storage';
 import { formatBytes } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
-
-const { t, currentLanguage } = useLanguageStore();
+import { useRouter } from 'vue-router';
 
 interface ImageDetail {
   src: string;
@@ -18,6 +17,9 @@ interface ImageDetail {
   size: string;
   location: string;
 }
+
+const router = useRouter();
+const { t, currentLanguage } = useLanguageStore();
 
 const panneSize = ref(storage.getValue(StorageKey.SplitSize, 50));
 const reading = ref(false);
@@ -180,7 +182,7 @@ function paneResized(e: any) {
           @click.stop="selectImage(file)">
           <div class="devtoys-photos-items-body">
             <el-image
-              src="/logo.png"
+              :src="router.options.history.base + '/logo.png'"
               :data-src="file.name"
               :data-name="file.name"
               loading="lazy"
