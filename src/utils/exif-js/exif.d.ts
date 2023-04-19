@@ -7,6 +7,7 @@ export interface ExifInfo {
   ResolutionUnit: number;
   Software: string;
   DateTime: string;
+  CreateDate: string;
   Artist: string;
   YCbCrPositioning: number;
   Copyright: string;
@@ -16,6 +17,10 @@ export interface ExifInfo {
   FNumber: number;
   ExposureProgram: string;
   ISOSpeedRatings: number;
+  ISO: number;
+  BrightnessValue: number;
+  ExifImageHeight: number;
+  ExifImageWidth: number;
   undefined: number;
   ExifVersion: string;
   DateTimeOriginal: string;
@@ -35,6 +40,8 @@ export interface ExifInfo {
   SubsecTimeDigitized: string;
   FlashpixVersion: string;
   ColorSpace: number;
+  XResolution: number;
+  YResolution: number;
   PixelXDimension: number;
   PixelYDimension: number;
   FocalPlaneXResolution: number;
@@ -72,6 +79,9 @@ export interface ExifInfo {
   GPSLatitudeRef: string;
   LensModel: string;
   LensMake: string;
+  latitude: number;
+  longitude: number;
+  thumbnailUrl: string;
 }
 
 interface EXIFStatic {

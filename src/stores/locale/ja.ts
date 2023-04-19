@@ -355,5 +355,7 @@ export const language: Record<string, string> = {
   GPSRefS: '南',
   GPSRefW: '系',
   GPSRefN: '北',
-  Location: '位置'
+  Location: '位置',
+  Brightness: '明るさ',
+  Software: 'ソフトウェア'
 };

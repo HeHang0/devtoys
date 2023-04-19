@@ -1,5 +1,6 @@
 import crypto from 'crypto-js';
-import { exif, type ExifInfo } from './exif-js/exif';
+import exifr from 'exifr';
+import type { ExifInfo } from './exif-js/exif';
 
 export function readClipboard(success: (value: string) => {}) {
   navigator.clipboard
@@ -239,10 +240,33 @@ export function convertImageToDataUrl(img: HTMLImageElement): Promise<string> {
 
 export function readExifFromFile(file: File): Promise<ExifInfo | null> {
   return new Promise(resolve => {
-    exif.getData(file, function () {
-      const that: any = this;
-      resolve(that.exifdata);
-    });
+    exifr
+      .parse(file, {
+        tiff: true,
+        exif: true,
+        gps: true,
+        ifd1: true,
+        icc: true,
+        mergeOutput: true,
+        reviveValues: false
+      })
+      .then(output => {
+        exifr
+          .thumbnailUrl(file)
+          .then(url => {
+            output.thumbnailUrl = url;
+          })
+          .finally(() => {
+            resolve(output);
+          });
+      })
+      .catch(() => {
+        resolve(null);
+      });
+    // exif.getData(file, function () {
+    //   const that: any = this;
+    //   resolve(that.exifdata);
+    // });
   });
 }
 

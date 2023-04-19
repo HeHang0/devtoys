@@ -6,6 +6,7 @@ interface Menu {
   children?: Menu[];
   page?: string;
   icon?: string;
+  hide?: boolean;
 }
 const menus: Menu[] = [
   {
@@ -251,7 +252,8 @@ const menus: Menu[] = [
         name: 'tool.photos.mintitle',
         longName: 'tool.photos.title',
         desc: 'tool.photos.description',
-        icon: '\u0128'
+        icon: '\u0128',
+        hide: !Boolean(window.showDirectoryPicker)
       },
       //   {
       //     key: 'icon',
@@ -309,13 +311,14 @@ const allMenus: Menu[] = [];
 menus.map(m => {
   Array.isArray(m.children) &&
     m.children.map(mc => {
-      allMenus.push({
-        name: mc.name,
-        key: mc.key,
-        icon: mc.icon,
-        longName: mc.longName,
-        desc: mc.desc
-      });
+      !mc.hide &&
+        allMenus.push({
+          name: mc.name,
+          key: mc.key,
+          icon: mc.icon,
+          longName: mc.longName,
+          desc: mc.desc
+        });
     });
 });
 export { menus, allMenus };

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
+import { nextTick, ref, type Ref } from 'vue';
 import type { ExifInfo } from '@/utils/exif-js/exif';
+import heic2any from 'heic2any';
 import { Splitpanes, Pane } from 'splitpanes';
+import { Loader } from '@googlemaps/js-api-loader';
 import 'splitpanes/dist/splitpanes.css';
 import { TaskQueue } from '@/utils/task-queue';
 import { readExifFromFile, readThumbnailFromFile } from '@/utils/utils';
@@ -9,6 +11,21 @@ import { storage, StorageKey } from '@/utils/storage';
 import { formatBytes } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
 import { useRouter } from 'vue-router';
+
+const loader = new Loader({
+  apiKey: '',
+  version: 'weekly',
+  libraries: ['places']
+});
+let google: any = null;
+loader
+  .load()
+  .then(g => {
+    google = g;
+  })
+  .catch(e => {
+    // do something
+  });
 
 interface ImageDetail {
   src: string;
@@ -52,9 +69,12 @@ async function processFolderHandle(handle: FileSystemDirectoryHandle) {
       const name = entry[0];
       try {
         const file = await entry[1].getFile(name);
+        const fileName: string = file.name.toLowerCase();
         if (
           file instanceof File &&
-          file.type.includes('image') &&
+          (file.type.includes('image') ||
+            fileName.endsWith('heic') ||
+            fileName.endsWith('avif')) &&
           !file.type.includes('tif')
         ) {
           files.push(file);
@@ -77,15 +97,27 @@ function imageLoaded(event: Event) {
   if (!file) return;
 
   exifQueue.pushTask(async () => {
-    if (file.type.includes('jpg') || file.type.includes('jpeg')) {
+    const name = file.name.toLowerCase();
+    if (
+      file.type.includes('jpg') ||
+      file.type.includes('jpeg') ||
+      file.type.includes('png') ||
+      name.endsWith('heic') ||
+      name.endsWith('avif')
+    ) {
       const exifData = await readExifFromFile(file);
-      if (exifData && exifData.thumbnail.blob) {
+      if (exifData && exifData.thumbnailUrl) {
+        target.src = exifData.thumbnailUrl;
+        return;
+      } else if (exifData && exifData.thumbnail && exifData.thumbnail.blob) {
         target.src = URL.createObjectURL(exifData.thumbnail.blob);
         return;
       }
     }
-    const thumbnail = await readThumbnailFromFile(file, 160, 160);
-    if (thumbnail) target.src = thumbnail;
+    if (file.type.includes('image')) {
+      const thumbnail = await readThumbnailFromFile(file, 160, 160);
+      if (thumbnail) target.src = thumbnail;
+    }
   });
 }
 
@@ -98,10 +130,23 @@ async function selectImage(file: File) {
   }
   readExifFromFile(file)
     .then((exifData: any) => {
+      console.log('sss', exifData);
       if (!exifData) {
         exifData = {} as any;
       }
-      const src = URL.createObjectURL(file);
+      const name = file.name.toLowerCase();
+      let src = '';
+      if (name.endsWith('heic') || name.endsWith('avif')) {
+        heic2any({ blob: file }).then(conversionResult => {
+          if (imageDetail.value && imageDetail.value.name === file.name) {
+            if (Array.isArray(conversionResult))
+              conversionResult = conversionResult[0];
+            imageDetail.value.src = URL.createObjectURL(conversionResult);
+          }
+        });
+      } else {
+        src = URL.createObjectURL(file);
+      }
       imageDetail.value = {
         src,
         size: formatBytes(file.size),
@@ -129,13 +174,15 @@ async function selectImage(file: File) {
         Array.isArray(exifData.GPSLongitude)
       ) {
         const lat =
+          exifData.latitude ||
           exifData.GPSLatitude[0] +
-          exifData.GPSLatitude[1] / 60 +
-          exifData.GPSLatitude[2] / 3600;
+            exifData.GPSLatitude[1] / 60 +
+            exifData.GPSLatitude[2] / 3600;
         const lon =
+          exifData.longitude ||
           exifData.GPSLongitude[0] +
-          exifData.GPSLongitude[1] / 60 +
-          exifData.GPSLongitude[2] / 3600;
+            exifData.GPSLongitude[1] / 60 +
+            exifData.GPSLongitude[2] / 3600;
         fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=${currentLanguage()}`
         )
@@ -145,11 +192,27 @@ async function selectImage(file: File) {
               imageDetail.value.location = r.display_name;
             }
           });
+        nextTick(mapEleLoaded);
       }
     })
     .finally(() => {
       imageDetailLoading.value = false;
     });
+}
+
+function largeImageLoaded(e: Event) {
+  const target = e.target as HTMLImageElement;
+  const detail = imageDetail.value?.exif;
+  if (
+    imageDetail.value &&
+    detail &&
+    !detail.PixelXDimension &&
+    !detail.FocalPlaneXResolution &&
+    !detail.ExifImageWidth
+  ) {
+    imageDetail.value.exif.ExifImageWidth = target.naturalWidth;
+    imageDetail.value.exif.ExifImageHeight = target.naturalHeight;
+  }
 }
 
 function cancelSelection() {
@@ -162,6 +225,30 @@ function cancelSelection() {
 function paneResized(e: any) {
   panneSize.value = e[0].size;
   storage.setValue(StorageKey.SplitSize, parseInt(e[0].size));
+}
+
+function mapEleLoaded() {
+  if (!imageDetail.value) return;
+  let point = new google.maps.LatLng(
+    imageDetail.value.exif.latitude,
+    imageDetail.value.exif.longitude
+  );
+  let map = new google.maps.Map(document.querySelector('#google-maps'), {
+    navigationControlOptions: {
+      style: google.maps.NavigationControlStyle.SMALL
+    },
+    mapTypeControl: false,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: {
+      lat: imageDetail.value.exif.latitude,
+      lng: imageDetail.value.exif.longitude
+    },
+    zoom: 2
+  });
+  var bounds = new google.maps.LatLngBounds();
+  bounds.extend(point);
+  map.fitBounds(bounds);
+  new google.maps.Marker({ map, position: point });
 }
 </script>
 
@@ -214,8 +301,14 @@ function paneResized(e: any) {
         <el-image
           :src="imageDetail.src"
           :preview-src-list="[imageDetail.src]"
-          fit="contain">
-          <template #placeholder> Loading... </template>
+          fit="contain"
+          @load="largeImageLoaded">
+          <template #placeholder
+            ><div v-loading="true" class="image-loading"></div
+          ></template>
+          <template #error
+            ><div v-loading="true" class="image-loading"></div
+          ></template>
         </el-image>
       </div>
       <div class="devtoys-photos-desc">
@@ -228,16 +321,20 @@ function paneResized(e: any) {
           <span>
             {{
               Math.ceil(
-                imageDetail.exif.PixelXDimension ||
-                  imageDetail.exif.FocalPlaneXResolution
-              )
+                imageDetail.exif.ExifImageWidth ||
+                  imageDetail.exif.PixelXDimension ||
+                  imageDetail.exif.FocalPlaneXResolution ||
+                  0
+              ) || '-'
             }}
             x
             {{
               Math.ceil(
-                imageDetail.exif.PixelYDimension ||
-                  imageDetail.exif.FocalPlaneYResolution
-              )
+                imageDetail.exif.ExifImageHeight ||
+                  imageDetail.exif.PixelYDimension ||
+                  imageDetail.exif.FocalPlaneYResolution ||
+                  0
+              ) || '-'
             }}
           </span>
         </div>
@@ -247,7 +344,9 @@ function paneResized(e: any) {
         </div>
         <div class="devtoys-photos-desc-item">
           <span>{{ t('Filming Time') }}</span>
-          <span>{{ imageDetail.exif.DateTime }}</span>
+          <span>{{
+            imageDetail.exif.DateTime || imageDetail.exif.CreateDate
+          }}</span>
         </div>
         <div v-if="imageDetail.exif.Make" class="devtoys-photos-desc-item">
           <span>{{ t('Camera Manufacturer') }}</span>
@@ -271,7 +370,7 @@ function paneResized(e: any) {
           v-if="imageDetail.exif.ExposureTime"
           class="devtoys-photos-desc-item">
           <span>{{ t('Shutter Speed') }}</span>
-          <span>{{ imageDetail.exif.ExposureTime }}</span>
+          <span>{{ imageDetail.exif.ExposureTime }}s</span>
         </div>
         <div v-if="imageDetail.exif.FNumber" class="devtoys-photos-desc-item">
           <span>{{ t('Aperture') }}</span>
@@ -281,13 +380,23 @@ function paneResized(e: any) {
           v-if="imageDetail.exif.FocalLength"
           class="devtoys-photos-desc-item">
           <span>{{ t('Focal Length') }}</span>
-          <span>{{ imageDetail.exif.FocalLength }}mm</span>
+          <span>{{ Math.ceil(imageDetail.exif.FocalLength) }}mm</span>
         </div>
         <div
-          v-if="imageDetail.exif.ISOSpeedRatings"
+          v-if="imageDetail.exif.ISO || imageDetail.exif.ISOSpeedRatings"
           class="devtoys-photos-desc-item">
           <span>{{ t('Sensitivity') }}</span>
-          <span>ISO{{ imageDetail.exif.ISOSpeedRatings }}</span>
+          <span
+            >ISO{{
+              imageDetail.exif.ISOSpeedRatings || imageDetail.exif.ISO
+            }}</span
+          >
+        </div>
+        <div
+          v-if="imageDetail.exif.BrightnessValue"
+          class="devtoys-photos-desc-item">
+          <span>{{ t('Brightness') }}</span>
+          <span>{{ imageDetail.exif.BrightnessValue.toFixed(2) }}</span>
         </div>
         <div
           v-if="imageDetail.exif.ExposureBias"
@@ -317,6 +426,10 @@ function paneResized(e: any) {
           <span>{{ t('Metering Mode') }}</span>
           <span>{{ t(imageDetail.exif.MeteringMode) }}</span>
         </div>
+        <div v-if="imageDetail.exif.Software" class="devtoys-photos-desc-item">
+          <span>{{ t('Software') }}</span>
+          <span>{{ t(imageDetail.exif.Software) }}</span>
+        </div>
         <div
           v-if="imageDetail.exif.GPSLongitude"
           class="devtoys-photos-desc-item">
@@ -345,6 +458,7 @@ function paneResized(e: any) {
             {{ imageDetail.location }}
           </span>
         </div>
+        <div v-if="imageDetail.exif.GPSLatitude" id="google-maps"></div>
       </div>
     </Pane>
   </Splitpanes>
@@ -360,6 +474,12 @@ function paneResized(e: any) {
     background-color: var(--el-bg-color-page);
   }
 
+  .image-loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
   &-sel-dir {
     position: absolute;
     left: 50%;
@@ -368,8 +488,8 @@ function paneResized(e: any) {
   }
 
   &-panel {
-    width: 100%;
     height: 100%;
+    overflow-y: auto;
   }
   &-items {
     display: grid;
@@ -378,7 +498,6 @@ function paneResized(e: any) {
     grid-column-gap: 5px;
     grid-row-gap: 10px;
     width: 100%;
-    height: calc(100% - 40px);
     margin-top: 8px;
     overflow-y: auto;
     &-body {
@@ -422,7 +541,7 @@ function paneResized(e: any) {
   &-detail,
   &-desc {
     width: 100%;
-    height: 50%;
+    min-height: 50%;
   }
   &-detail {
     display: flex;
@@ -447,8 +566,14 @@ function paneResized(e: any) {
     flex-wrap: wrap;
     align-content: flex-start;
     overflow-y: auto;
-    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
     justify-content: space-between;
+    #google-maps {
+      width: 100%;
+      height: 500px;
+      margin-left: 20px;
+    }
     &-item {
       max-width: 100%;
       min-width: 48%;
@@ -458,6 +583,7 @@ function paneResized(e: any) {
         font-weight: bolder;
         width: 130px;
         padding-right: 5px;
+        margin-left: 20px;
       }
       span:nth-child(2) {
         flex: 1;
