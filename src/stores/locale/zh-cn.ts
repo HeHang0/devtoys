@@ -18,6 +18,7 @@ export const language: Record<string, string> = {
   Output: '输出',
   'No selection': '无选择',
   'Drop Files Here': '将文件拖入此处',
+  'Drop Files or Directory Here': '将文件或文件夹拖入此处',
   'Paste Files Here': '将文件粘贴到此处',
   'Untitled Tool': '未命名工具',
   UpperCase: '大写',
@@ -301,6 +302,7 @@ export const language: Record<string, string> = {
   'Check the text editor wrap you want to use.': '选择您的编辑器是否自动换行',
 
   'Select Directory': '选择文件夹',
+  'Select Files': '选择文件',
   'Photo Name': '图片名称',
   'Photo Dimension': '图片尺寸',
   'Photo Size': '图片大小',

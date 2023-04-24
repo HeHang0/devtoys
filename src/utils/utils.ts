@@ -42,6 +42,31 @@ export function readTextFile(file: File): Promise<string> {
   });
 }
 
+export function readFileFromEntry(entry: any): Promise<File[]> {
+  return new Promise(resolve => {
+    const files: File[] = [];
+    var reader = entry.createReader();
+    reader.readEntries(function (entries: any) {
+      let fileCount = 0;
+      let readCount = 0;
+      for (var j = 0; j < entries.length; j++) {
+        var fileEntry = entries[j];
+        if (fileEntry.isFile) {
+          fileCount++;
+          // 如果是文件，可以通过fileEntry.file方法来读取文件内容
+          fileEntry.file(function (file: File) {
+            readCount++;
+            file && file instanceof File && files.push(file);
+            if (readCount >= fileCount) {
+              resolve(files);
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
 export function setFontFamily(font: string[]) {
   let fontStyle = document.getElementById('devtoys-font-family');
   if (fontStyle) fontStyle.remove();
@@ -251,6 +276,15 @@ export function readExifFromFile(file: File): Promise<ExifInfo | null> {
         reviveValues: false
       })
       .then(output => {
+        output.rotation = 0;
+        if (
+          typeof output.Orientation === 'string' &&
+          /[\d]+/.test(output.Orientation)
+        ) {
+          output.rotation = parseInt(
+            (/[\d]+/.exec(output.Orientation) as any)[0]
+          );
+        }
         exifr
           .thumbnailUrl(file)
           .then(url => {

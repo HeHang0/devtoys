@@ -18,6 +18,8 @@ export const language: Record<string, string> = {
   Output: '出力',
   'No selection': '選択なし',
   'Drop Files Here': 'ここにファイルをドロップしてください',
+  'Drop Files or Directory Here':
+    'ファイルまたはフォルダをここにドラッグアンドドロップ',
   'Paste Files Here': 'ここにファイルを貼り付けてください',
   'Untitled Tool': '無題のツール',
   UpperCase: '大文字',
@@ -312,6 +314,7 @@ export const language: Record<string, string> = {
     'エディターが自動的に行を折り返すかどうかを選択します',
 
   'Select Directory': 'フォルダを選択',
+  'Select Files': 'ドキュメントを選択',
   'Photo Name': '写真の名前',
   'Photo Dimension': '写真のサイズ',
   'Photo Size': '写真の容量',

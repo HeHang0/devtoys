@@ -63,6 +63,7 @@ export interface ExifInfo {
   Sharpness: string;
   SubjectDistanceRange: string;
   GPSVersionID: string;
+  rotation: number;
   thumbnail: {
     Compression: number;
     XResolution: number;

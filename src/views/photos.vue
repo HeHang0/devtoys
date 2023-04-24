@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { nextTick, ref, type Ref } from 'vue';
+import { Close, UploadFilled } from '@element-plus/icons-vue';
 import type { ExifInfo } from '@/utils/exif-js/exif';
 import heic2any from 'heic2any';
 import { Splitpanes, Pane } from 'splitpanes';
 import { Loader } from '@googlemaps/js-api-loader';
 import 'splitpanes/dist/splitpanes.css';
 import { TaskQueue } from '@/utils/task-queue';
-import { readExifFromFile, readThumbnailFromFile } from '@/utils/utils';
+import {
+  readExifFromFile,
+  readFileFromEntry,
+  readThumbnailFromFile
+} from '@/utils/utils';
 import { storage, StorageKey } from '@/utils/storage';
 import { formatBytes } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
@@ -38,12 +43,20 @@ interface ImageDetail {
 const router = useRouter();
 const { t, currentLanguage } = useLanguageStore();
 
-const panneSize = ref(storage.getValue(StorageKey.SplitSize, 50));
+const panneSize = ref(storage.getValue(StorageKey.SplitSize, 30));
 const reading = ref(false);
+const dragging = ref(false);
 const folderName = ref('');
 const fileList: Ref<File[]> = ref([]);
 const imageDetail: Ref<ImageDetail | null> = ref(null);
 const imageDetailLoading = ref(false);
+const readonly = !Boolean(window.showDirectoryPicker);
+
+function clearFileList() {
+  fileList.value.splice(0, fileList.value.length);
+  folderName.value = '';
+}
+
 function selectDirectory() {
   if (reading.value) return;
   reading.value = true;
@@ -61,6 +74,21 @@ function selectDirectory() {
     });
 }
 
+let timeoutDrag: any = null;
+function switchDragging(e: any, value: boolean) {
+  e.stopPropagation();
+  e.preventDefault();
+  if (e.dataTransfer && value) e.dataTransfer.dropEffect = 'copy';
+  clearTimeout(timeoutDrag);
+  if (value) {
+    if (dragging.value != value) dragging.value = value;
+  } else {
+    timeoutDrag = setTimeout(() => {
+      dragging.value = value;
+    }, 100);
+  }
+}
+
 async function processFolderHandle(handle: FileSystemDirectoryHandle) {
   const files = [];
   try {
@@ -69,22 +97,66 @@ async function processFolderHandle(handle: FileSystemDirectoryHandle) {
       const name = entry[0];
       try {
         const file = await entry[1].getFile(name);
-        const fileName: string = file.name.toLowerCase();
-        if (
-          file instanceof File &&
-          (file.type.includes('image') ||
-            fileName.endsWith('heic') ||
-            fileName.endsWith('avif')) &&
-          !file.type.includes('tif')
-        ) {
+        if (file instanceof File) {
           files.push(file);
         }
       } catch {}
     }
   } catch {}
-  fileList.value = files;
-  reading.value = false;
+  handleFiles(files);
 }
+
+function handleFiles(files: File[]) {
+  const okFiles: File[] = [];
+  files.map(file => {
+    const fileName: string = file.name.toLowerCase();
+    if (
+      file instanceof File &&
+      (file.type.includes('image') ||
+        fileName.endsWith('heic') ||
+        fileName.endsWith('avif')) &&
+      !file.type.includes('tif')
+    ) {
+      okFiles.push(file);
+    }
+  });
+  fileList.value = okFiles;
+  reading.value = false;
+  dragging.value = false;
+}
+
+async function onFileDrop(e: DragEvent) {
+  e.stopPropagation();
+  e.preventDefault();
+  const dataTransfer = e.dataTransfer as DataTransfer;
+  const files: File[] = [];
+  if (dataTransfer && dataTransfer.items)
+    for (let i = 0; i < dataTransfer.items.length; i++) {
+      const entry: any = dataTransfer.items[i].webkitGetAsEntry();
+      if (!entry) continue;
+      if (entry.isFile) {
+        const file = dataTransfer.files.item(i);
+        file && file instanceof File && files.push(file);
+      } else if (entry.isDirectory) {
+        folderName.value = entry.name;
+        const entryFiles = await readFileFromEntry(entry);
+        entryFiles.map(m => files.push(m));
+      }
+    }
+  handleFiles(files);
+}
+
+function handleFileChange(e: Event) {
+  const target = e.target as HTMLInputElement;
+  const files: File[] = [];
+  if (target.files)
+    for (let i = 0; i < target.files.length; i++) {
+      const file = target.files.item(i);
+      file && file instanceof File && files.push(file);
+    }
+  handleFiles(files);
+}
+
 const exifQueue = new TaskQueue(2);
 function imageLoaded(event: Event) {
   const target = event.target as HTMLImageElement;
@@ -108,9 +180,11 @@ function imageLoaded(event: Event) {
       const exifData = await readExifFromFile(file);
       if (exifData && exifData.thumbnailUrl) {
         target.src = exifData.thumbnailUrl;
+        target.style.transform = `rotate(${exifData.rotation || 0}deg)`;
         return;
       } else if (exifData && exifData.thumbnail && exifData.thumbnail.blob) {
         target.src = URL.createObjectURL(exifData.thumbnail.blob);
+        target.style.transform = `rotate(${exifData.rotation || 0}deg)`;
         return;
       }
     }
@@ -130,7 +204,6 @@ async function selectImage(file: File) {
   }
   readExifFromFile(file)
     .then((exifData: any) => {
-      console.log('sss', exifData);
       if (!exifData) {
         exifData = {} as any;
       }
@@ -169,6 +242,7 @@ async function selectImage(file: File) {
         },
         location: ''
       };
+      nextTick(scrollImage);
       if (
         Array.isArray(exifData.GPSLatitude) &&
         Array.isArray(exifData.GPSLongitude)
@@ -227,8 +301,15 @@ function paneResized(e: any) {
   storage.setValue(StorageKey.SplitSize, parseInt(e[0].size));
 }
 
-function mapEleLoaded() {
+function scrollImage() {
   if (!imageDetail.value) return;
+  const imageID = 'thumbnail-' + imageDetail.value?.name.trim();
+  const imageEle = document.getElementById(imageID);
+  imageEle && imageEle.scrollIntoView();
+}
+
+function mapEleLoaded() {
+  if (!imageDetail.value || !google) return;
   let point = new google.maps.LatLng(
     imageDetail.value.exif.latitude,
     imageDetail.value.exif.longitude
@@ -243,7 +324,7 @@ function mapEleLoaded() {
       lat: imageDetail.value.exif.latitude,
       lng: imageDetail.value.exif.longitude
     },
-    zoom: 2
+    zoom: 12
   });
   var bounds = new google.maps.LatLngBounds();
   bounds.extend(point);
@@ -261,10 +342,16 @@ function mapEleLoaded() {
       :max-size="imageDetail ? 70 : 100"
       @click="cancelSelection"
       v-loading="reading">
-      <el-button v-if="fileList.length > 0" @click.stop="selectDirectory">{{
-        t('Select Directory')
-      }}</el-button>
-      {{ folderName }}
+      <div v-if="fileList.length > 0" class="devtoys-photos-title">
+        <span>{{ folderName }}</span>
+        <el-button
+          plain
+          size="small"
+          type="primary"
+          :icon="Close"
+          @click="clearFileList"
+          style="margin-right: 10px" />
+      </div>
       <div class="devtoys-photos-items">
         <el-card
           v-for="file in fileList"
@@ -275,6 +362,7 @@ function mapEleLoaded() {
           @click.stop="selectImage(file)">
           <div class="devtoys-photos-items-body">
             <el-image
+              :id="'thumbnail-' + file.name.trim()"
               :src="router.options.history.base + '/logo.png'"
               :data-src="file.name"
               :data-name="file.name"
@@ -288,9 +376,47 @@ function mapEleLoaded() {
         </el-card>
       </div>
       <div v-if="fileList.length <= 0" class="devtoys-photos-sel-dir">
-        <el-button @click.stop="selectDirectory">{{
-          t('Select Directory')
-        }}</el-button>
+        <el-upload v-if="false"></el-upload>
+        <div
+          class="el-upload el-upload--text is-drag"
+          @dragenter="switchDragging($event, true)"
+          @dragover="switchDragging($event, false)"
+          tabindex="0">
+          <div class="el-upload-dragger">
+            <el-icon class="el-icon--upload">
+              <UploadFilled />
+            </el-icon>
+            <div class="el-upload__text">
+              {{ t('Drop Files or Directory Here') }} {{ t('or') }}<br /><br />
+              <em class="upload__text_sel"
+                ><span>{{ t('Select Directory') }}</span
+                ><span class="upload__text_sel_block"></span
+                ><span>{{ t('Select Files') }}</span></em
+              >
+            </div>
+          </div>
+          <input
+            v-if="readonly"
+            type="file"
+            webkitdirectory
+            directory
+            multiple
+            @change="handleFileChange" />
+          <input
+            v-if="readonly"
+            type="file"
+            multiple
+            style="right: 0"
+            @change="handleFileChange" />
+          <div
+            v-else
+            class="readonly-helper"
+            @click.stop="selectDirectory"></div>
+          <div
+            v-show="dragging"
+            class="readonly-helper"
+            @drop="onFileDrop"></div>
+        </div>
       </div>
     </Pane>
     <Pane
@@ -474,6 +600,12 @@ function mapEleLoaded() {
     background-color: var(--el-bg-color-page);
   }
 
+  &-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .image-loading {
     position: absolute;
     width: 100%;
@@ -482,9 +614,58 @@ function mapEleLoaded() {
 
   &-sel-dir {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    & > div {
+      height: 100%;
+    }
+
+    :deep(.el-upload) {
+      height: 100%;
+      input {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        cursor: pointer;
+        opacity: 0;
+        @media (max-width: 850px) {
+          width: 100%;
+        }
+      }
+      .readonly-helper {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .el-upload-dragger {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        background-color: transparent;
+      }
+      .el-upload__text {
+        width: 100%;
+        .upload__text_sel {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+
+          span {
+            display: inline-block;
+            width: 150px;
+          }
+          .upload__text_sel_block {
+            width: 50px;
+          }
+        }
+      }
+    }
   }
 
   &-panel {
@@ -500,12 +681,18 @@ function mapEleLoaded() {
     width: 100%;
     margin-top: 8px;
     overflow-y: auto;
+    @media (max-width: 850px) {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
     &-body {
       width: 140px;
       height: 115px;
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (max-width: 850px) {
+        width: 100%;
+      }
       .el-image {
         height: 100%;
         width: 100%;
@@ -524,6 +711,9 @@ function mapEleLoaded() {
       height: 150px;
       background-color: var(--el-bg-color);
       box-shadow: none;
+      @media (max-width: 850px) {
+        width: 100%;
+      }
       &.selected {
         border-color: var(--el-color-primary);
       }
@@ -533,6 +723,17 @@ function mapEleLoaded() {
         align-items: center;
         justify-content: center;
         flex-direction: column;
+
+        & > span {
+          @media (max-width: 850px) {
+            display: inline-block;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: center;
+          }
+        }
       }
       cursor: pointer;
     }
@@ -541,12 +742,15 @@ function mapEleLoaded() {
   &-detail,
   &-desc {
     width: 100%;
-    min-height: 50%;
+  }
+  &-detail {
+    height: 50%;
   }
   &-detail {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 50vh;
     .el-image {
       width: 100%;
       height: 100%;
@@ -579,14 +783,27 @@ function mapEleLoaded() {
       min-width: 48%;
       height: 30px;
       display: flex;
+      @media (max-width: 850px) {
+        width: 100%;
+        flex-direction: column;
+        height: unset;
+      }
       span:nth-child(1) {
         font-weight: bolder;
         width: 130px;
         padding-right: 5px;
         margin-left: 20px;
+        @media (max-width: 850px) {
+          width: 100%;
+          margin-left: 10px;
+        }
       }
       span:nth-child(2) {
         flex: 1;
+        @media (max-width: 850px) {
+          margin-left: 10px;
+          margin-bottom: 5px;
+        }
       }
       span {
         display: inline-block;
