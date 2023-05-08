@@ -2,6 +2,7 @@
 import { Switch } from '@element-plus/icons-vue';
 import { usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
+import SettingCard from '@/components/SettingCard.vue';
 import Editor from '@/components/Editor.vue';
 const page = usePageStore();
 const { t } = useLanguageStore();

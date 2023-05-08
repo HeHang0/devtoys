@@ -7,3 +7,4 @@ env.d.ts
 *.log
 .vscode
 /devtoys
+stats.html

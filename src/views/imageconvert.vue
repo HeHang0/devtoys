@@ -5,6 +5,8 @@ import ClipboardPaste from '@/components/ClipboardPaste.vue';
 import { FileReaderType, usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
 import { convertImage, ImageType } from '@/utils/utils';
+import SettingCard from '@/components/SettingCard.vue';
+import Title from '@/components/Title.vue';
 const page = usePageStore();
 const imageUrl = ref('');
 const imageRef = ref();

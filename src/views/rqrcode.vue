@@ -4,6 +4,7 @@ import { Share, UploadFilled, List } from '@element-plus/icons-vue';
 import qrcodeParser from 'qrcode-parser';
 import Editor from '@/components/Editor.vue';
 import ClipboardPaste from '@/components/ClipboardPaste.vue';
+import Title from '@/components/Title.vue';
 import { FileReaderType, usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
 const page = usePageStore();

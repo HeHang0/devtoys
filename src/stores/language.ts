@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { storage, StorageKey } from '@/utils/storage';
 import moment from 'moment';
-import 'moment/dist/locale/zh-cn';
+// import 'moment/dist/locale/zh-cn';
 import elementZhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import elementEn from 'element-plus/dist/locale/en.mjs';
 import elementJA from 'element-plus/dist/locale/ja.mjs';

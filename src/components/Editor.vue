@@ -7,6 +7,7 @@ import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore, EditorType } from '@/stores/settings';
 import MonacoEditor from './MonacoEditor.vue';
 import PicaEditor from './PicaEditor.vue';
+import Title from './Title.vue';
 const settings = useSettingsStore();
 const { t } = useLanguageStore();
 
@@ -207,6 +208,15 @@ function languageChange(lang: string) {
                     : ''
                 "
                 >JavaScript</el-dropdown-item
+              >
+              <el-dropdown-item
+                command="markdown"
+                :class="
+                  language.value == 'markdown'
+                    ? 'el-dropdown-menu__item-focus'
+                    : ''
+                "
+                >MarkDown</el-dropdown-item
               >
             </el-dropdown-menu>
           </template>

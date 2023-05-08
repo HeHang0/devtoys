@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { marked } from 'marked';
 import Editor from '@/components/Editor.vue';
 import { usePageStore } from '../stores/page';

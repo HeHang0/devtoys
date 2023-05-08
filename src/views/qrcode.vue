@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import QRCode from 'qrcode';
 import Editor from '@/components/Editor.vue';
 import SettingCard from '@/components/SettingCard.vue';
+import Title from '@/components/Title.vue';
 import { Share, Operation } from '@element-plus/icons-vue';
 import { usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';

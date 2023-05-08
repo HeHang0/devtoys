@@ -3,6 +3,7 @@ import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import Pickr from '@simonwep/pickr';
 import { useLanguageStore } from '../stores/language';
 import { usePageStore } from '../stores/page';
+import Title from '@/components/Title.vue';
 import '@simonwep/pickr/dist/themes/nano.min.css';
 const { t } = useLanguageStore();
 const page = usePageStore();

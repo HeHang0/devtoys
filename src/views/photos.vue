@@ -338,8 +338,8 @@ function mapEleLoaded() {
     <Pane
       class="devtoys-photos-panel"
       min-size="30"
-      :size="imageDetail ? panneSize : 100"
-      :max-size="imageDetail ? 70 : 100"
+      :size="imageDetail ? 30 : 100"
+      :max-size="imageDetail ? 30 : 100"
       @click="cancelSelection"
       v-loading="reading">
       <div v-if="fileList.length > 0" class="devtoys-photos-title">

@@ -23,8 +23,8 @@ const handleThemeChange = (event: MediaQueryListEvent | boolean) => {
   const isDark = typeof event === 'boolean' ? event : event.matches;
   const html = document.querySelector('html');
   if (html) html.className = isDark ? 'dark' : 'light';
-  const monaco = (() => import('monaco-editor'))();
-  monaco.then(r => r.editor.setTheme(isDark ? 'vs-dark' : 'vs'));
+  const monaco = (window as any).monaco;
+  monaco && monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
 };
 
 // 监听主题变化事件
@@ -66,6 +66,9 @@ export const useSettingsStore = defineStore('settings', {
     };
   },
   actions: {
+    isDark() {
+      return isDark();
+    },
     setAsideShow(show: boolean) {
       this.showAside = show;
       storage.setValue(StorageKey.ShowAside, show);

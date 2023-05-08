@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as monaco from 'monaco-editor';
+// import * as monaco from 'monaco-editor';
 import { ref, onMounted, watch, onUnmounted } from 'vue';
 import { formatCode } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
@@ -28,21 +28,20 @@ const loading = ref(true);
 const emit = defineEmits({
   change: (value: string) => true
 });
-
-let editor: monaco.editor.IStandaloneCodeEditor | null = null;
-let editorDiff: monaco.editor.IStandaloneDiffEditor;
-let lastPosition: monaco.Position | null = null;
+let editor: any = null;
+let editorDiff: any;
+let lastPosition: any = null;
 
 function insertText(text: string, cover: boolean) {
   if (!editor) return;
-  let range: monaco.Range | undefined;
+  let range: any;
   if (cover) {
     range = editor.getModel()?.getFullModelRange();
-    if (!range) range = new monaco.Range(0, 0, 0, 0);
+    if (!range) range = new (window as any).monaco.Range(0, 0, 0, 0);
   } else {
     let position = editor.getPosition();
-    if (!position) position = new monaco.Position(0, 0);
-    range = new monaco.Range(
+    if (!position) position = new (window as any).monaco.Position(0, 0);
+    range = new (window as any).monaco.Range(
       position.lineNumber,
       position.column,
       position.lineNumber,
@@ -64,44 +63,70 @@ defineExpose({
 });
 
 onMounted(() => {
-  if (props.difference) {
-    editorDiff = monaco.editor.createDiffEditor(editorRef.value!, {
-      readOnly: true,
-      wordWrap: settings.editorWrap ? 'on' : 'off',
-      automaticLayout: true,
-      suggestOnTriggerCharacters: false
-    });
-    const originalModel = monaco.editor.createModel(
-      props.value,
-      props.language
+  (window as any).require(['vs/editor/editor.main'], function () {
+    (window as any).monaco.editor.setTheme(
+      settings.isDark() ? 'vs-dark' : 'vs'
     );
-    const modifiedModel = monaco.editor.createModel(
-      props.diffValue,
-      props.language
+    (window as any).monaco.languages.registerDocumentFormattingEditProvider(
+      '*',
+      {
+        provideDocumentFormattingEdits(model: any, options: any) {
+          const formatted = formatCode(
+            model.getLanguageId(),
+            model.getValue(),
+            options.tabSize,
+            options.insertSpaces
+          );
+          return [
+            {
+              range: model.getFullModelRange(),
+              text: formatted
+            }
+          ];
+        }
+      }
     );
+    if (props.difference) {
+      editorDiff = (window as any).monaco.editor.createDiffEditor(
+        editorRef.value!,
+        {
+          readOnly: true,
+          wordWrap: settings.editorWrap ? 'on' : 'off',
+          automaticLayout: true,
+          suggestOnTriggerCharacters: false
+        }
+      );
+      const originalModel = (window as any).monaco.editor.createModel(
+        props.value,
+        props.language
+      );
+      const modifiedModel = (window as any).monaco.editor.createModel(
+        props.diffValue,
+        props.language
+      );
 
-    editorDiff.setModel({
-      original: originalModel,
-      modified: modifiedModel
-    });
-  } else {
-    editor = monaco.editor.create(editorRef.value!, {
-      ...props,
-      wordWrap: settings.editorWrap ? 'on' : 'off',
-      automaticLayout: true,
-      suggestOnTriggerCharacters: false,
-      quickSuggestions: false,
-      readOnly: props.readonly
-    });
-    editor.onDidChangeModelContent(() => {
-      if (!editor) return;
-      let pos = editor.getPosition();
-      if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
-      emit('change', editor.getValue());
-    });
-  }
-
-  loading.value = false;
+      editorDiff.setModel({
+        original: originalModel,
+        modified: modifiedModel
+      });
+    } else {
+      editor = (window as any).monaco.editor.create(editorRef.value!, {
+        ...props,
+        wordWrap: settings.editorWrap ? 'on' : 'off',
+        automaticLayout: true,
+        suggestOnTriggerCharacters: false,
+        quickSuggestions: false,
+        readOnly: props.readonly
+      });
+      editor.onDidChangeModelContent(() => {
+        if (!editor) return;
+        let pos = editor.getPosition();
+        if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
+        emit('change', editor.getValue());
+      });
+    }
+    loading.value = false;
+  });
 });
 
 onUnmounted(() => {
@@ -135,7 +160,7 @@ watch(
     if (!editor) return;
     let model = editor.getModel();
     if (model && newValue != model.getLanguageId()) {
-      monaco.editor.setModelLanguage(model, newValue);
+      (window as any).monaco.editor.setModelLanguage(model, newValue);
     }
   }
 );
@@ -154,23 +179,6 @@ props.difference &&
       }
     }
   );
-
-monaco.languages.registerDocumentFormattingEditProvider('*', {
-  provideDocumentFormattingEdits(model, options) {
-    const formatted = formatCode(
-      model.getLanguageId(),
-      model.getValue(),
-      options.tabSize,
-      options.insertSpaces
-    );
-    return [
-      {
-        range: model.getFullModelRange(),
-        text: formatted
-      }
-    ];
-  }
-});
 </script>
 <template>
   <div class="devtoys-monaco-editor el-textarea">

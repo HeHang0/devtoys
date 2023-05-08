@@ -2,6 +2,7 @@
 import { usePageStore } from '../stores/page';
 import { useLanguageStore } from '../stores/language';
 import Editor from '@/components/Editor.vue';
+import Title from '@/components/Title.vue';
 const page = usePageStore();
 const { t } = useLanguageStore();
 </script>
