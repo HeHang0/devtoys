@@ -8,16 +8,16 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/monaco-editor/0.37.1/min/vs/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
     <script>
       require.config({
         paths: {
-          vs: 'https://cdn.bootcdn.net/ajax/libs/monaco-editor/0.37.1/min/vs/'
+          vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/'
         }
       });
       require(['vs/editor/editor.main'], function () {});
       window.Al = marked;
-      window.qrcode = QRCode;
+      // window.qrcode = QRCode;
     </script>
   </body>
 </html>

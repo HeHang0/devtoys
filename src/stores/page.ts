@@ -214,6 +214,7 @@ export const usePageStore = defineStore('page', {
       this.url.url = this.url.encodeComponent
         ? decodeURIComponent(value)
         : decodeURI(value);
+      storage.setValue(StorageKey.UrlEncodeComponent, this.url.encodeComponent);
     },
     base64DecodedChange(value: string) {
       this.base64.decoded = value;

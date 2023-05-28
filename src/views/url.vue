@@ -29,7 +29,7 @@ const { t } = useLanguageStore();
       <Editor
         :value="page.url.text"
         language="text"
-        @delay-input="page.textChange">
+        @delay-input="page.urlTextChange">
         <template #title> {{ t('Encoded') }} </template>
       </Editor>
     </div>

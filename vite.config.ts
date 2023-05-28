@@ -26,36 +26,46 @@ const plugins = [
       {
         name: 'vue',
         global: 'Vue',
-        spare: 'https://unpkg.com/vue@3.2.47/dist/vue.global.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js'
       },
       {
         name: 'vue-demi',
         global: 'VueDemi',
-        spare: 'https://unpkg.com/vue-demi@0.13.11/lib/index.iife.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.min.js'
+      },
+      {
+        name: 'pinia',
+        global: 'Pinia',
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.min.js'
       },
       {
         name: 'vue-router',
         global: 'VueRouter',
-        spare: 'https://unpkg.com/vue-router@latest/dist/vue-router.global.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.2.1/vue-router.global.js'
       },
       {
         name: 'element-plus',
         global: 'ElementPlus',
         spare: [
-          'https://unpkg.com/element-plus@2.3.0/dist/index.full.js',
-          'https://unpkg.com/element-plus@2.3.0/dist/index.css'
+          'https://cdnjs.cloudflare.com/ajax/libs/element-plus/2.3.5/index.full.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/element-plus/2.3.5/index.min.css'
         ]
       },
       {
         name: '@element-plus/icons-vue',
         global: 'ElementPlusIconsVue',
         spare:
-          'https://unpkg.com/@element-plus/icons-vue@2.1.0/dist/index.iife.min.js'
+          'https://cdnjs.cloudflare.com/ajax/libs/element-plus-icons-vue/2.1.0/global.iife.min.js'
       },
       {
         name: 'marked',
         global: 'Al',
-        spare: 'https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/marked/5.0.3/marked.min.js'
       },
       {
         name: 'highlight.js',
@@ -66,44 +76,47 @@ const plugins = [
       {
         name: 'heic2any',
         global: 'heic2any',
-        spare: 'https://unpkg.com/heic2any@0.0.4/dist/heic2any.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js'
       },
       {
         name: 'crypto-js',
         global: 'CryptoJS',
-        spare: 'https://unpkg.com/crypto-js@4.1.1/index.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js'
       },
-      {
-        name: 'jsqr',
-        global: 'jsQR',
-        spare: 'https://unpkg.com/jsqr@1.4.0/dist/jsQR.js'
-      },
+      // {
+      //   name: 'jsqr',
+      //   global: 'jsQR',
+      //   spare: 'https://unpkg.com/jsqr@1.4.0/dist/jsQR.js'
+      // },
       {
         name: 'js-yaml',
         global: 'jsyaml',
-        spare: 'https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js'
+        spare:
+          'https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js'
       },
       {
         name: 'moment',
         global: 'moment',
         spare:
-          'https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js'
+          'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js'
       },
-      {
-        name: 'qrcode',
-        global: 'qrcode',
-        spare: 'https://cdn.bootcdn.net/ajax/libs/qrcode/1.5.1/qrcode.min.js'
-      },
+      // {
+      //   name: 'qrcode',
+      //   global: 'qrcode',
+      //   spare: 'https://cdn.bootcdn.net/ajax/libs/qrcode/1.5.1/qrcode.min.js'
+      // },
       {
         name: 'sql-formatter',
         global: 'sqlFormatter',
         spare:
-          'https://unpkg.com/sql-formatter@12.1.3/dist/sql-formatter.min.js'
+          'https://cdnjs.cloudflare.com/ajax/libs/sql-formatter/12.2.1/sql-formatter.min.js'
       },
       {
         name: 'he',
         global: 'he',
-        spare: 'https://unpkg.com/he@1.2.0/he.js'
+        spare: 'https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js'
       }
       // {
       //   name: 'cron-parser',

@@ -1,15 +1,29 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
 import Editor from '@/components/Editor.vue';
 import { usePageStore } from '../stores/page';
 import { highlightCode } from '@/utils/formatter';
 const page = usePageStore();
 
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs ',
+    highlight: highlightCode as any
+  })
+);
 function markdownChange(text: string) {
-  page.markdown.previewHtmlContent = marked(text, {
-    highlight: highlightCode
-  });
+  marked
+    .parse(text, {
+      mangle: false,
+      async: true,
+      headerIds: false
+      // highlight: highlightCode as any
+    })
+    .then(parseResult => {
+      page.markdown.previewHtmlContent = parseResult;
+    });
 }
 
 onMounted(() => {
@@ -28,7 +42,7 @@ onMounted(() => {
   <div class="devtoys-markdown">
     <div class="devtoys-markdown-editor">
       <Editor
-        :value="page.markdown.text"
+        v-model:value="page.markdown.text"
         language="markdown"
         @delayInput="markdownChange">
         <template #title> MarkDown </template>
