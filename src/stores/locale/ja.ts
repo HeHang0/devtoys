@@ -72,7 +72,7 @@ export const language: Record<string, string> = {
   'tool.numbase.description': '数字を1つのタイプから別のタイプに変換します',
   'Format Number': '数字のフォーマット',
   Decimal: '10進数',
-  Hexdecimal: '16進数',
+  Hexadecimal: '16進数',
   Octal: '8進数',
   Binary: '2進数',
 
@@ -85,6 +85,10 @@ export const language: Record<string, string> = {
   'Number of Next Scheduled Dates': '次の予定日数',
   'Next Scheduled Dates': '次の予定日',
   'Cron Expression to parse': '解析するCron式',
+
+  'tool.api.title': 'APIリクエスト',
+  'tool.api.mintitle': 'APIリクエスト',
+  'tool.api.description': 'HTTPリクエストを開始する',
 
   'tool.date.title': '日付変換ツール',
   'tool.date.mintitle': '日付',

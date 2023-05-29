@@ -71,7 +71,7 @@ export const language: Record<string, string> = {
   'tool.numbase.description': '将数字从一种类型转换为另一个类型',
   'Format Number': '格式化数字',
   Decimal: '十进制',
-  Hexdecimal: '十六进制',
+  Hexadecimal: '十六进制',
   Octal: '八进制',
   Binary: '二进制',
 
@@ -83,6 +83,10 @@ export const language: Record<string, string> = {
   'Number of Next Scheduled Dates': '下一个预定日期数量',
   'Next Scheduled Dates': '下一个预定日期',
   'Cron Expression to parse': '要解析的Cron表达式',
+
+  'tool.api.title': 'API 请求',
+  'tool.api.mintitle': 'API 请求',
+  'tool.api.description': '发起HTTP请求',
 
   'tool.date.title': '日期转换工具',
   'tool.date.mintitle': '日期',

@@ -52,6 +52,7 @@ export const useSettingsStore = defineStore('settings', {
       rememberRouter: Boolean(
         storage.getValue(StorageKey.RememberRouter, true)
       ),
+      mobile: navigator.userAgent.toLowerCase().includes('mobile'),
       lastRouter: storage.getValue(StorageKey.LastRouter, ''),
       appTheme: appTheme,
       fontFamily: setFontFamily(fontFamily),

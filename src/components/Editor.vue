@@ -235,7 +235,7 @@ function languageChange(lang: string) {
         <el-upload
           v-if="!props.readonly"
           class="plus-ml12"
-          style="display: inline"
+          style="display: inline-flex"
           :show-file-list="false"
           :before-upload="readFile">
           <el-button

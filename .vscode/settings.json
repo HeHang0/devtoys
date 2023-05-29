@@ -8,12 +8,16 @@
     "hljs",
     "imageconvert",
     "imageoptim",
+    "jsonyaml",
     "ligen",
+    "mintitle",
+    "numbase",
     "openeds",
     "pdfgen",
     "Pico",
     "qrcode",
     "rqrcode",
-    "Splitpanes"
+    "Splitpanes",
+    "textdiff"
   ]
 }

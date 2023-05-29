@@ -195,7 +195,7 @@ props.difference &&
   height: 100%;
   &-body {
     width: 100%;
-    height: calc(100% - 30px);
+    height: 100%;
     .monaco-editor,
     .overflow-guard {
       border-radius: 4px;

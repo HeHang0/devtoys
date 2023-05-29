@@ -64,13 +64,17 @@ export const language: Record<string, string> = {
   'tool.numbase.description': 'Convert numbers from one base to another',
   'Format Number': 'Format Number',
   Decimal: 'Decimal',
-  Hexdecimal: 'Hexadecimal',
+  Hexadecimal: 'Hexadecimal',
   Octal: 'Octal',
   Binary: 'Binary',
 
   'tool.cron.title': 'Cron Expression Parser',
   'tool.cron.mintitle': 'Cron Parser',
   'tool.cron.description': 'Parse Cron Expression to get scheduled dates',
+
+  'tool.api.title': 'API Request',
+  'tool.api.mintitle': 'API Request',
+  'tool.api.description': 'Initiate an HTTP request',
 
   'tool.date.title': 'Date Converter',
   'tool.date.mintitle': 'Date',

@@ -85,6 +85,35 @@ export function setFontFamily(font: string[]) {
   return font;
 }
 
+export function parseUrl(url: string) {
+  let parser = document.createElement('a');
+  parser.href = url;
+
+  const result = {
+    protocol: parser.protocol,
+    host: parser.host,
+    pathname: parser.pathname,
+    params: [] as {
+      key: string;
+      value: string;
+    }[]
+  };
+
+  let queryStr = parser.search.substring(1);
+  let params = queryStr.split('&');
+  parser.remove();
+  for (let param of params) {
+    if (!param) continue;
+    let [key, value] = param.split('=');
+    result.params.push({
+      key: decodeURIComponent(key),
+      value: decodeURIComponent(value)
+    });
+  }
+
+  return result;
+}
+
 export function guid2(haveHyphen?: boolean, upperCase?: boolean) {
   const hyphen = haveHyphen ? '-' : '';
   function S4() {

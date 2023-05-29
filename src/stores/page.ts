@@ -29,6 +29,18 @@ export enum FileReaderType {
   Clipboard = 'clipboard'
 }
 
+export enum HttpContentType {
+  Form = 'x-www-form-urlencoded;charset=UTF-8',
+  Json = 'application/json',
+  Text = 'text/plain',
+  Xml = 'application/xml'
+}
+
+export interface KV {
+  key: string;
+  value: string;
+}
+
 export const usePageStore = defineStore('page', {
   state: () => {
     const now = new Date();
@@ -55,6 +67,18 @@ export const usePageStore = defineStore('page', {
         format: 'yyyy-MM-DD dddd HH:mm:ss',
         expression: '* * * * * *',
         result: ''
+      },
+      api: {
+        address: '',
+        method: 'GET',
+        headers: [] as KV[],
+        urlParams: [] as KV[],
+        bodyType: HttpContentType.Form,
+        bodyText: '',
+        bodyParams: [] as KV[],
+        responseGeneral: [] as KV[],
+        responseHeaders: [] as KV[],
+        responseText: ''
       },
       json2yaml: {
         json: '',

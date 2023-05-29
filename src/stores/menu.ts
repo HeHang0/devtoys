@@ -47,6 +47,13 @@ const menus: Menu[] = [
         longName: 'tool.cron.title',
         desc: 'tool.cron.description',
         icon: '\u0104'
+      },
+      {
+        key: 'api',
+        name: 'tool.api.mintitle',
+        longName: 'tool.api.title',
+        desc: 'tool.api.description',
+        icon: '\u0116'
       }
     ]
   },
