@@ -88,6 +88,14 @@ export const language: Record<string, string> = {
   'tool.api.mintitle': 'API 请求',
   'tool.api.description': '发起HTTP请求',
 
+  Address: '地址',
+  Send: '发送',
+  'Request Method': '方法',
+  'Request Headers': '请求头',
+  'Request Params': '参数',
+  'Request Body': '请求体',
+  Response: '响应',
+
   'tool.date.title': '日期转换工具',
   'tool.date.mintitle': '日期',
   'tool.date.description': '将日期从一种格式转换为另一种格式',

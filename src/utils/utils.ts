@@ -22,6 +22,8 @@ export function readClipboard(success: (value: string) => {}) {
 
 const TextFileType = ['application/json', 'application/xml'];
 
+const TextFileExtRegex =
+  /(.TXT|.CS|.GO|.JS|.JSON|.VUE|.SQL|.HTML|.BAT|.CSS|.MD|.BASH|.SH|.GITIGNORE|.GITATTRIBUTE|.RC|.XML|.LOG|.PY|.JAVA|.C|.CPP|.LESS|.KT|.PHP|.TS|.SVG)$/;
 const MB10 = 1024 * 1024 * 10;
 
 export function readTextFile(file: File): Promise<string> {
@@ -30,7 +32,11 @@ export function readTextFile(file: File): Promise<string> {
       reject('文件超过10MB！');
       return;
     }
-    if (!file.type.startsWith('text/') && !TextFileType.includes(file.type)) {
+    if (
+      !file.type.startsWith('text/') &&
+      !TextFileType.includes(file.type) &&
+      !TextFileExtRegex.test(file.name.toUpperCase())
+    ) {
       reject('不支持的文件类型：' + file.type);
       return;
     }

@@ -76,6 +76,11 @@ export const language: Record<string, string> = {
   'tool.api.mintitle': 'API Request',
   'tool.api.description': 'Initiate an HTTP request',
 
+  'Request Method': 'Method',
+  'Request Headers': 'Headers',
+  'Request Params': 'Params',
+  'Request Body': 'Body',
+
   'tool.date.title': 'Date Converter',
   'tool.date.mintitle': 'Date',
   'tool.date.description': 'Converts date from one format to another',

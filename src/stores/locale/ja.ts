@@ -90,6 +90,14 @@ export const language: Record<string, string> = {
   'tool.api.mintitle': 'APIリクエスト',
   'tool.api.description': 'HTTPリクエストを開始する',
 
+  Address: 'アドレス',
+  Send: '送信',
+  'Request Method': 'メソッド',
+  'Request Headers': 'リクエストヘッダー',
+  'Request Params': 'パラメータ',
+  'Request Body': '本文',
+  Response: '応答',
+
   'tool.date.title': '日付変換ツール',
   'tool.date.mintitle': '日付',
   'tool.date.description': '日付を1つの形式から別の形式に変換します',

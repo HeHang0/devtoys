@@ -121,7 +121,7 @@ function sendRequest() {
           t('Send')
         }}</el-button>
       </el-form-item>
-      <el-form-item :label="t('Method')">
+      <el-form-item :label="t('Request Method')">
         <el-radio-group v-model="page.api.method">
           <el-radio-button label="GET" />
           <el-radio-button label="POST" />
@@ -131,7 +131,7 @@ function sendRequest() {
       </el-form-item>
       <el-form-item class="devtoys-api-multi-line">
         <template #label>
-          {{ t('Headers') }}
+          {{ t('Request Headers') }}
           <el-button size="small" :icon="Plus" @click="addHeader"></el-button>
         </template>
         <div class="devtoys-api-line" v-for="item in page.api.headers">
@@ -142,7 +142,7 @@ function sendRequest() {
       </el-form-item>
       <el-form-item class="devtoys-api-multi-line">
         <template #label>
-          {{ t('Params') }}
+          {{ t('Request Params') }}
           <el-button size="small" :icon="Plus" @click="addParams"></el-button>
         </template>
         <div class="devtoys-api-line" v-for="item in page.api.urlParams">
@@ -158,7 +158,7 @@ function sendRequest() {
         "
         class="devtoys-api-multi-line">
         <template #label>
-          {{ t('Body') }}
+          {{ t('Request Body') }}
           <el-button
             size="small"
             :icon="Plus"
@@ -182,7 +182,7 @@ function sendRequest() {
       </el-form-item>
       <el-form-item
         v-else-if="page.api.method !== 'GET'"
-        :label="t('Body')"
+        :label="t('Request Body')"
         class="devtoys-api-multi-line">
         <div class="devtoys-api-line">
           <el-radio-group
