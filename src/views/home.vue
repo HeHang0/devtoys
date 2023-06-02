@@ -49,6 +49,7 @@ function openSingleWindow(key: string, event: Event) {
           </el-button>
           <el-button
             plain
+            class="devtoys-home-operate-new-window"
             size="small"
             :title="language.t('Open in new window')"
             @click.prevent="openSingleWindow(menu.key, $event)">
@@ -155,6 +156,20 @@ function openSingleWindow(key: string, event: Event) {
           border-bottom: 1px solid;
           transform-origin: left top;
           transform: rotate(45deg);
+        }
+      }
+
+      @media (pointer: coarse) {
+        opacity: 1;
+        &-new-window {
+          display: none;
+        }
+      }
+
+      @media (hover: none) {
+        opacity: 1;
+        &-new-window {
+          display: none;
         }
       }
     }
