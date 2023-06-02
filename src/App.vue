@@ -34,7 +34,7 @@ afterEach(() => {
 
 <template>
   <el-config-provider :locale="language.elementLocale">
-    <el-container class="devtoys-layout">
+    <div class="devtoys-layout">
       <title>
         {{
           currentRoute.meta.longName
@@ -44,7 +44,13 @@ afterEach(() => {
       </title>
       <SideMenu v-if="!settings.pure" />
 
-      <el-container direction="vertical" style="min-width: 355px">
+      <el-container
+        direction="vertical"
+        :style="
+          settings.showAside
+            ? 'width: calc(100vw - 210px)'
+            : 'width: calc(100vw - 50px)'
+        ">
         <Header v-if="!settings.pure" />
         <el-main
           class="devtoys-main"
@@ -52,15 +58,22 @@ afterEach(() => {
           <RouterView />
         </el-main>
       </el-container>
-    </el-container>
+    </div>
   </el-config-provider>
 </template>
 
 <style lang="less" scoped>
 .devtoys-layout {
-  width: 100vw;
-  height: 100vh;
+  // width: 100vw;
+  // height: 100vh;
   background-color: var(--el-bg-color-page);
+  display: flex;
+  justify-content: flex-end;
+  & > .el-container.is-vertical {
+    min-height: 100vh;
+    flex: none;
+    transition: width var(--transition-second);
+  }
   .el-main {
     border-radius: 4px 0 0 0;
     background-color: var(--el-fill-color-extra-light);
@@ -69,8 +82,11 @@ afterEach(() => {
 </style>
 
 <style lang="less">
-.devtoys-main > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
-  position: relative;
-  min-height: 100%;
+.devtoys-main {
+  min-height: calc(100% - 40px);
+  & > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
+    position: relative;
+    min-height: 100%;
+  }
 }
 </style>

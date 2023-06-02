@@ -126,6 +126,22 @@ function openSingleWindow(key: string, event: Event) {
       font-size: var(--el-font-size-small);
       color: var(--el-text-color-primary);
     }
+    .devtoys-home-title,
+    .devtoys-home-desc {
+      background: linear-gradient(
+          to right,
+          var(--el-text-color-primary),
+          var(--el-text-color-primary)
+        )
+        no-repeat right bottom;
+      background-size: 0 2px;
+      transition: background-size var(--transition-second);
+    }
+    .devtoys-home-title:hover,
+    .devtoys-home-desc:hover {
+      background-position-x: left;
+      background-size: 100% 2px;
+    }
     .devtoys-home-desc {
       margin-top: 5px;
       font-size: 8px;

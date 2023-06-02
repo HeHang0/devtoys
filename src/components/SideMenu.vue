@@ -73,7 +73,6 @@ watch(
           :prefix-icon="Search" />
         <div
           class="devtoys-aside-search-helper"
-          v-if="!settings.showAside"
           :title="t('Search')"
           @click="expandAside">
           <el-icon>
@@ -136,7 +135,11 @@ watch(
 </template>
 <style lang="less" scoped>
 .devtoys-aside {
-  transition: width 0.5s;
+  transition: width var(--transition-second);
+  height: 100vh;
+  position: fixed;
+  z-index: 1;
+  left: 0;
 
   & > .el-scrollbar {
     margin-top: 40px;
@@ -154,14 +157,25 @@ watch(
       top: 0;
       border-radius: 4px;
       cursor: pointer;
-      height: 30px;
-      width: 40px;
       padding: 5px 5px 5px 13px !important;
       margin: 2px 0;
+      overflow: hidden;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      transition: width var(--transition-second),
+        height var(--transition-second), opacity var(--transition-second);
     }
 
     &-helper:hover {
       background-color: var(--el-menu-hover-bg-color);
+    }
+  }
+  &-hide {
+    .devtoys-aside-search-helper {
+      width: 40px;
+      height: 30px;
+      opacity: 1;
     }
   }
 
@@ -174,6 +188,9 @@ watch(
     & > * {
       height: 100%;
       line-height: 30px;
+    }
+    & > i {
+      height: 30px;
     }
     & > span {
       overflow: hidden; /* 让文本超出时隐藏 */
@@ -237,36 +254,36 @@ watch(
   margin-left: 5px;
 
   .el-menu-item {
-    transition: padding 0.5s;
+    transition: padding var(--transition-second);
     display: flex;
 
     a {
       i {
-        transition: margin 0.5s;
+        transition: margin var(--transition-second);
       }
     }
 
     span {
-      transition: opacity 0.5s;
+      transition: opacity var(--transition-second);
     }
   }
 
   .el-sub-menu {
     i.el-sub-menu__icon-arrow {
-      transition: opacity 0.5s;
+      transition: opacity var(--transition-second);
     }
 
     .el-sub-menu__title {
-      transition: padding 0.5s;
+      transition: padding var(--transition-second);
     }
 
     span {
-      transition: opacity 0.5s;
+      transition: opacity var(--transition-second);
     }
   }
 
   .el-input {
-    transition: opacity 0.5s;
+    transition: opacity var(--transition-second);
   }
 
   &-hide {
