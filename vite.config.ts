@@ -8,6 +8,8 @@ import vue from '@vitejs/plugin-vue';
 import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 import visualizer from 'rollup-plugin-visualizer';
 import { cdn } from 'vite-plugin-cdn2';
+import { VitePWA } from 'vite-plugin-pwa';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 const plugins = [
   vue(),
@@ -133,7 +135,55 @@ const plugins = [
     transform(result: any) {
       if (result.tag === 'script') result.defer = true;
     }
-  })
+  }),
+  VitePWA({
+    manifest: {
+      name: 'DevToys',
+      short_name: 'DevToys',
+      description: 'Web-based version of a Swiss Army knife for developers.',
+      start_url: 'devtoys',
+      scope: './',
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: '#000000',
+      icons: [
+        {
+          src: 'logo.png',
+          type: 'image/png',
+          sizes: '140x140'
+        },
+        {
+          src: 'logo300x300.png',
+          type: 'image/png',
+          sizes: '300x300'
+        }
+      ]
+    },
+    manifestFilename: 'manifest.json',
+    includeManifestIcons: false,
+    outDir: 'devtoys',
+    includeAssets: ['logo.png'],
+    registerType: 'autoUpdate',
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: /(.*?)\.(js|css|ts)/, // js /css /ts静态资源缓存
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'js-css-cache'
+          }
+        },
+        {
+          urlPattern: /(.*?)\.(png|jpe?g|svg|gif|bmp|psd|tiff|tga|eps)/, // 图片缓存
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'image-cache'
+          }
+        }
+      ]
+    }
+  }),
+  basicSsl()
 ];
 
 if (process.env.NODE_ENV === 'production') {
@@ -171,5 +221,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    https: true
   }
 });

@@ -27,6 +27,7 @@ beforeEach((to, from, next) => {
 });
 afterEach(() => {
   settings.setLastRouter(currentRoute.value.path);
+  settings.setPure(false);
   elementScrollClick(currentRoute.value.meta.key as any);
 });
 </script>
@@ -36,16 +37,18 @@ afterEach(() => {
     <el-container class="devtoys-layout">
       <title>
         {{
-          currentRoute.name
-            ? language.t(String(currentRoute.name)) + ' - '
+          currentRoute.meta.longName
+            ? language.t(String(currentRoute.meta.longName)) + ' - '
             : ''
         }}DevToys
       </title>
-      <SideMenu />
+      <SideMenu v-if="!settings.pure" />
 
       <el-container direction="vertical" style="min-width: 355px">
-        <Header />
-        <el-main class="devtoys-main">
+        <Header v-if="!settings.pure" />
+        <el-main
+          class="devtoys-main"
+          :style="settings.pure ? '' : 'margin-left:5px'">
           <RouterView />
         </el-main>
       </el-container>
@@ -61,7 +64,6 @@ afterEach(() => {
   .el-main {
     border-radius: 4px 0 0 0;
     background-color: var(--el-fill-color-extra-light);
-    margin-left: 5px;
   }
 }
 </style>

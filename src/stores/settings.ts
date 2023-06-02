@@ -61,9 +61,10 @@ export const useSettingsStore = defineStore('settings', {
       ),
       editorType: storage.getValue(
         StorageKey.EditorType,
-        EditorType.PicaPicoEditor
+        EditorType.MonacoEditor
       ),
-      editorWrap: storage.getValue(StorageKey.EditorWrap, true)
+      editorWrap: storage.getValue(StorageKey.EditorWrap, true),
+      pure: storage.getValue(StorageKey.PureLayout, false)
     };
   },
   actions: {
@@ -82,6 +83,10 @@ export const useSettingsStore = defineStore('settings', {
       if (!routerPath || routerPath == '/')
         storage.removeKey(StorageKey.LastRouter);
       else storage.setValue(StorageKey.LastRouter, routerPath);
+    },
+    setPure(pure: boolean) {
+      if (!pure) storage.removeKey(StorageKey.PureLayout);
+      else storage.setValue(StorageKey.PureLayout, pure);
     },
     appThemeChange(theme: AppTheme) {
       this.appTheme = theme;

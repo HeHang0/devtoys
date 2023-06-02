@@ -57,6 +57,7 @@ export const language: Record<string, string> = {
   'tool.all.mintitle': '所有工具',
   'tool.all.description': '在这里搜索所有工具',
   'Open in new tab': '在新标签页打开',
+  'Open in new window': '在独立窗口打开',
   'Add to favorites': '添加到收藏夹',
   'Remove from favorites': '从收藏夹移除',
 

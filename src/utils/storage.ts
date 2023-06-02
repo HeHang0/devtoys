@@ -3,6 +3,7 @@ export enum StorageKey {
   ShowAside = 'show-aside',
   RememberRouter = 'remember-router',
   LastRouter = 'last-router',
+  PureLayout = 'pure-layout',
   AppTheme = 'app-theme',
   FontFamily = 'font-family',
   FavoriteRouters = 'favorite-routers',

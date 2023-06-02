@@ -58,6 +58,7 @@ export const language: Record<string, string> = {
   'tool.all.mintitle': 'すべてのツール',
   'tool.all.description': 'すべてのツールをここで検索',
   'Open in new tab': '新しいタブで開く',
+  'Open in new window': '別ウィンドウで開きます',
   'Add to favorites': 'お気に入りに追加',
   'Remove from favorites': 'お気に入りから削除',
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Cellphone, Star } from '@element-plus/icons-vue';
+import { Cellphone, Star, Monitor } from '@element-plus/icons-vue';
 import { useSearchStore } from '@/stores/search';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore } from '@/stores/settings';
@@ -9,6 +9,15 @@ const settings = useSettingsStore();
 function openNewTab(key: string, event: Event) {
   settings.setLastRouter('/' + key);
   window.open(location.pathname);
+}
+function openSingleWindow(key: string, event: Event) {
+  settings.setLastRouter('/' + key);
+  settings.setPure(true);
+  window.open(
+    location.pathname + '?pure=true',
+    '_blank',
+    'toolbar=no,location=no'
+  );
 }
 </script>
 
@@ -37,6 +46,13 @@ function openNewTab(key: string, event: Event) {
             :title="language.t('Open in new tab')"
             @click.prevent="openNewTab(menu.key, $event)">
             <el-icon><Cellphone /></el-icon>
+          </el-button>
+          <el-button
+            plain
+            size="small"
+            :title="language.t('Open in new window')"
+            @click.prevent="openSingleWindow(menu.key, $event)">
+            <el-icon><Monitor /></el-icon>
           </el-button>
           <el-button
             v-if="settings.favExists(menu.key)"
