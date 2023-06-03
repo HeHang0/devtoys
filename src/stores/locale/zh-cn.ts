@@ -246,6 +246,7 @@ export const language: Record<string, string> = {
   High: '高',
   'Very High (Slow)': '优 (慢)',
   Download: '下载',
+  Print: '打印',
 
   'tool.pdfgen.title': 'PDF 生成工具',
   'tool.pdfgen.mintitle': 'PDF 生成',
@@ -361,5 +362,8 @@ export const language: Record<string, string> = {
   GPSRefN: '北',
   Location: '地点',
   Brightness: '亮度',
-  Software: '软件'
+  Software: '软件',
+
+  ImageProxy: '图片代理',
+  'Input the markdown image proxy address.': '输入您想要使用的图片代理地址'
 };

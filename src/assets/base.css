@@ -102,3 +102,7 @@ body {
   height: 100%;
   line-height: 30px;
 }
+.el-collapse {
+  --el-collapse-header-bg-color: transparent;
+  --el-collapse-content-bg-color: transparent;
+}

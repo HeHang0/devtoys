@@ -64,7 +64,8 @@ export const useSettingsStore = defineStore('settings', {
         EditorType.MonacoEditor
       ),
       editorWrap: storage.getValue(StorageKey.EditorWrap, true),
-      pure: storage.getValue(StorageKey.PureLayout, false)
+      pure: storage.getValue(StorageKey.PureLayout, false),
+      imageProxy: storage.getValue(StorageKey.ImageProxy, '')
     };
   },
   actions: {
@@ -125,6 +126,13 @@ export const useSettingsStore = defineStore('settings', {
     },
     editorWrapChange() {
       storage.setValue(StorageKey.EditorWrap, this.editorWrap);
+    },
+    setImageProxy(proxy: string) {
+      if (proxy) {
+        storage.setValue(StorageKey.ImageProxy, proxy);
+      } else {
+        storage.removeKey(StorageKey.ImageProxy);
+      }
     }
   },
   getters: {

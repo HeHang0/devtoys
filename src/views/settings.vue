@@ -144,5 +144,17 @@ function clearFontFamily() {
         @change="settings.editorWrapChange">
       </el-checkbox>
     </SettingCard>
+    <SettingCard
+      :title="t('ImageProxy')"
+      :desc="t('Input the markdown image proxy address.')">
+      <template #icon>
+        <span class="devtoys-icon"> &#x0127; </span>
+      </template>
+      <el-input
+        v-model="settings.imageProxy"
+        size="small"
+        @change="settings.setImageProxy">
+      </el-input>
+    </SettingCard>
   </div>
 </template>

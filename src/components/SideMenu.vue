@@ -26,6 +26,7 @@ function menuClose(index: string) {
   const i = menuActive.indexOf(index);
   menuActive.indexOf(index) >= 0 && menuActive.splice(i, 1);
 }
+
 function expandAside() {
   settings.showAside = true;
   searchInputRef.value.focus();

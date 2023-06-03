@@ -10,13 +10,27 @@ const { currentRoute } = useRouter();
 function setAsideShow() {
   settings.setAsideShow(!settings.showAside);
 }
+function requestFullscreen(e: Event) {
+  e.preventDefault();
+  e.stopPropagation();
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.body.requestFullscreen();
+  }
+  return false;
+}
 </script>
 <template>
   <el-header class="devtoys-header">
     <div
       class="devtoys-header-logo"
       :class="settings.showAside ? '' : 'devtoys-header-collapse'">
-      <img src="/logo.png" @click="setAsideShow" />
+      <img
+        src="/logo.png"
+        @click="setAsideShow"
+        @dblclick="requestFullscreen"
+        @contextmenu="requestFullscreen" />
       <span>DevToys</span>
     </div>
     {{ language.t(`${currentRoute.meta.longName || currentRoute.name || ''}`) }}

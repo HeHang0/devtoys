@@ -54,7 +54,10 @@ afterEach(() => {
         <Header v-if="!settings.pure" />
         <el-main
           class="devtoys-main"
-          :style="settings.pure ? '' : 'margin-left:5px'">
+          :style="
+            (settings.pure ? '' : 'margin-left:5px;') +
+            (settings.mobile ? '' : 'height: calc(100vh - 40px)')
+          ">
           <RouterView />
         </el-main>
       </el-container>

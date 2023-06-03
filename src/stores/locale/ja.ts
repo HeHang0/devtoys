@@ -254,6 +254,7 @@ export const language: Record<string, string> = {
   High: '高い',
   'Very High (Slow)': '非常に高い (遅い)',
   Download: 'ダウンロード',
+  Print: '印刷する',
 
   'tool.pdfgen.title': 'PDF 生成ツール',
   'tool.pdfgen.mintitle': 'PDF 生成',
@@ -373,5 +374,9 @@ export const language: Record<string, string> = {
   GPSRefN: '北',
   Location: '位置',
   Brightness: '明るさ',
-  Software: 'ソフトウェア'
+  Software: 'ソフトウェア',
+
+  ImageProxy: 'イメージ プロキシ',
+  'Input the markdown image proxy address.':
+    '使用するイメージ プロキシ アドレスを入力してください'
 };

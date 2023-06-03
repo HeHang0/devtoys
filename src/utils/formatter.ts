@@ -62,10 +62,10 @@ export function highlightCode(code: string, language: string, pure?: boolean) {
       value: highlightedCode.value
     };
   }
-  return highlightedCode.value;
-  // return `<pre><code class="hljs ${highlightedCode.language || ''}">${
-  //   highlightedCode.value
-  // }</code></pre>`;
+  // return highlightedCode.value;
+  return `<pre><code class="hljs ${highlightedCode.language || ''}">${
+    highlightedCode.value
+  }</code></pre>`;
 }
 
 export function encodeBase64(text: string) {

@@ -73,6 +73,29 @@ export function readFileFromEntry(entry: any): Promise<File[]> {
   });
 }
 
+export function downloadTextAsFile(text: string, fileName?: string) {
+  var blob = new Blob([text], { type: 'text/plain' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = fileName || 'file.txt';
+  a.click();
+  a.remove();
+}
+
+export function printHtml(html: string) {
+  var printWindow = window.open('', '', 'width=800,height=600');
+  if (!printWindow) return;
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.onload = function () {
+    if (!printWindow) return;
+    printWindow.focus();
+    printWindow.print();
+    setTimeout(printWindow.close, 5000);
+  };
+}
+
 export function setFontFamily(font: string[]) {
   let fontStyle = document.getElementById('devtoys-font-family');
   if (fontStyle) fontStyle.remove();
@@ -713,3 +736,78 @@ export const KeyCode2IOS: any = {
   '221': 93,
   '222': 39
 };
+
+export const hljsCSS = `<style type="text/css">
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #fafafa;
+}
+code.hljs {
+  padding: 3px 5px;
+  font-family: Courier;
+}
+.hljs {
+  color: #383a42;
+  border-radius: 4px;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #a0a1a7;
+  font-style: italic;
+}
+.hljs-doctag,
+.hljs-formula,
+.hljs-keyword {
+  color: #a626a4;
+}
+.hljs-deletion,
+.hljs-name,
+.hljs-section,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #e45649;
+}
+.hljs-literal {
+  color: #0184bb;
+}
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string,
+.hljs-regexp,
+.hljs-string {
+  color: #50a14f;
+}
+.hljs-attr,
+.hljs-number,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-pseudo,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable {
+  color: #986801;
+}
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-symbol,
+.hljs-title {
+  color: #4078f2;
+}
+.hljs-built_in,
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: #c18401;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: 700;
+}
+.hljs-link {
+  text-decoration: underline;
+}
+</style>`;
