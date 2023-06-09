@@ -32,6 +32,25 @@ export function formatCode(
   return code;
 }
 
+export function parseGolangText(jsObject: any) {
+  let result = ""
+  Object.keys(jsObject).map(m => {
+    const type = typeof jsObject[m]
+    let goType = ""
+    switch (type) {
+      case "number": goType = "int"; break
+      case "string": goType = "string"; break
+      case "boolean": goType = "bool"; break
+      case "bigint": goType = "int64"; break
+      case "object": goType = "Struct"; break
+      case "function": goType = "func()"; break
+      default: goType = ""; break
+    }
+    if (goType) result += `    ${m.charAt(0).toUpperCase() + m.slice(1)} string \`json:"${m}"\`\n`
+  })
+  return `type UnNamed struct {\n${result}}`
+}
+
 export function uglifyCode(language: string, code: string): string {
   if (!code || typeof code !== 'string') '';
   try {
@@ -63,9 +82,8 @@ export function highlightCode(code: string, language: string, pure?: boolean) {
     };
   }
   // return highlightedCode.value;
-  return `<pre><code class="hljs ${highlightedCode.language || ''}">${
-    highlightedCode.value
-  }</code></pre>`;
+  return `<pre><code class="hljs ${highlightedCode.language || ''}">${highlightedCode.value
+    }</code></pre>`;
 }
 
 export function encodeBase64(text: string) {

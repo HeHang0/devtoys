@@ -11,6 +11,7 @@ import {
   encodeBase64,
   escapeString,
   formatCode,
+  parseGolangText,
   unescapeString
 } from '@/utils/formatter';
 import { storage, StorageKey } from '@/utils/storage';
@@ -113,6 +114,12 @@ export const usePageStore = defineStore('page', {
         header: '',
         payload: ''
       },
+      struct: {
+        json: '',
+        golang: '',
+        java: '',
+        sql: ''
+      },
       hash: {
         upper: storage.getValue(StorageKey.HashUpperCase, false),
         text: '',
@@ -204,7 +211,7 @@ export const usePageStore = defineStore('page', {
         this.json2yaml.yaml = value.trim()
           ? formatCode('yaml', jsyaml.dump(JSON.parse(value)))
           : '';
-      } catch {}
+      } catch { }
     },
     yamlChange(value: string) {
       try {
@@ -212,7 +219,7 @@ export const usePageStore = defineStore('page', {
         this.json2yaml.json = value.trim()
           ? formatCode('json', JSON.stringify(jsyaml.load(value)))
           : '';
-      } catch {}
+      } catch { }
     },
     formatterTextChange(value: string, language: string) {
       this.formatter.text = formatCode(language, value);
@@ -291,6 +298,24 @@ export const usePageStore = defineStore('page', {
       storage.setValue(StorageKey.LigenTopic, this.ligen.topic);
       this.ligen.article = generateArticle(this.ligen.topic);
     },
+    structChange(jsObject: any) {
+      this.struct.golang = parseGolangText(jsObject)
+    },
+    structJsonChange(text: string) {
+      try {
+        const json = JSON.parse(text)
+        this.structChange(json)
+      } catch { }
+    },
+    structSqlChange(text: string) {
+
+    },
+    structGolangChange(text: string) {
+
+    },
+    structJavaChange(text: string) {
+
+    },
     checksumFile(file: File) {
       storage.setValue(StorageKey.CheckSumAlgorithm, this.checksum.algorithm);
       return checksumFile(file, this.checksum.algorithm);
@@ -325,7 +350,7 @@ export const usePageStore = defineStore('page', {
         //   return;
         // }
         let lastIndex = -1;
-        for (;;) {
+        for (; ;) {
           const r = regex.exec(text);
           if (!r || lastIndex === r.index) break;
           lastIndex = r.index;
@@ -336,7 +361,7 @@ export const usePageStore = defineStore('page', {
             index: r.index
           });
         }
-      } catch {}
+      } catch { }
       if (
         this.regex.result.length === 1 &&
         !this.regex.result[0].text &&

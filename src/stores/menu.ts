@@ -176,6 +176,13 @@ const menus: Menu[] = [
         longName: 'QR Code Generator',
         desc: 'Create a QR code from text',
         icon: '\u0110'
+      },
+      {
+        key: 'struct',
+        name: 'Struct',
+        longName: 'Struct Generator',
+        desc: 'Convert json,sql,golang,java struct',
+        icon: '\u0110'
       }
     ]
   },
