@@ -2,6 +2,7 @@
 import { RouterView, useRouter } from 'vue-router';
 import SideMenu from './components/SideMenu.vue';
 import Header from './components/Header.vue';
+import AutoUpdate from './components/AutoUpdate.vue';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore } from './stores/settings';
 import { allMenus } from './stores/menu';
@@ -38,30 +39,27 @@ afterEach(() => {
       <title>
         {{
           currentRoute.meta.longName
-            ? language.t(String(currentRoute.meta.longName)) + ' - '
-            : ''
+          ? language.t(String(currentRoute.meta.longName)) + ' - '
+          : ''
         }}DevToys
       </title>
       <SideMenu v-if="!settings.pure" />
 
-      <el-container
-        direction="vertical"
-        :style="
-          settings.showAside
-            ? 'width: calc(100vw - 210px)'
-            : 'width: calc(100vw - 50px)'
-        ">
+      <el-container direction="vertical" :style="
+        settings.showAside
+          ? 'width: calc(100vw - 210px)'
+          : 'width: calc(100vw - 50px)'
+      ">
         <Header v-if="!settings.pure" />
-        <el-main
-          class="devtoys-main"
-          :style="
-            (settings.pure ? '' : 'margin-left:5px;') +
-            (settings.mobile ? '' : 'height: calc(100vh - 40px)')
-          ">
+        <el-main class="devtoys-main" :style="
+          (settings.pure ? '' : 'margin-left:5px;') +
+          (settings.mobile ? '' : 'height: calc(100vh - 40px)')
+        ">
           <RouterView />
         </el-main>
       </el-container>
     </div>
+    <AutoUpdate />
   </el-config-provider>
 </template>
 
@@ -72,11 +70,13 @@ afterEach(() => {
   background-color: var(--el-bg-color-page);
   display: flex;
   justify-content: flex-end;
-  & > .el-container.is-vertical {
+
+  &>.el-container.is-vertical {
     min-height: 100vh;
     flex: none;
     transition: width var(--transition-second);
   }
+
   .el-main {
     border-radius: 4px 0 0 0;
     background-color: var(--el-fill-color-extra-light);
@@ -87,7 +87,8 @@ afterEach(() => {
 <style lang="less">
 .devtoys-main {
   min-height: calc(100% - 40px);
-  & > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
+
+  &>.el-scrollbar>.el-scrollbar__wrap>.el-scrollbar__view {
     position: relative;
     min-height: 100%;
   }

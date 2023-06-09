@@ -296,5 +296,7 @@ export const language: Record<string, string> = {
   GPSRefE: 'E',
   GPSRefS: 'S',
   GPSRefW: 'W',
-  GPSRefN: 'N'
+  GPSRefN: 'N',
+
+  'New Version Message': 'A new update for our application is available. The update includes new features and performance improvements. Would you like to update now?'
 };

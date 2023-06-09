@@ -9,6 +9,8 @@ export const language: Record<string, string> = {
   Text: '文本',
   Copy: '复制',
   Paste: '粘贴',
+  Confirm: '确认',
+  Cancel: '取消',
   'Copied!': '复制!',
   'Pasted!': '粘贴!',
   Open: '打开',
@@ -365,5 +367,10 @@ export const language: Record<string, string> = {
   Software: '软件',
 
   ImageProxy: '图片代理',
-  'Input the markdown image proxy address.': '输入您想要使用的图片代理地址'
+  'Input the markdown image proxy address.': '输入您想要使用的图片代理地址',
+
+  'Update Now': '立即更新',
+  'Later': '稍后再说',
+  'New Version Available': '新版本可用',
+  'New Version Message': '我们的应用已经有新的更新可用。更新包含了新的功能和性能提升。你想现在就更新吗？'
 };

@@ -378,5 +378,10 @@ export const language: Record<string, string> = {
 
   ImageProxy: 'イメージ プロキシ',
   'Input the markdown image proxy address.':
-    '使用するイメージ プロキシ アドレスを入力してください'
+    '使用するイメージ プロキシ アドレスを入力してください',
+
+  'Update Now': '今すぐアップデート',
+  'Later': '後で',
+  'New Version Available': '新しいバージョンが利用可能',
+  'New Version Message': '当社のアプリケーションの新しいアップデートが利用可能です。アップデートには新機能とパフォーマンスの改善が含まれています。今すぐアップデートしますか？'
 };
