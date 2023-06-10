@@ -4,7 +4,10 @@ import Pickr from '@simonwep/pickr';
 import { useLanguageStore } from '../stores/language';
 import { usePageStore } from '../stores/page';
 import Title from '@/components/Title.vue';
+import { allColorNames } from '@/utils/utils';
+
 import '@simonwep/pickr/dist/themes/nano.min.css';
+
 const { t } = useLanguageStore();
 const page = usePageStore();
 const textColorPickerRef = ref();
@@ -119,12 +122,35 @@ onMounted(() => {
         <div ref="backColorPickerRef"></div>
       </div>
     </div>
-    <div class="devtoys-color-picker-body-pickr"></div>
+    <div class="devtoys-color-picker-names">
+      <div
+        v-for="color in allColorNames"
+        :key="color"
+        :style="'--bg-color: ' + color">
+        <span>{{ color }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="less" scoped>
 .devtoys-color-picker {
+  &-names {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    div {
+      background-color: var(--bg-color);
+      color: #c0acac;
+      width: 200px;
+      border-radius: 4px;
+      margin: 2px;
+      text-align: center;
+      span {
+        mix-blend-mode: difference;
+      }
+    }
+  }
   &-body {
     display: flex;
 

@@ -6,7 +6,7 @@ import { useLanguageStore } from '@/stores/language';
 import { ElMessageBox } from 'element-plus';
 const { t } = useLanguageStore();
 const router = useRouter();
-const indexUrl = location.origin + router.options.history.base;
+const indexUrl = location.origin + router.options.history.base + '/';
 const jsPattern = /src="[\S]+assets\/index\-([a-z0-9]+)\.js"/;
 const second = 1000;
 let lastHash = '';
