@@ -182,7 +182,7 @@ const menus: Menu[] = [
         name: 'Struct',
         longName: 'Struct Generator',
         desc: 'Convert json,sql,golang,java struct',
-        icon: '\u0110'
+        icon: '\u0122'
       }
     ]
   },

@@ -35,10 +35,6 @@ renderer.code = function (
 ) {
   return highlightCode(code, language || '') as string;
 };
-renderer.html = function (html: string) {
-  console.log('这是html', html);
-  return html;
-};
 
 function markdownChange(text: string) {
   marked

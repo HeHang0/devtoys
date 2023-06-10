@@ -119,6 +119,11 @@ const plugins = [
         name: 'he',
         global: 'he',
         spare: 'https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js'
+      },
+      {
+        name: 'node-sql-parser',
+        global: 'NodeSQLParser',
+        spare: 'https://unpkg.com/node-sql-parser/umd/index.umd.js'
       }
       // {
       //   name: 'cron-parser',

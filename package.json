@@ -31,6 +31,7 @@
     "moment": "^2.29.4",
     "monaco-editor": "^0.38.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
+    "node-sql-parser": "^4.7.0",
     "pinia": "^2.0.32",
     "qrcode": "^1.5.1",
     "qrcode-parser": "^2.1.1",

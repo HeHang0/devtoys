@@ -2,10 +2,34 @@ import hljs from 'highlight.js';
 import jsyaml from 'js-yaml';
 import * as sqlFormatter from 'sql-formatter';
 import xmlFormatter from 'xml-formatter';
+import {
+  Parser as NodeSqlParser,
+  type AST,
+  type Create
+} from 'node-sql-parser';
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
+const nodeSqlParser = new NodeSqlParser();
 
 export const formattableLanguage = ['json', 'yaml', 'sql', 'xml'];
+
+export interface StructBody {
+  name: string;
+  comment?: string;
+  type:
+    | 'string'
+    | 'number'
+    | 'bigint'
+    | 'boolean'
+    | 'object'
+    | 'function'
+    | 'date';
+}
+
+export interface Struct {
+  name: string;
+  body: StructBody[];
+}
 
 export function formatCode(
   language: string,
@@ -32,23 +56,151 @@ export function formatCode(
   return code;
 }
 
-export function parseGolangText(jsObject: any) {
-  let result = ""
-  Object.keys(jsObject).map(m => {
-    const type = typeof jsObject[m]
-    let goType = ""
-    switch (type) {
-      case "number": goType = "int"; break
-      case "string": goType = "string"; break
-      case "boolean": goType = "bool"; break
-      case "bigint": goType = "int64"; break
-      case "object": goType = "Struct"; break
-      case "function": goType = "func()"; break
-      default: goType = ""; break
+export function parseJsonStruct(text: string): Struct {
+  try {
+    const jsObject = JSON.parse(text);
+    const columns: StructBody[] = [];
+    Object.keys(jsObject).map(m => {
+      const type: any = typeof jsObject[m];
+      columns.push({
+        name: m,
+        type: type
+      });
+    });
+    return { name: '', body: columns };
+  } catch {}
+  return { name: '', body: [] };
+}
+
+export function parseSqlStruct(text: string): Struct {
+  const parserObj = nodeSqlParser.astify(text) as AST[];
+  if (Array.isArray(parserObj) && parserObj.length > 0) {
+    const sqlAst = parserObj[0] as Create;
+    const name = (sqlAst.table && sqlAst.table[0].table) || '';
+    const columns: StructBody[] = [];
+    sqlAst.create_definitions?.map(m => {
+      if (!m.column || !m.column.column) {
+        return;
+      }
+      let type: any = 'string';
+      switch (m.definition.dataType.toLowerCase()) {
+        case 'bigint':
+          type = 'bigint';
+          break;
+        case 'datetime':
+        case 'date':
+        case 'time':
+          type = 'date';
+          break;
+        case 'varchar':
+        case 'char':
+          type = 'string';
+          break;
+        case 'int':
+        case 'smallint':
+        case 'integer':
+        case 'float':
+        case 'double':
+        case 'bit':
+          type = 'number';
+          break;
+        case 'bool':
+        case 'boolean':
+          type = 'boolean';
+          break;
+      }
+      columns.push({
+        name: m.column.column,
+        comment: (m.comment && m.comment.value && m.comment.value.value) || '',
+        type: type
+      });
+    });
+    return {
+      name,
+      body: columns
+    };
+  }
+  return { name: '', body: [] };
+}
+
+export function parseGolangText(jsObject: Struct) {
+  let result = '';
+  jsObject.body.map(m => {
+    let goType = '';
+    switch (m.type) {
+      case 'number':
+        goType = 'int';
+        break;
+      case 'string':
+        goType = 'string';
+        break;
+      case 'boolean':
+        goType = 'bool';
+        break;
+      case 'bigint':
+        goType = 'int64';
+        break;
+      case 'date':
+        goType = '*time.Time';
+        break;
+      case 'object':
+        goType = 'Struct';
+        break;
+      case 'function':
+        goType = 'func()';
+        break;
+      default:
+        goType = '';
+        break;
     }
-    if (goType) result += `    ${m.charAt(0).toUpperCase() + m.slice(1)} string \`json:"${m}"\`\n`
-  })
-  return `type UnNamed struct {\n${result}}`
+    if (goType) {
+      result += `    ${
+        m.name.charAt(0).toUpperCase() + m.name.slice(1)
+      } ${goType} \`json:"${m.name}"\``;
+      if (m.comment) result += ' //' + m.comment;
+      result += '\n';
+    }
+  });
+  return `type ${jsObject.name || 'UnNamed'} struct {\n${result}}`;
+}
+
+export function parseJavaText(jsObject: Struct) {
+  let result = '';
+  jsObject.body.map(m => {
+    let javaType = '';
+    switch (m.type) {
+      case 'number':
+        javaType = 'int';
+        break;
+      case 'string':
+        javaType = 'String';
+        break;
+      case 'boolean':
+        javaType = 'boolean';
+        break;
+      case 'date':
+        javaType = 'Date';
+        break;
+      case 'bigint':
+        javaType = 'long';
+        break;
+      case 'object':
+        javaType = 'Object';
+        break;
+      case 'function':
+        javaType = 'void';
+        break;
+      default:
+        javaType = '';
+        break;
+    }
+    if (javaType) {
+      result += `    private ${javaType} ${m.name};`;
+      if (m.comment) result += ' //' + m.comment;
+      result += '\n';
+    }
+  });
+  return `public class ${jsObject.name || 'UnNamed'} {\n${result}}`;
 }
 
 export function uglifyCode(language: string, code: string): string {
@@ -82,8 +234,9 @@ export function highlightCode(code: string, language: string, pure?: boolean) {
     };
   }
   // return highlightedCode.value;
-  return `<pre><code class="hljs ${highlightedCode.language || ''}">${highlightedCode.value
-    }</code></pre>`;
+  return `<pre><code class="hljs ${highlightedCode.language || ''}">${
+    highlightedCode.value
+  }</code></pre>`;
 }
 
 export function encodeBase64(text: string) {

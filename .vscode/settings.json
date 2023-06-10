@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
+    "astify",
+    "datetime",
     "devtoys",
     "Exif",
     "exifr",
@@ -10,6 +12,7 @@
     "imageconvert",
     "imageoptim",
     "jsonyaml",
+    "jsyaml",
     "ligen",
     "mintitle",
     "numbase",
