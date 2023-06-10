@@ -206,7 +206,6 @@ watch(
       )
       no-repeat right bottom;
     background-size: 0 100%;
-    transition: background-size var(--transition-second);
 
     &:hover {
       background-position-x: left;
@@ -270,7 +269,8 @@ watch(
   margin-left: 5px;
 
   .el-menu-item {
-    transition: padding var(--transition-second);
+    transition: background-size var(--transition-second),
+      padding var(--transition-second);
     display: flex;
 
     a {
