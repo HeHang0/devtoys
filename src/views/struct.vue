@@ -48,6 +48,9 @@ const { t } = useLanguageStore();
   &-editor {
     height: 300px;
     width: 100%;
+    overflow: hidden;
+    resize: vertical;
+    min-height: 100px;
   }
 }
 </style>

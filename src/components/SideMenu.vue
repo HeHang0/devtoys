@@ -197,6 +197,21 @@ watch(
       overflow: hidden; /* 让文本超出时隐藏 */
       text-overflow: ellipsis;
     }
+
+    background-color: unset;
+    background: linear-gradient(
+        to right,
+        var(--el-menu-hover-bg-color),
+        var(--el-menu-hover-bg-color)
+      )
+      no-repeat right bottom;
+    background-size: 0 100%;
+    transition: background-size var(--transition-second);
+
+    &:hover {
+      background-position-x: left;
+      background-size: 100% 100%;
+    }
   }
 }
 

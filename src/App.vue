@@ -39,22 +39,28 @@ afterEach(() => {
       <title>
         {{
           currentRoute.meta.longName
-          ? language.t(String(currentRoute.meta.longName)) + ' - '
-          : ''
+            ? language.t(String(currentRoute.meta.longName)) + ' - '
+            : ''
         }}DevToys
       </title>
       <SideMenu v-if="!settings.pure" />
 
-      <el-container direction="vertical" :style="
-        settings.showAside
-          ? 'width: calc(100vw - 210px)'
-          : 'width: calc(100vw - 50px)'
-      ">
-        <Header v-if="!settings.pure" />
-        <el-main class="devtoys-main" :style="
-          (settings.pure ? '' : 'margin-left:5px;') +
-          (settings.mobile ? '' : 'height: calc(100vh - 40px)')
+      <el-container
+        direction="vertical"
+        :style="
+          settings.pure
+            ? 'width: 100vw'
+            : settings.showAside
+            ? 'width: calc(100vw - 210px)'
+            : 'width: calc(100vw - 50px)'
         ">
+        <Header v-if="!settings.pure" />
+        <el-main
+          class="devtoys-main"
+          :style="
+            (settings.pure ? '' : 'margin-left:5px;') +
+            (settings.mobile ? '' : 'height: calc(100vh - 40px)')
+          ">
           <RouterView />
         </el-main>
       </el-container>
@@ -71,7 +77,7 @@ afterEach(() => {
   display: flex;
   justify-content: flex-end;
 
-  &>.el-container.is-vertical {
+  & > .el-container.is-vertical {
     min-height: 100vh;
     flex: none;
     transition: width var(--transition-second);
@@ -88,7 +94,7 @@ afterEach(() => {
 .devtoys-main {
   min-height: calc(100% - 40px);
 
-  &>.el-scrollbar>.el-scrollbar__wrap>.el-scrollbar__view {
+  & > .el-scrollbar > .el-scrollbar__wrap > .el-scrollbar__view {
     position: relative;
     min-height: 100%;
   }

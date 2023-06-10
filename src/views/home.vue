@@ -134,13 +134,13 @@ function openSingleWindow(key: string, event: Event) {
           var(--el-text-color-primary)
         )
         no-repeat right bottom;
-      background-size: 0 2px;
+      background-size: 0 1px;
       transition: background-size var(--transition-second);
     }
     .devtoys-home-title:hover,
     .devtoys-home-desc:hover {
       background-position-x: left;
-      background-size: 100% 2px;
+      background-size: 100% 1px;
     }
     .devtoys-home-desc {
       margin-top: 5px;
