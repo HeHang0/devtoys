@@ -30,7 +30,6 @@ const emit = defineEmits({
 });
 let editor: any = null;
 let editorDiff: any;
-let lastPosition: any = null;
 
 function insertText(text: string, cover: boolean) {
   if (!editor) return;
@@ -120,8 +119,6 @@ onMounted(() => {
       });
       editor.onDidChangeModelContent(() => {
         if (!editor) return;
-        let pos = editor.getPosition();
-        if (pos && pos.column > 1 && pos.lineNumber > 1) lastPosition = pos;
         emit('change', editor.getValue());
       });
     }
@@ -146,10 +143,16 @@ watch(
         editorDiff.getOriginalEditor().setValue(newValue);
       }
     } else {
-      if (editor && newValue != editor.getValue()) {
-        editor.setValue(newValue);
-        lastPosition && editor.setPosition(lastPosition);
-      }
+      editor &&
+        editor.getModel().pushEditOperations(
+          [],
+          [
+            {
+              range: editor.getModel().getFullModelRange(),
+              text: newValue
+            }
+          ]
+        );
     }
   }
 );

@@ -34,6 +34,13 @@ export enum FileReaderType {
   Clipboard = 'clipboard'
 }
 
+export enum TextReplaceType {
+  BeginningOfLine = 'beginning of line',
+  EndOfLine = 'end of line',
+  Text = 'text',
+  Regex = 'regex'
+}
+
 export enum HttpContentType {
   Form = 'x-www-form-urlencoded;charset=UTF-8',
   Json = 'application/json',
@@ -174,6 +181,15 @@ export const usePageStore = defineStore('page', {
         pattern: '',
         text: '',
         result: new Array<any>()
+      },
+      replace: {
+        text: '',
+        find: '',
+        replace: '',
+        replaceType: storage.getValue(
+          StorageKey.TextReplaceType,
+          TextReplaceType.EndOfLine
+        )
       },
       escape: {
         text: 'DevToys - A "Swiss Army knife" for developers',
@@ -389,6 +405,38 @@ export const usePageStore = defineStore('page', {
     capitalizationTypeChange(typ: CapitalizationType) {
       this.capitalization.type = typ;
       this.capitalizationChange();
+    },
+    textReplace() {
+      storage.setValue(StorageKey.TextReplaceType, this.replace.replaceType);
+      let replaceExp: string | RegExp = '';
+      switch (this.replace.replaceType) {
+        case TextReplaceType.BeginningOfLine:
+        case TextReplaceType.EndOfLine:
+          const lines = this.replace.text.split('\n');
+          for (let i = 0; i < lines.length; i++) {
+            if (this.replace.replaceType == TextReplaceType.BeginningOfLine) {
+              lines[i] = this.replace.replace + lines[i];
+            } else {
+              lines[i] += this.replace.replace;
+            }
+          }
+          this.replace.text = lines.join('\n');
+          return;
+        case TextReplaceType.Regex:
+          replaceExp = new RegExp(this.replace.find, 'g');
+          this.replace.text = this.replace.text.replace(
+            replaceExp,
+            this.replace.replace
+          );
+          break;
+        case TextReplaceType.Text:
+          replaceExp = this.replace.find;
+          this.replace.text = this.replace.text.replaceAll(
+            replaceExp,
+            this.replace.replace
+          );
+          break;
+      }
     }
   }
 });

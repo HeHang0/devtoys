@@ -21,6 +21,7 @@ export enum StorageKey {
   ImageReaderType = 'image-reader-type',
   FileReaderType = 'file-reader-type',
   ImageType = 'image-type',
+  TextReplaceType = 'text-replace-type',
   ImageQuality = 'image-quality',
   RouterHistory = 'router-history',
   EditorType = 'editor-type',
