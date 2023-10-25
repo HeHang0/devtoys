@@ -5,30 +5,12 @@ import Header from './components/Header.vue';
 import AutoUpdate from './components/AutoUpdate.vue';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore } from './stores/settings';
-import { allMenus } from './stores/menu';
 import { elementScrollClick } from './utils/utils';
-const { currentRoute, afterEach, beforeEach, replace } = useRouter();
+const { currentRoute, afterEach } = useRouter();
 const language = useLanguageStore();
 const settings = useSettingsStore();
-let onceRouter = false;
-beforeEach((to, from, next) => {
-  if (
-    !onceRouter &&
-    settings.rememberRouter &&
-    settings.lastRouter &&
-    settings.lastRouter != '/' &&
-    to.path == '/' &&
-    allMenus.find(m => '/' + m.key == settings.lastRouter)
-  ) {
-    replace(settings.lastRouter);
-    onceRouter = true;
-    return;
-  }
-  next();
-});
+const pure = location.search.includes('pure=');
 afterEach(() => {
-  settings.setLastRouter(currentRoute.value.path);
-  settings.setPure(false);
   elementScrollClick(currentRoute.value.meta.key as any);
 });
 </script>
@@ -43,22 +25,22 @@ afterEach(() => {
             : ''
         }}DevToys
       </title>
-      <SideMenu v-if="!settings.pure" />
+      <SideMenu v-if="!pure" />
 
       <el-container
         direction="vertical"
         :style="
-          settings.pure
+          pure
             ? 'width: 100vw'
             : settings.showAside
             ? 'width: calc(100vw - 210px)'
             : 'width: calc(100vw - 50px)'
         ">
-        <Header v-if="!settings.pure" />
+        <Header v-if="!pure" />
         <el-main
           class="devtoys-main"
           :style="
-            (settings.pure ? '' : 'margin-left:5px;') +
+            (pure ? '' : 'margin-left:5px;') +
             (settings.mobile ? '' : 'height: calc(100vh - 40px)')
           ">
           <RouterView />

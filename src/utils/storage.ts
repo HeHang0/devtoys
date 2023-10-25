@@ -2,8 +2,6 @@ export enum StorageKey {
   Language = 'language',
   ShowAside = 'show-aside',
   RememberRouter = 'remember-router',
-  LastRouter = 'last-router',
-  PureLayout = 'pure-layout',
   ImageProxy = 'image-proxy',
   AppTheme = 'app-theme',
   FontFamily = 'font-family',

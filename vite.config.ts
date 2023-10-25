@@ -2,9 +2,6 @@ import { fileURLToPath, URL } from 'node:url';
 import * as path from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-// import AutoImport from 'unplugin-auto-import/vite';
-// import Components from 'unplugin-vue-components/vite';
-// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 import visualizer from 'rollup-plugin-visualizer';
 import { cdn } from 'vite-plugin-cdn2';
@@ -16,12 +13,6 @@ const plugins = [
   monacoEditorPlugin({
     languageWorkers: ['css', 'html', 'json', 'editorWorkerService']
   }),
-  // AutoImport({
-  //   resolvers: [ElementPlusResolver()]
-  // }),
-  // Components({
-  //   resolvers: [ElementPlusResolver()]
-  // })
   cdn({
     isProduction: true,
     modules: [
@@ -192,13 +183,135 @@ const plugins = [
 ];
 
 if (process.env.NODE_ENV === 'production') {
+  // cnd
+  plugins.push(
+    cdn({
+      isProduction: true,
+      modules: [
+        {
+          name: 'vue',
+          global: 'Vue',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js'
+        },
+        {
+          name: 'vue-demi',
+          global: 'VueDemi',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.min.js'
+        },
+        {
+          name: 'pinia',
+          global: 'Pinia',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.min.js'
+        },
+        {
+          name: 'vue-router',
+          global: 'VueRouter',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.2.1/vue-router.global.js'
+        },
+        {
+          name: 'element-plus',
+          global: 'ElementPlus',
+          spare: [
+            'https://cdnjs.cloudflare.com/ajax/libs/element-plus/2.3.5/index.full.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/element-plus/2.3.5/index.min.css'
+          ]
+        },
+        {
+          name: '@element-plus/icons-vue',
+          global: 'ElementPlusIconsVue',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/element-plus-icons-vue/2.1.0/global.iife.min.js'
+        },
+        {
+          name: 'marked',
+          global: 'Al',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/marked/5.0.3/marked.min.js'
+        },
+        {
+          name: 'highlight.js',
+          global: 'hljs',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js'
+        },
+        {
+          name: 'heic2any',
+          global: 'heic2any',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js'
+        },
+        {
+          name: 'crypto-js',
+          global: 'CryptoJS',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js'
+        },
+        // {
+        //   name: 'jsqr',
+        //   global: 'jsQR',
+        //   spare: 'https://unpkg.com/jsqr@1.4.0/dist/jsQR.js'
+        // },
+        {
+          name: 'js-yaml',
+          global: 'jsyaml',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js'
+        },
+        {
+          name: 'moment',
+          global: 'moment',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js'
+        },
+        // {
+        //   name: 'qrcode',
+        //   global: 'qrcode',
+        //   spare: 'https://cdn.bootcdn.net/ajax/libs/qrcode/1.5.1/qrcode.min.js'
+        // },
+        {
+          name: 'sql-formatter',
+          global: 'sqlFormatter',
+          spare:
+            'https://cdnjs.cloudflare.com/ajax/libs/sql-formatter/12.2.1/sql-formatter.min.js'
+        },
+        {
+          name: 'he',
+          global: 'he',
+          spare: 'https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js'
+        },
+        {
+          name: 'node-sql-parser',
+          global: 'NodeSQLParser',
+          spare: 'https://unpkg.com/node-sql-parser/umd/index.umd.js'
+        }
+        // {
+        //   name: 'cron-parser',
+        //   global: 'CronParser',
+        //   spare: 'https://unpkg.com/cron-parser@4.8.1/lib/parser.js'
+        // },
+        // {
+        //   name: 'exifr',
+        //   global: 'exifr',
+        //   spare: 'https://unpkg.com/exifr@7.1.3/dist/full.esm.mjs'
+        // }
+      ],
+      preset: false,
+      transform(result: any) {
+        if (result.tag === 'script') result.defer = true;
+      }
+    })
+  );
   // 打包依赖展示
   plugins.push(
     visualizer({
       open: true,
       gzipSize: true,
       brotliSize: true
-    })
+    }) as any
   );
 }
 

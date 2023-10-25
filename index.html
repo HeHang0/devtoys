@@ -16,7 +16,7 @@
         }
       });
       require(['vs/editor/editor.main'], function () {});
-      window.Al = marked;
+      if (window.marked) window.Al = window.marked;
       // window.qrcode = QRCode;
     </script>
   </body>

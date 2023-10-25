@@ -3,18 +3,21 @@ import { Cellphone, Star, Monitor } from '@element-plus/icons-vue';
 import { useSearchStore } from '@/stores/search';
 import { useLanguageStore } from '@/stores/language';
 import { useSettingsStore } from '@/stores/settings';
+import { useRouter } from 'vue-router';
 const search = useSearchStore();
 const language = useLanguageStore();
 const settings = useSettingsStore();
+const router = useRouter();
+console.log(router);
+if (router.currentRoute.value.query.redirect) {
+  router.replace(router.currentRoute.value.query.redirect?.toString());
+}
 function openNewTab(key: string, event: Event) {
-  settings.setLastRouter('/' + key);
-  window.open(location.pathname);
+  window.open(router.options.history.base + '/' + key);
 }
 function openSingleWindow(key: string, event: Event) {
-  settings.setLastRouter('/' + key);
-  settings.setPure(true);
   window.open(
-    location.pathname + '?pure=true',
+    router.options.history.base + '/' + key + '?pure=true',
     '_blank',
     'toolbar=no,location=no'
   );

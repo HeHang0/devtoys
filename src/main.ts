@@ -8,8 +8,8 @@ import { useRegisterSW } from 'virtual:pwa-register/vue';
 
 import './assets/main.css';
 import './assets/hljs.less';
+import 'element-plus/dist/index.css';
 import 'element-plus/theme-chalk/dark/css-vars.css';
-
 useRegisterSW();
 
 const app = createApp(App);

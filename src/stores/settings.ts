@@ -53,7 +53,6 @@ export const useSettingsStore = defineStore('settings', {
         storage.getValue(StorageKey.RememberRouter, true)
       ),
       mobile: navigator.userAgent.toLowerCase().includes('mobile'),
-      lastRouter: storage.getValue(StorageKey.LastRouter, ''),
       appTheme: appTheme,
       fontFamily: setFontFamily(fontFamily),
       favoriteRouters: handleFavorites(
@@ -64,7 +63,6 @@ export const useSettingsStore = defineStore('settings', {
         EditorType.MonacoEditor
       ),
       editorWrap: storage.getValue(StorageKey.EditorWrap, true),
-      pure: storage.getValue(StorageKey.PureLayout, false),
       imageProxy: storage.getValue(StorageKey.ImageProxy, '')
     };
   },
@@ -79,15 +77,6 @@ export const useSettingsStore = defineStore('settings', {
     setRouterRemember(remember: boolean) {
       this.rememberRouter = remember;
       storage.setValue(StorageKey.RememberRouter, remember);
-    },
-    setLastRouter(routerPath: RouteLocationRaw) {
-      if (!routerPath || routerPath == '/')
-        storage.removeKey(StorageKey.LastRouter);
-      else storage.setValue(StorageKey.LastRouter, routerPath);
-    },
-    setPure(pure: boolean) {
-      if (!pure) storage.removeKey(StorageKey.PureLayout);
-      else storage.setValue(StorageKey.PureLayout, pure);
     },
     appThemeChange(theme: AppTheme) {
       this.appTheme = theme;
