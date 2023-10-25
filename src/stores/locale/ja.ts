@@ -196,6 +196,15 @@ export const language: Record<string, string> = {
   'Select which algorithm you want to use':
     '使用するアルゴリズムを選択してください',
 
+  'tool.textreplace.title': 'テキストの置換',
+  'tool.textreplace.mintitle': 'テキストの置換',
+  'tool.textreplace.description': 'テキストを望みの内容に置換',
+  'Start of Line': '行の開始',
+  'End of Line': '行の終了',
+  Regex: '正規表現',
+  Find: '検索',
+  Replace: '置換',
+
   'tool.textinspect.title': 'テキストチェック＆大文字小文字変換ツール',
   'tool.textinspect.mintitle': 'テキストチェック',
   'tool.textinspect.description':
@@ -381,7 +390,8 @@ export const language: Record<string, string> = {
     '使用するイメージ プロキシ アドレスを入力してください',
 
   'Update Now': '今すぐアップデート',
-  'Later': '後で',
+  Later: '後で',
   'New Version Available': '新しいバージョンが利用可能',
-  'New Version Message': '当社のアプリケーションの新しいアップデートが利用可能です。アップデートには新機能とパフォーマンスの改善が含まれています。今すぐアップデートしますか？'
+  'New Version Message':
+    '当社のアプリケーションの新しいアップデートが利用可能です。アップデートには新機能とパフォーマンスの改善が含まれています。今すぐアップデートしますか？'
 };

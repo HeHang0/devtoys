@@ -17,7 +17,15 @@ afterEach(() => {
 
 <template>
   <el-config-provider :locale="language.elementLocale">
-    <div class="devtoys-layout">
+    <div
+      class="devtoys-layout"
+      :style="
+        settings.pure
+          ? ''
+          : settings.showAside
+          ? 'padding-left: 210px'
+          : 'padding-left: 50px'
+      ">
       <title>
         {{
           currentRoute.meta.longName
@@ -55,14 +63,12 @@ afterEach(() => {
 .devtoys-layout {
   // width: 100vw;
   // height: 100vh;
-  background-color: var(--el-bg-color-page);
   display: flex;
-  justify-content: flex-end;
+  transition: padding var(--transition-second);
 
   & > .el-container.is-vertical {
     min-height: 100vh;
     flex: none;
-    transition: width var(--transition-second);
   }
 
   .el-main {

@@ -192,6 +192,14 @@ const menus: Menu[] = [
     icon: '\u0132',
     children: [
       {
+        key: 'textreplace',
+        page: 'replace',
+        name: 'tool.textreplace.mintitle',
+        longName: 'tool.textreplace.title',
+        desc: 'tool.textreplace.description',
+        icon: '\u0130'
+      },
+      {
         key: 'capitalization',
         name: 'tool.textinspect.mintitle',
         longName: 'tool.textinspect.title',

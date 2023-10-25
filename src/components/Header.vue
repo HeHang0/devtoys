@@ -3,7 +3,8 @@ import { useRouter } from 'vue-router';
 import { Operation, Sunny, Moon } from '@element-plus/icons-vue';
 import { useSettingsStore } from '@/stores/settings';
 import { Language, useLanguageStore } from '@/stores/language';
-import IconLanguage from '@/components/icons/IconLanguage.vue';
+import IconGithub from '@/components/icons/IconGithub.vue';
+import IconDocumentation from '@/components/icons/IconDocumentation.vue';
 const settings = useSettingsStore();
 const language = useLanguageStore();
 const { currentRoute } = useRouter();
@@ -33,7 +34,33 @@ function requestFullscreen(e: Event) {
         @contextmenu="requestFullscreen" />
       <span>DevToys</span>
     </div>
-    {{ language.t(`${currentRoute.meta.longName || currentRoute.name || ''}`) }}
+    <span>
+      {{
+        language.t(`${currentRoute.meta.longName || currentRoute.name || ''}`)
+      }}
+    </span>
+    <span>
+      <a
+        :href="
+          'https://github.com/HeHang0/devtoys/tree/master/src/views/' +
+          (currentRoute.meta.page || currentRoute.meta.key || 'home') +
+          '.vue'
+        "
+        target="_blank"
+        title="code">
+        <i class="github-icon devtoys-icon">
+          <IconDocumentation />
+        </i>
+      </a>
+      <a
+        href="https://github.com/hehang0/devtoys"
+        target="_blank"
+        title="github">
+        <i class="github-icon">
+          <IconGithub />
+        </i>
+      </a>
+    </span>
   </el-header>
 </template>
 <style lang="less" scoped>
@@ -43,9 +70,26 @@ function requestFullscreen(e: Event) {
   --el-header-padding: 0 5px;
   display: flex;
   align-content: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   z-index: 2;
+  span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      color: inherit;
+      display: inherit;
+      margin-right: 15px;
+      .github-icon {
+        display: inherit;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
 
   .devtoys-header-logo {
     // width: 30px;

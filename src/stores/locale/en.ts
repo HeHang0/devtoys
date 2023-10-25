@@ -170,6 +170,10 @@ export const language: Record<string, string> = {
   'Select which algorithm you want to use':
     'Select which algorithm you want to use',
 
+  'tool.textreplace.title': 'Text Replace',
+  'tool.textreplace.mintitle': 'Text Replace',
+  'tool.textreplace.description': 'Replace text with desired content',
+
   'tool.textinspect.title': 'Text Inspector & Case Converter',
   'tool.textinspect.mintitle': 'Inspector & Case Converter',
   'tool.textinspect.description':
@@ -298,5 +302,6 @@ export const language: Record<string, string> = {
   GPSRefW: 'W',
   GPSRefN: 'N',
 
-  'New Version Message': 'A new update for our application is available. The update includes new features and performance improvements. Would you like to update now?'
+  'New Version Message':
+    'A new update for our application is available. The update includes new features and performance improvements. Would you like to update now?'
 };

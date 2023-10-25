@@ -194,6 +194,15 @@ export const language: Record<string, string> = {
   'Hash Algorithm': '散列算法',
   'Select which algorithm you want to use': '选择要使用的算法',
 
+  'tool.textreplace.title': '文本替换',
+  'tool.textreplace.mintitle': '文本替换',
+  'tool.textreplace.description': '将文本替换想要的内容',
+  'Start of Line': '行首',
+  'End of Line': '行尾',
+  Regex: '正则',
+  Find: '查找',
+  Replace: '替换',
+
   'tool.textinspect.title': '文本检查 & 大小写转换工具',
   'tool.textinspect.mintitle': '文本检查',
   'tool.textinspect.description': '分析文本并将其转换为不同的大小写',
@@ -370,7 +379,8 @@ export const language: Record<string, string> = {
   'Input the markdown image proxy address.': '输入您想要使用的图片代理地址',
 
   'Update Now': '立即更新',
-  'Later': '稍后再说',
+  Later: '稍后再说',
   'New Version Available': '新版本可用',
-  'New Version Message': '我们的应用已经有新的更新可用。更新包含了新的功能和性能提升。你想现在就更新吗？'
+  'New Version Message':
+    '我们的应用已经有新的更新可用。更新包含了新的功能和性能提升。你想现在就更新吗？'
 };

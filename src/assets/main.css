@@ -2,6 +2,7 @@
 
 html > body {
   color: var(--el-color-black);
+  background-color: var(--el-bg-color-page);
 }
 
 html.dark > body {
