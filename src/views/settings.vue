@@ -2,6 +2,7 @@
 import { Operation, Sunny, Moon } from '@element-plus/icons-vue';
 import SettingCard from '@/components/SettingCard.vue';
 import IconLanguage from '@/components/icons/IconLanguage.vue';
+import MapIcon from '@/assets/icons/MapIcon.vue';
 import { useLanguageStore, Language } from '@/stores/language';
 import { useSettingsStore, AppTheme, EditorType } from '@/stores/settings';
 import { ref } from 'vue';
@@ -155,6 +156,58 @@ function clearFontFamily() {
         size="small"
         @change="settings.setImageProxy">
       </el-input>
+    </SettingCard>
+    <SettingCard
+      :title="t('MapType')"
+      :desc="t('Select the map type you want to use.')">
+      <template #icon>
+        <span class="devtoys-icon">
+          <MapIcon />
+        </span>
+      </template>
+      <span style="display: inline-flex; flex-wrap: wrap; gap: 10px">
+        <el-select
+          style="margin-right: 10px; width: auto"
+          v-model="settings.mapType"
+          size="small"
+          @change="settings.mapKeyChange">
+          <el-option :label="t('Google Map')" value="google" />
+          <el-option :label="t('Amap Map')" value="amap" />
+          <el-option :label="t('Maptiler')" value="maptiler" />
+        </el-select>
+        <el-input
+          v-if="settings.mapType === 'google'"
+          v-model="settings.mapKeyGoogle"
+          size="small"
+          @change="settings.mapKeyGoogleChange"
+          :title="t('Map Key Google')"
+          :placeholder="t('Map Key Google')">
+        </el-input>
+        <el-input
+          v-else-if="settings.mapType === 'amap'"
+          v-model="settings.mapKeyAmap"
+          size="small"
+          @change="settings.mapKeyAmapChange"
+          :title="t('Map Key Amap')"
+          :placeholder="t('Map Key Amap')">
+        </el-input>
+        <el-input
+          v-else-if="settings.mapType === 'maptiler'"
+          v-model="settings.mapKeyMaptiler"
+          size="small"
+          @change="settings.mapKeyMaptilerChange"
+          :title="t('Map Key Maptiler')"
+          :placeholder="t('Map Key Maptiler')">
+        </el-input>
+        <!-- <el-input
+          v-if="settings.mapType === 'amap'"
+          v-model="settings.mapKeyAmapSecret"
+          size="small"
+          @change="settings.mapKeyAmapSecretChange"
+          :title="t('Map Key Amap Secret')"
+          :placeholder="t('Map Key Amap Secret')">
+        </el-input> -->
+      </span>
     </SettingCard>
   </div>
 </template>

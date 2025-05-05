@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { nextTick, ref, type Ref } from 'vue';
+import { nextTick, ref, onUnmounted, type Ref } from 'vue';
 import { Close, UploadFilled } from '@element-plus/icons-vue';
 import type { ExifInfo } from '@/utils/exif-js/exif';
 import heic2any from 'heic2any';
 import { Splitpanes, Pane } from 'splitpanes';
-import { Loader } from '@googlemaps/js-api-loader';
 import 'splitpanes/dist/splitpanes.css';
 import { TaskQueue } from '@/utils/task-queue';
 import {
@@ -15,22 +14,44 @@ import {
 import { storage, StorageKey } from '@/utils/storage';
 import { formatBytes } from '@/utils/formatter';
 import { useLanguageStore } from '@/stores/language';
+import { useSettingsStore } from '@/stores/settings';
 import { useRouter } from 'vue-router';
+const settings = useSettingsStore();
+const MAP_CONTAINER_ID = 'map-container';
 
-const loader = new Loader({
-  apiKey: '',
-  version: 'weekly',
-  libraries: ['places']
-});
-let google: any = null;
-loader
-  .load()
-  .then(g => {
-    google = g;
-  })
-  .catch(e => {
-    // do something
+let loadGoogle = async () => {
+  const googlemaps = await import('@googlemaps/js-api-loader');
+  const loader = new googlemaps.Loader({
+    apiKey: settings.mapKeyGoogle || '',
+    version: 'weekly',
+    libraries: ['places']
   });
+  const google = await loader.load();
+  loadGoogle = () => Promise.resolve(google);
+  return google;
+};
+
+let loadAMap = async () => {
+  (window as any)._AMapSecurityConfig = {
+    securityJsCode: settings.mapKeyAmapSecret || ''
+  };
+  const AMapLoader = await import('@amap/amap-jsapi-loader');
+  const loader = await AMapLoader.load({
+    key: settings.mapKeyAmap || '',
+    version: '2.0',
+    plugins: ['AMap.Scale']
+  });
+  loadAMap = () => Promise.resolve(loader);
+  return loader;
+};
+
+let loadMaptiler = async () => {
+  const maptiler = await import('@maptiler/sdk');
+  import('@maptiler/sdk/dist/maptiler-sdk.css');
+  maptiler.config.apiKey = settings.mapKeyMaptiler || '';
+  loadAMap = () => Promise.resolve(maptiler);
+  return maptiler;
+};
 
 interface ImageDetail {
   src: string;
@@ -307,14 +328,15 @@ function scrollImage() {
   const imageEle = document.getElementById(imageID);
   imageEle && imageEle.scrollIntoView();
 }
-
-function mapEleLoaded() {
+let map: any = null;
+async function googleMapEleLoaded() {
+  const google = await loadGoogle();
   if (!imageDetail.value || !google) return;
   let point = new google.maps.LatLng(
     imageDetail.value.exif.latitude,
     imageDetail.value.exif.longitude
   );
-  let map = new google.maps.Map(document.querySelector('#google-maps'), {
+  map = new google.maps.Map(document.querySelector('#' + MAP_CONTAINER_ID), {
     navigationControlOptions: {
       style: google.maps.NavigationControlStyle.SMALL
     },
@@ -331,6 +353,55 @@ function mapEleLoaded() {
   map.fitBounds(bounds);
   new google.maps.Marker({ map, position: point });
 }
+
+async function amapEleLoaded() {
+  const amap = await loadAMap();
+  if (!imageDetail.value || !amap) return;
+  const pos = [
+    imageDetail.value.exif.longitude,
+    imageDetail.value.exif.latitude
+  ];
+  map = new amap.Map(MAP_CONTAINER_ID, {
+    viewMode: '2D',
+    zoom: 15,
+    center: pos
+  });
+  map.add(
+    new amap.Marker({
+      position: new amap.LngLat(pos[0], pos[1])
+    })
+  );
+}
+
+async function maptilerEleLoaded() {
+  const maptiler = await loadMaptiler();
+  if (!imageDetail.value || !maptiler) return;
+  const pos: any = [
+    imageDetail.value.exif.longitude,
+    imageDetail.value.exif.latitude
+  ];
+  const map = new maptiler.Map({
+    container: MAP_CONTAINER_ID,
+    style: maptiler.MapStyle.STREETS,
+    center: pos,
+    zoom: 13
+  });
+  new maptiler.Marker().setLngLat(pos).addTo(map);
+}
+
+function mapEleLoaded() {
+  if (settings.mapType === 'google') {
+    googleMapEleLoaded();
+  } else if (settings.mapType === 'amap') {
+    amapEleLoaded();
+  } else if (settings.mapType === 'maptiler') {
+    maptilerEleLoaded();
+  }
+}
+
+onUnmounted(() => {
+  map && map.destroy && map.destroy();
+});
 </script>
 
 <template>
@@ -584,7 +655,7 @@ function mapEleLoaded() {
             {{ imageDetail.location }}
           </span>
         </div>
-        <div v-if="imageDetail.exif.GPSLatitude" id="google-maps"></div>
+        <div v-if="imageDetail.exif.GPSLatitude" :id="MAP_CONTAINER_ID"></div>
       </div>
     </Pane>
   </Splitpanes>
@@ -820,6 +891,11 @@ function mapEleLoaded() {
         text-align: justify;
       }
     }
+  }
+  #map-container {
+    width: 100%;
+    height: 300px;
+    margin-left: 20px;
   }
 }
 </style>

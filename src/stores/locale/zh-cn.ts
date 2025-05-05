@@ -378,6 +378,17 @@ export const language: Record<string, string> = {
   ImageProxy: '图片代理',
   'Input the markdown image proxy address.': '输入您想要使用的图片代理地址',
 
+  MapType: '地图类型',
+  'Select the map type you want to use.': '选择您希望使用的地图类型',
+  'Google Map': '谷歌地图',
+  'Amap Map': '高德地图',
+  'Map Key': '地图密钥',
+  'Input the map key you want to use.': '输入您想要使用的地图密钥',
+  'Map Key Google': '谷歌地图密钥',
+  'Map Key Amap': '高德地图密钥',
+  'Map Key Maptiler': 'Maptiler地图密钥',
+  'Map Key Amap Secret': '高德地图安全密钥',
+
   'Update Now': '立即更新',
   Later: '稍后再说',
   'New Version Available': '新版本可用',

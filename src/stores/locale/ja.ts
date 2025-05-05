@@ -389,6 +389,18 @@ export const language: Record<string, string> = {
   'Input the markdown image proxy address.':
     '使用するイメージ プロキシ アドレスを入力してください',
 
+  MapType: 'マップタイプ',
+  'Select the map type you want to use.':
+    '使用したい地図の種類を選択してください',
+  'Google Map': 'Googleマップ',
+  'Amap Map': 'アマップ',
+  'Map Key': 'マップキー',
+  'Input the map key you want to use.':
+    '使用したいマップキーを入力してください',
+  'Map Key Google': 'Googleマップキー',
+  'Map Key Amap': 'アマップキー',
+  'Map Key Maptiler': 'Maptilerマップキー',
+
   'Update Now': '今すぐアップデート',
   Later: '後で',
   'New Version Available': '新しいバージョンが利用可能',

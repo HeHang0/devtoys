@@ -8,14 +8,30 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
+    <link
+      src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"
+      rel="preload"
+      as="script"></link>
     <script>
-      require.config({
-        paths: {
-          vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/'
-        }
-      });
-      require(['vs/editor/editor.main'], function () {});
+      let isMonacoLoaded = false;
+      async function loadMonaco() {
+        if(isMonacoLoaded) return Promise.resolve();
+        return new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js';
+          script.onload = () => {
+            isMonacoLoaded = true;
+            require.config({
+              paths: {
+                vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/'
+              }
+            });
+            require(['vs/editor/editor.main'], function () {});
+            resolve();
+          };
+          document.head.appendChild(script);
+        })
+      }
       if (window.marked) window.Al = window.marked;
       // window.qrcode = QRCode;
     </script>

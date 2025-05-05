@@ -43,6 +43,11 @@ const fontFamily: string[] = storage.getValue(StorageKey.FontFamily, [
 const handleFavorites = (routers: string[]) =>
   Array.isArray(routers) ? allMenus.filter(m => routers.includes(m.key)) : [];
 
+function getDefaultMapType(): 'google' | 'amap' | 'maptiler' {
+  const mapType = storage.getValue(StorageKey.MapType, '');
+  return mapType || (navigator.language.includes('zh') ? 'amap' : 'maptiler');
+}
+
 export const useSettingsStore = defineStore('settings', {
   state: () => {
     return {
@@ -63,7 +68,12 @@ export const useSettingsStore = defineStore('settings', {
         EditorType.MonacoEditor
       ),
       editorWrap: storage.getValue(StorageKey.EditorWrap, true),
-      imageProxy: storage.getValue(StorageKey.ImageProxy, '')
+      imageProxy: storage.getValue(StorageKey.ImageProxy, ''),
+      mapType: getDefaultMapType(),
+      mapKeyGoogle: storage.getValue(StorageKey.MapKeyGoogle, ''),
+      mapKeyAmap: storage.getValue(StorageKey.MapKeyAmap, ''),
+      mapKeyAmapSecret: storage.getValue(StorageKey.MapKeyAmapSecret, ''),
+      mapKeyMaptiler: storage.getValue(StorageKey.MapKeyMaptiler, '')
     };
   },
   actions: {
@@ -115,6 +125,21 @@ export const useSettingsStore = defineStore('settings', {
     },
     editorWrapChange() {
       storage.setValue(StorageKey.EditorWrap, this.editorWrap);
+    },
+    mapKeyChange() {
+      storage.setValue(StorageKey.MapType, this.mapType);
+    },
+    mapKeyGoogleChange() {
+      storage.setValue(StorageKey.MapKeyGoogle, this.mapKeyGoogle);
+    },
+    mapKeyAmapChange() {
+      storage.setValue(StorageKey.MapKeyAmap, this.mapKeyAmap);
+    },
+    mapKeyAmapSecretChange() {
+      storage.setValue(StorageKey.MapKeyAmapSecret, this.mapKeyAmapSecret);
+    },
+    mapKeyMaptilerChange() {
+      storage.setValue(StorageKey.MapKeyMaptiler, this.mapKeyMaptiler);
     },
     setImageProxy(proxy: string) {
       if (proxy) {

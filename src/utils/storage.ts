@@ -24,7 +24,12 @@ export enum StorageKey {
   RouterHistory = 'router-history',
   EditorType = 'editor-type',
   EditorWrap = 'editor-wrap',
-  SplitSize = 'split-size'
+  SplitSize = 'split-size',
+  MapType = 'map-type',
+  MapKeyGoogle = 'map-key-google',
+  MapKeyAmap = 'map-key-amap',
+  MapKeyAmapSecret = 'map-key-amap-secret',
+  MapKeyMaptiler = 'map-key-maptiler'
 }
 
 function setValue<T>(key: string, value: T) {

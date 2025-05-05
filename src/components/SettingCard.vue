@@ -46,6 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
     .devtoys-setting-card-left {
       display: flex;
       align-items: center;
+      min-width: 200px;
       .devtoys-setting-card-text {
         display: inline-flex;
         justify-content: space-between;
@@ -62,6 +63,11 @@ const props = withDefaults(defineProps<Props>(), {
         color: var(--el-text-color-secondary);
         font-size: var(--el-font-size-extra-small);
       }
+    }
+  }
+  :deep(.devtoys-setting-card-body) {
+    .el-input--small {
+      width: 155px;
     }
   }
   :deep(.el-card__header) {

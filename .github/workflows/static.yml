@@ -30,9 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Pages
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: Build
         run: |
@@ -40,10 +40,10 @@ jobs:
           yarn build-only
           echo '<html><head><script>localStorage.setItem("devtoys-router-history",`"devtoys"`);let pathname=location.pathname.substring(9);let redirect=pathname?`${(location.search?"&":"?")}redirect=${pathname}`:"";location.href="/devtoys"+location.search+redirect;</script></head></html>' > devtoys/404.html
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
           path: 'devtoys'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4

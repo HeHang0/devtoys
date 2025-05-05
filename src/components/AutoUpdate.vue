@@ -12,6 +12,18 @@ const second = 1000;
 let lastHash = '';
 let checkTimeout: any = null;
 
+async function unregisterOldServiceWorker() {
+  try {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for (let registration of registrations) {
+      await registration.update().catch(console.error).finally();
+      await registration.unregister();
+    }
+  } catch (error) {
+    console.error('unregister old serviceWorker failed:', error);
+  }
+}
+
 async function startCheck() {
   const remoteHash = await fetchHash(`?t=${new Date().valueOf()}`);
   if (lastHash && remoteHash && lastHash != remoteHash) {
@@ -21,7 +33,8 @@ async function startCheck() {
       type: 'success',
       icon: Refresh
     })
-      .then(() => {
+      .then(async () => {
+        await unregisterOldServiceWorker();
         location.href = indexUrl + `?t=${new Date().valueOf()}`;
       })
       .catch()

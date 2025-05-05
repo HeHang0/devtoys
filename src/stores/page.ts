@@ -325,8 +325,8 @@ export const usePageStore = defineStore('page', {
     structJsonChange(text: string) {
       this.structChange(parseJsonStruct(text));
     },
-    structSqlChange(text: string) {
-      this.structChange(parseSqlStruct(text));
+    async structSqlChange(text: string) {
+      this.structChange(await parseSqlStruct(text));
     },
     structGolangChange(text: string) {},
     structJavaChange(text: string) {},

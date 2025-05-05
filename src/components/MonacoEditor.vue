@@ -61,7 +61,8 @@ defineExpose({
   insertText
 });
 
-onMounted(() => {
+onMounted(async () => {
+  await (window as any).loadMonaco();
   (window as any).require(['vs/editor/editor.main'], function () {
     (window as any).monaco.editor.setTheme(
       settings.isDark() ? 'vs-dark' : 'vs'

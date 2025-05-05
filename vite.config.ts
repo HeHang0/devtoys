@@ -168,7 +168,7 @@ if (process.env.NODE_ENV === 'production') {
           name: 'node-sql-parser',
           global: 'NodeSQLParser',
           spare:
-            'https://cdn.jsdelivr.net/npm/node-sql-parser@4.15.0/umd/index.umd.js'
+            'https://cdn.jsdelivr.net/npm/node-sql-parser@5.3.8/umd/index.umd.js'
         }
         // {
         //   name: 'cron-parser',

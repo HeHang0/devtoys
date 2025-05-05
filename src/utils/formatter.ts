@@ -2,14 +2,15 @@ import hljs from 'highlight.js';
 import jsyaml from 'js-yaml';
 import * as sqlFormatter from 'sql-formatter';
 import xmlFormatter from 'xml-formatter';
-import {
-  Parser as NodeSqlParser,
-  type AST,
-  type Create
-} from 'node-sql-parser';
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
-const nodeSqlParser = new NodeSqlParser();
+
+let getNodeSqlParser = async () => {
+  const nsp = await import('node-sql-parser');
+  const parser = new nsp.Parser();
+  getNodeSqlParser = () => Promise.resolve(parser);
+  return parser;
+};
 
 export const formattableLanguage = ['json', 'yaml', 'sql', 'xml'];
 
@@ -72,13 +73,13 @@ export function parseJsonStruct(text: string): Struct {
   return { name: '', body: [] };
 }
 
-export function parseSqlStruct(text: string): Struct {
-  const parserObj = nodeSqlParser.astify(text) as AST[];
+export async function parseSqlStruct(text: string): Promise<Struct> {
+  const parserObj = (await getNodeSqlParser()).astify(text) as any[];
   if (Array.isArray(parserObj) && parserObj.length > 0) {
-    const sqlAst = parserObj[0] as Create;
+    const sqlAst = parserObj[0];
     const name = (sqlAst.table && sqlAst.table[0].table) || '';
     const columns: StructBody[] = [];
-    sqlAst.create_definitions?.map(m => {
+    sqlAst.create_definitions?.map((m: any) => {
       if (!m.column || !m.column.column) {
         return;
       }
